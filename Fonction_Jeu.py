@@ -55,7 +55,7 @@ def try_spawn_sheep(sheep):
     """Spawn a sheep if it's needed
     parameters
     ----------
-    sheep : player number (bol)
+    sheep : player number (int)
     
     notes
     -----
@@ -116,7 +116,7 @@ def attack_sheep(sheep,attack_coordonate):
     """Attack a sheep if he is near enough to be attack
     parameters
     ----------
-    sheep : players sheep who attack (bol)      
+    sheep : players sheep who attack (0 for player 1, 1 for player 2) (int)      
     attack_coordonate: position in x and y where the sheep attacked is (tuples)
     version
     -------
@@ -139,7 +139,7 @@ def sheep_graze(sheep, sheep_coordonate):
      """Graze a grass if the sheep is on this case and the case
     parameters
     ----------
-    sheep : player sheep (bol)
+    sheep : player sheep (0 for player 1, 1 for player 2) (int)
     sheep_coordonate: placement in x and y of the sheep (list)
     return
     ------
