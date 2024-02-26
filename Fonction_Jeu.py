@@ -54,7 +54,7 @@ def try_spawn_sheep(sheep):
     """Spawn a sheep if possible
     parameters
     ----------
-    sheep : player number (bol)
+    sheep : player number (int)
     
     notes
     -----
@@ -115,7 +115,7 @@ def attack_sheep(sheep,attack_coordinates):
     """Attack a sheep if he is near enough to be attacked
     parameters
     ----------
-    sheep : players sheep who attack (bol)      
+    sheep : players sheep who attack (0 for player 1, 1 for player 2) (int)     
     attack_coordinates: position in x and y where the sheep attacked is (tuples)
     version
     -------
@@ -138,7 +138,7 @@ def sheep_graze(sheep, sheep_coordinates):
      """Graze a grass if the sheep is on this case
     parameters
     ----------
-    sheep : player sheep (bol)
+    sheep : player sheep (0 for player 1, 1 for player 2) (int)
     sheep_coordinates: coordinates in x,y of the sheep (list)
     return
     ------
@@ -172,51 +172,51 @@ def game_function ():
     specification: Remacle Thomas (V1 26/02/24)"""
 
 def look_rock(case_coordonate):
-    """Look if a sheep can spawn or move on a case.
+    """Look if there are a rock on the case or not
     parameters
     -----------
     case_coordonate: The coordonate x and y of the case we wanted to see (tuples)
     return
     -----------
-    type: return if there are a rock, the limit of the maps or nothing. (str)
+    type: return if there are a rock on the case or not 1 if True 0 if False (bool)
     version
     -------
     specification: Arthur Yernaux (v1 23/02/24)
     """
 def look_sheep(case_coordonate):
-    """Look if a sheep can spawn or move on a box.
+    """Look if there are a sheep on the case or not.
     parameters
     -----------
     case_coordonate: The coordonate x and y of the case we wanted to see (tuples)
     return
     -----------
-    type: return if there are a sheep the limit of the maps or nothing. (str) 
+    type: return if there are a sheep on the case or not 1 if True 0 if False (bool)
     version
     -------
     specification: Arthur Yernaux (v1 23/02/24)
     """
 
 def look_seed(case_coordinates):
-    """Look if a sheep can spawn or move on a case.
+    """Look if there are a seed on the case or not.
     parameters
     -----------
     case_coordinates: The coordinates (x,y) of the box wanted to be seen (tuples)
     return
     -----------
-    type: return if there are a seed, the limit of the maps or nothing. (str)
+    type: return if there are a seed on the case 1 if True 0 if False (bool)
     version
     -------
     specification: Arthur Yernaux (v1 23/02/24)
     """
 
 def look_grass(coordinates):
-    """Look if a grass can spawn on a box.
+    """Look if there are a grass or not in this case.
     parameters
     -----------
     coordinate: The coordinates (x,y) of the box we wanted to grow the grass (tuples)
     return
     -----------
-    type: return True if the grass can spawn, return False otherwise (bool)
+    type: return if there are a grass on the case or not 1 if True 0 if False (bool)
     version
     -------
     specification: Arthur Yernaux (v1 23/02/24)
