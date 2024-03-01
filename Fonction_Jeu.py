@@ -190,11 +190,58 @@ def translate_orders (player,messsage):
     specification: Aloïs Baurant (v1 23/02/24)
     """
 
-def game_function ():
+def game_function ():   #j'ai changé la spécification mais il faut que je demande au tuteur ou assistant pour la mettre dans se dossier
     """Read the list created by traslated_orders() and call others functions to play the game
     version 
     ---------------
     specification: Remacle Thomas (V1 26/02/24)"""
+    for order in player_1_orders :
+        if order=='sheep':
+            try_spawn_sheep(1)
+    for order in player_2_orders :
+        if order=='sheep':
+            try_spawn_sheep(2)
+    growth_grass() #il faut regarder si on fusionne growth_grass et grass_propagation
+    for order in player_1_orders:
+        if 'x' in order:
+            order_string=order.split(":")
+            attack_coordinates=order_string[2][1:]
+            enemy_coordinates=attack_coordinates.split("-")  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
+            attack_sheep(1,enemy_coordinates)
+    for order in player_2_orders:
+        if 'x' in order:
+            order_string=order.split(":")
+            attack_coordinates=order_string[2][1:]
+            enemy_coordinates=attack_coordinates.split("-")  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
+            attack_sheep(2,enemy_coordinates) #voir si on bouge les moutons aprés l'attaque pour éviter des problémes de tours
+    for order in player_1_orders:
+        if '@' in order:
+            order_string=order.split(":")
+            coordinate=order_string[2][1:]
+            new_coordinates=coordinate.split("-")
+            coordinate=order_string[1]
+            old_coordinates=coordinate.split("-")
+            move_sheep(old_coordinates,new_coordinates)
+    for order in player_2_orders:
+        if '@' in order:
+            order_string=order.split(":")
+            coordinate=order_string[2][1:]
+            new_coordinates=coordinate.split("-")
+            coordinate=order_string[1]
+            old_coordinates=coordinate.split("-")
+            move_sheep(old_coordinates,new_coordinates)
+    for order in player_1_orders:
+        if '*' in order:
+            order_string=order.split(":")
+            coordinate=order_string[1]
+            grass_coordinate=coordinate.split("-")
+            sheep_graze(0,grass_coordinate)
+    for order in player_2_orders:
+        if '*' in order:
+            order_string=order.split(":")
+            coordinate=order_string[1]
+            grass_coordinate=coordinate.split("-")
+            sheep_graze(1,grass_coordinate)
 
 def look_rock(case_coordinates):
     """Look if there are a rock on the case or not
