@@ -34,8 +34,14 @@ def is_game_over():
 
     version
     -------
-    specification : Heynen Scott-Socrate (v1 20/02/24)"""
-
+    specification : Heynen Scott-Socrate (v1 20/02/24) => V2 A VALIDER"""
+    
+    if (players['player_1']['nbr_of_grass'] >= 100 ) or ( players['player_2']['nbr_of_grass'] >= 100 ) : #look if a player have > 100 grass
+        return True 
+    elif map['nbr_of_turns'] >= 20 and ( players['player_1']['nbr_of_grass'] ==0 or players['player_2']['nbr_of_grass'] == 0 ):
+        return True
+    else:
+        return False
 
 def display_map():
     """display the map from the dictionary of create_map_dictio()
