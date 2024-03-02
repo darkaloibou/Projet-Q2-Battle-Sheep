@@ -43,13 +43,44 @@ def is_game_over():
     else:
         return False
 
-def display_map():
+def display_map(map):
     """display the map from the dictionary of create_map_dictio()
-
+    parameters
+    ----------
+    map : all the elements of the dicitonnary of the map
     version
     -------
     specification: Aloïs Baurant (v1 23/02/24)
-    """  
+    specification: Aloïs Baurant (v2 02/03/24)
+    """
+    # Recharger la map a chaque round ? 
+    # Charge la taille de la map et met la longeur de la map en x et y.
+    x = map["map_size"][0]
+    y = map["map_size"][1]
+    # Construction du damier
+    while y > 0:
+        if y %2 == 0:
+            print((term.peru_on_seagreen('  ')+term.on_darkolivegreen('  '))*int(x/2))
+        else:
+            print((term.on_darkolivegreen('  ')+term.peru_on_seagreen('  '))*int(x/2))
+        y -= 1
+    # Va chercher tout les éléments de la map
+    for rock in map["rocks"] :
+        create_emoji(map["rocks"[rock]],​"🪨")
+
+    for sapwns in map["sapwns"] :
+        create_emoji(map["sapwns"[spawn]],​"​ ") # Voir comment display les spawn de moutons
+
+    for seed in map["seeds"] :
+        create_emoji(map["seeds"[seed]],​"​🌱")
+    # Il faut regarder si on display la map 1 fois et modifier les élémément ou on recharge la map a chaque tours
+    # Dictonary ; Length
+    # playerscore_1=str(count_grass(Dictonary['player_grass1']))
+    # playerscore_2=str(count_grass(Dictonary['player_grass2']))
+    # minus=(len(playerscore_1))
+    # print (term.move_xy(Length*2-minus,0)+term.blue+playerscore_1)
+    # print (term.move_xy(0,0)+term.red+playerscore_2)
+    # print (term.home)
 
 def try_spawn_sheep(sheep):
     """Spawn a sheep if possible
@@ -174,7 +205,7 @@ def sheep_graze(sheep, sheep_coordinates):
     specification: Aloïs Baurant (v1 23/02/24)
     """
 
-def translate_orders (player,messsage):
+def translate_orders(player,messsage):
     """Translate a string message into a list to be usable for the program
     parameters
     ----------
@@ -190,12 +221,12 @@ def translate_orders (player,messsage):
     specification: Aloïs Baurant (v1 23/02/24)
     """
 
-def game_function ():   #j'ai changé la spécification mais il faut que je demande au tuteur ou assistant pour la mettre dans se dossier
+def game_function():   #j'ai changé la spécification mais il faut que je demande au tuteur ou assistant pour la mettre dans se dossier
     """Read the list created by traslated_orders() and call others functions to play the game
     version 
     ---------------
     specification: Remacle Thomas (V1 26/02/24)"""
-    for order in player_1_orders :
+    for order in player_1_orders : # ATTENTION les coordonnée sont x2
         if order=='sheep':
             try_spawn_sheep(1)
     for order in player_2_orders :
