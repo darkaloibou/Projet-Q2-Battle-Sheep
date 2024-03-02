@@ -205,12 +205,12 @@ def sheep_graze(sheep, sheep_coordinates):
     specification: Aloïs Baurant (v1 23/02/24)
     """
 
-def translate_orders(player,messsage):
+def translate_orders(player):
     """Translate a string message into a list to be usable for the program
     parameters
     ----------
     player : The player that wrote the message, 0 if player 1 , 1 if player 2 (bool)
-    message : get the player message (str)
+    message : ask the player the message
     
     return 
     orders: a list with every separate order. The orders are in the chronologic order (the first one is for the first phase) (list)
@@ -220,6 +220,10 @@ def translate_orders(player,messsage):
     -------
     specification: Aloïs Baurant (v1 23/02/24)
     """
+    
+    get_order = str(input("Insert your instruction"))
+    return split_all_order = get_order.split(',')
+    
 
 def game_function():   #j'ai changé la spécification mais il faut que je demande au tuteur ou assistant pour la mettre dans se dossier
     """Read the list created by traslated_orders() and call others functions to play the game
