@@ -278,72 +278,8 @@ def game_function():   #j'ai changé la spécification mais il faut que je deman
             grass_coordinate=coordinate.split("-")
             sheep_graze(1,grass_coordinate)
 
-def look_rock(case_coordinates):
-    """Look if there are a rock on the case or not
-    
-    parameters
-    -----------
-    case_coordinates: The coordinates (x,y) of the case we wanted to check (tuples)
-    
-    return
-    -----------
-    type: return 1 if there is a rock return 0 otherwise (bool)
-    
-    version
-    -------
-    specification: Arthur Yernaux (v1 23/02/24)
-    """
-def look_sheep(box_coordinates):
-    """Look if there are a sheep on the case or not
-    parameters
-    -----------
-    box_coordinates: The coordinates (x,y) of the box to check (tuples)
-    
-    return
-    -----------
-    type: type: return 1 if there is a sheep return 0 otherwise (bool)
-    
-    version
-    -------
-    specification: Arthur Yernaux (v1 23/02/24)
-    """
+def can_move():
 
-def look_seed(box_coordinates):
-    """Look if there is a seed on the box or not.
-    parameters
-    -----------
-    box_coordinates: The coordinates (x,y) of the box to check (tuples)
-    
-    return
-    -----------
-    type: return if there are a seed on the case 1 if True 0 if False (bool)
-    
-    version
-    -------
-    specification: Arthur Yernaux (v1 23/02/24)
-    """
+def can_attack():
 
-def look_grass(coordinates):
-    """Look if there is a grass or not in this box.
-    parameters
-    -----------
-    coordinate: The coordinates (x,y) of the grass to grow (tuples)
-    return
-    -----------
-    type: return 1 if there is a grass return 0 otherwise (bool)
-    version
-    -------
-    specification: Arthur Yernaux (v1 23/02/24)
-    """
-    
-def check_void(coordinates):
-    """Look if the box is outside of the map
-    -----------
-    coordinates: The coordinates (x,y) of the box to check (tuples)
-    return
-    -----------
-    type: return True if the box is outside of the map, return False otherwise (bool) 
-    version
-    -------
-    specification: Arthur Yernaux (v1 23/02/24)
-    """
+def can_graze():
