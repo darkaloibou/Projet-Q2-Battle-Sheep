@@ -107,7 +107,7 @@ def set_grass (coordinates):
     -------
     specification: Remacle Thomas (v1 24/02/24)"""
     
-def growth_grass():
+def growth_grass(): #il faut fusionner avec grass_propagation
     """Growth all the grass, in fact add 1 to the life_stats and call grass_propagation if the live_stats is 10
     version
     -------
@@ -167,7 +167,7 @@ def create_emoji (emoji_coordinates,emoji):
             else:
                 print (term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.peru_on_seagreen+emoji)
     
-def attack_sheep(sheep,attack_coordinates):
+def attack_sheep(sheep,attack_coordinates): #Il faut ajouter les coordonées du mouton qui attaque
     """Attack a sheep if he is near enough to be attacked
     parameters
     ----------
