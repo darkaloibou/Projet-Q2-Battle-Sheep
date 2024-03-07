@@ -167,7 +167,7 @@ def create_emoji (emoji_coordinates,emoji):
             else:
                 print (term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.peru_on_seagreen+emoji)
     
-def attack_sheep(sheep,attack_coordinates):
+def attack_sheep(sheep,attack_coordinates): #Il faut ajouter les coordonées du mouton qui attaque
     """Attack a sheep if he is near enough to be attacked
     parameters
     ----------
