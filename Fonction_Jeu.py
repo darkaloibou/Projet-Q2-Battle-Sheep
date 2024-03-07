@@ -107,7 +107,7 @@ def set_grass (coordinates):
     -------
     specification: Remacle Thomas (v1 24/02/24)"""
     
-def growth_grass():
+def growth_grass(): #il faut fusionner avec grass_propagation
     """Growth all the grass, in fact add 1 to the life_stats and call grass_propagation if the live_stats is 10
     version
     -------
