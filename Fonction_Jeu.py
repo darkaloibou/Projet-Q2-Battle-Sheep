@@ -230,39 +230,48 @@ def game_function():   #j'ai changé la spécification mais il faut que je deman
     version 
     ---------------
     specification: Remacle Thomas (V1 26/02/24)"""
-    for order in player_1_orders : # ATTENTION les coordonnée sont x2
+   for order in player_1_orders :
         if order=='sheep':
             try_spawn_sheep(1)
     for order in player_2_orders :
         if order=='sheep':
             try_spawn_sheep(2)
     growth_grass() #il faut regarder si on fusionne growth_grass et grass_propagation
+    my_attacl_list=[]
     for order in player_1_orders:
         if 'x' in order:
-            order_string=order.split(":")
-            attack_coordinates=order_string[2][1:]
-            enemy_coordinates=attack_coordinates.split("-")  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
-            attack_sheep(1,enemy_coordinates)
+            my_attacl_list.append(order)
     for order in player_2_orders:
         if 'x' in order:
-            order_string=order.split(":")
-            attack_coordinates=order_string[2][1:]
-            enemy_coordinates=attack_coordinates.split("-")  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
-            attack_sheep(2,enemy_coordinates) #voir si on bouge les moutons aprés l'attaque pour éviter des problémes de tours
+            my_attacl_list.append(order)
+    attack_count=0
+    for attack in my_attacl_list: 
+        order_string=order.split(":")
+        attack_coordinates=order_string[1][1:]
+        enemy_coordinates=attack_coordinates.split("-")
+        attacker_coordinates=order_string[0].split("-")
+        if not can_attack(attacker_coordinates,enemy_coordinates):  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
+            my_attacl_list.remove(attack)
+    for attack in my_attacl_list:
+        order_string=order.split(":")
+        attack_coordinates=order_string[1][1:]
+        enemy_coordinates=attack_coordinates.split("-")
+        attacker_coordinates=order_string[0].split("-")
+        attack_sheep(attacker_coordinates,enemy_coordinates)
     for order in player_1_orders:
         if '@' in order:
             order_string=order.split(":")
-            coordinate=order_string[2][1:]
+            coordinate=order_string[1][1:]
             new_coordinates=coordinate.split("-")
-            coordinate=order_string[1]
+            coordinate=order_string[0]
             old_coordinates=coordinate.split("-")
             move_sheep(old_coordinates,new_coordinates)
     for order in player_2_orders:
         if '@' in order:
             order_string=order.split(":")
-            coordinate=order_string[2][1:]
+            coordinate=order_string[1][1:]
             new_coordinates=coordinate.split("-")
-            coordinate=order_string[1]
+            coordinate=order_string[0]
             old_coordinates=coordinate.split("-")
             move_sheep(old_coordinates,new_coordinates)
     for order in player_1_orders:
