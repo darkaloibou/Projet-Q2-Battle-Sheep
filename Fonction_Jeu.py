@@ -134,7 +134,7 @@ def update_grass (coordinates):
         if grass[herbs]['age'] == 10:
             grass['grass_'+str(len(grass)+1)] = {'xy':[x,y],'age':0, player:1} #attention xy et player pas définis
             #prblm si il y a déjà une plante ça va la reset
-def delete_emoji (emoji_coordinates):
+def delete_emoji (emoji_coordinates): #supprimée ??
     """delete the emoji we need 
     parameters
     ----------
@@ -299,8 +299,37 @@ def game_function():   #j'ai changé la spécification mais il faut que je deman
             grass_coordinate=coordinate.split("-")
             sheep_graze(1,grass_coordinate)
 
-def can_move():
+def can_move(xy_sheep, xy_destination):
+    '''check if a sheep can move to the box 
 
-def can_attack():
+    parameters
+    ----------
+    xy_destination :  the (x,y) coordinates where the sheep is (list)
+    xy_destination : the (x,y) coordinates where the sheep want to go (list)
+    
+    version
+    -------
+    specification: Heynen Scott-Socrate (v1 09/03/24)
+    je vais le prendre (scott)'''
+
+
+def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
+    '''check if a sheep can move to the box 
+
+    parameters
+    ----------
+    xy_destination :  the (x,y) coordinates where the sheep is (list)
+    xy_destination : the (x,y) coordinates where the sheep want to go (list)
+    
+    version
+    -------
+    specification: Heynen Scott-Socrate (v1 09/03/24)
+    '''
+    
+    if -1 > xy_destination[0] - xy_sheep[0] or xy_destination[0] - xy_sheep[0] > 1: #look if the sheep is more than 1 box away (abscissa only)
+        return False
+    elif -1 > xy_destination[1] - xy_sheep[1] or xy_destination[1] - xy_sheep[1] >1 : #look if the sheep is more than 1 box away (ordinate only)
+        return False
+    #à continuer avec void rocher mouton et spawn
 
 def can_graze():
