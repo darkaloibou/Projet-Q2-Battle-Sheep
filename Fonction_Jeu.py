@@ -320,7 +320,11 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
     ----------
     xy_destination :  the (x,y) coordinates where the sheep is (list)
     xy_destination : the (x,y) coordinates where the sheep want to go (list)
-    
+
+    returns
+    -------
+    return True if the sheep can move, return False otherwise (bool)
+        
     version
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)
