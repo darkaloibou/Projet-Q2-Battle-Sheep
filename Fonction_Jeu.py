@@ -13,17 +13,20 @@ def get_distance(entity1_coordinates,entity2_coordinates):
     specification: Remacle Thomas (v1 24/02/24)"""
     
 
-def create_map_dictio():
+def create_map_dictio(map_path):
     """create a dictionary with every usefull informations about the map creation from the map file
 
-    notes
-    -----
-    the file should be in ./maps/
+    parameters
+    ----------
+    the path to the map file
 
     version
     -------
-    specification: Heynen Scott-Socrate (v1 20/02/24)
+    specification: Heynen Scott-Socrate (v1 20/02/24) V2 à confirmer
     """
+    map={}
+    
+
 
 def is_game_over():
     """check if the game is over
@@ -82,21 +85,31 @@ def display_map(map):
     # print (term.move_xy(0,0)+term.red+playerscore_2)
     # print (term.home)
 
-def try_spawn_sheep(sheep):
+def try_spawn_sheep(grp):
     """Spawn a sheep if possible
     parameters
     ----------
-    sheep : player number (int)
+    grp : player number (int)
     
     notes
     -----
-    if sheep is 0 -> it is player 1 (blue color)
-    if sheep is 1 -> it is player 2 (red color)
+    if grp is 1 -> it is player 1 (blue color)
+    if grp is 2 -> it is player 2 (red color)
 
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
     """
+    if grp == 1
+        for sheep in players['player_1']['sheeps']:
+            if map['spawn']['spawn_1'] == players['player_1']['sheeps'][sheep]['xy']: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+                return
+        spawn_sheep() # à vérif quel fonction 
+    else:
+        for sheep in players['player_2']['sheeps']:
+            if map['spawn']['spawn_2'] == players['player_2']['sheeps'][sheep]['xy']: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+                return
+        spawn_sheep() # à vérif quel fonction 
 
 def set_grass (coordinates):
     """Set a grass at the sheep position if the seed isn't already take by a player
