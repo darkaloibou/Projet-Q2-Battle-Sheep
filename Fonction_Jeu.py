@@ -334,6 +334,69 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
         return False
     elif -1 > xy_destination[1] - xy_sheep[1] or xy_destination[1] - xy_sheep[1] >1 : #look if the sheep is more than 1 box away (ordinate only)
         return False
+    elif what_in_the_box(xy_destination,'rock'):
+        return False
+        
     #à continuer avec void rocher mouton et spawn
 
 def can_graze():
+
+
+def what_in_the_box(xy,search):
+    '''return True if there is something in the box 
+    
+    parameters
+    ----------
+    xy : the [x,y] coordinates where search (list)
+    search : the specific element to search:
+                -put 'rock' to search for rock, 
+                -put 'sheep' for sheep, 
+                -put 'void' to see if it's outside of the map
+                -put 'spawn' to see if there is a spawn
+                -put 'grass' for grass
+                (str)
+                
+    return
+    ------
+    return True if the searched element is on the box, return False otherwise (bool)
+    
+    version
+    -------
+    specification: Heynen Scott-Socrate (v1 09/03/24)'''
+                
+    if search == 'rock':
+        for rock in map['rocks']:
+            if xy == map['rocks'][rock]:
+                return True
+            else:
+                return False
+            
+    if search == 'spawn':
+        for spawn in map['spawn']:
+            if xy == map['spawn'][spawn]:
+                return True
+            else:
+                return False
+            
+    if search == 'void':
+        if xy[0]> map['map_size'][0]:
+            return True
+        elif xy[1]> map['map_size'][1]:
+            return True
+        else:
+            return False
+        
+    if search == 'grass':
+        for herbs in grass:
+            if xy in grass[herbs]:
+                return True
+        return False
+    
+    if search == 'sheep':
+        for sheep in players['player_1']['sheeps']:
+            if xy in players['player_1']['sheeps'][sheep]:
+                return True
+        for sheep in players['player_2']['sheeps']:
+            if xy in players['player_2']['sheeps'][sheep]:
+                return True
+        return False
