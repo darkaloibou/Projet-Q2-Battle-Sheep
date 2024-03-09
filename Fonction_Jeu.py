@@ -120,13 +120,7 @@ def set_grass (coordinates):
     -------
     specification: Remacle Thomas (v1 24/02/24)"""
     
-def growth_grass(): #il faut fusionner avec grass_propagation
-    """Growth all the grass, in fact add 1 to the life_stats and call grass_propagation if the live_stats is 10
-    version
-    -------
-    specification: Remacle Thomas (v1 24/02/24)"""
-    
-def grass_propagation (coordinates):
+def update_grass (coordinates):
     """Plant grass on the all 8 box surroundings
     parameters
     ----------
@@ -135,6 +129,11 @@ def grass_propagation (coordinates):
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
     """
+    for herbs in grass:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+        grass[herbs]['age'] += 1
+        if grass[herbs]['age'] == 10:
+            grass['grass_'+str(len(grass)+1)] = {'xy':[x,y],'age':0, player:1} #attention xy et player pas définis
+            #prblm si il y a déjà une plante ça va la reset
 def delete_emoji (emoji_coordinates):
     """delete the emoji we need 
     parameters
