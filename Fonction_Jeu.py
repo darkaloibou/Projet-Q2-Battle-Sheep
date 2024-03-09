@@ -336,8 +336,14 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
         return False
     elif what_in_the_box(xy_destination,'rock'):
         return False
-        
-    #à continuer avec void rocher mouton et spawn
+    elif what_in_the_box('void'):
+        return False
+    elif what_in_the_box('spawn'):
+        return False
+    elif what_in_the_box('sheep'):
+        return False 
+    else:
+        return True
 
 def can_graze():
 
