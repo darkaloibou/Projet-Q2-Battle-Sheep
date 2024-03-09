@@ -134,7 +134,7 @@ def update_grass (coordinates):
         if grass[herbs]['age'] == 10:
             grass['grass_'+str(len(grass)+1)] = {'xy':[x,y],'age':0, player:1} #attention xy et player pas définis
             #prblm si il y a déjà une plante ça va la reset
-def delete_emoji (emoji_coordinates): #supprimée ??
+def delete_emoji (emoji_coordinates): #SUPRIMER  ??
     """delete the emoji we need 
     parameters
     ----------
@@ -299,20 +299,6 @@ def game_function():   #j'ai changé la spécification mais il faut que je deman
             grass_coordinate=coordinate.split("-")
             sheep_graze(1,grass_coordinate)
 
-def can_move(xy_sheep, xy_destination):
-    '''check if a sheep can move to the box 
-
-    parameters
-    ----------
-    xy_destination :  the (x,y) coordinates where the sheep is (list)
-    xy_destination : the (x,y) coordinates where the sheep want to go (list)
-    
-    version
-    -------
-    specification: Heynen Scott-Socrate (v1 09/03/24)
-    je vais le prendre (scott)'''
-
-
 def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
     '''check if a sheep can move to the box 
 
@@ -348,7 +334,7 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
 def can_graze():
 
 
-def what_in_the_box(xy,search):
+def is_in_the_box(xy,search):
     '''return True if there is something in the box 
     
     parameters
