@@ -190,8 +190,8 @@ def attack_sheep(sheep,attack_coordinates): #Il faut ajouter les coordonées du 
     specification: Aloïs Baurant (v1 23/02/24)
     """
 
-def move_sheep (old_coordinates,new_coordinates):
-    """Move a sheep or attack if an another sheep is already there
+def move_sheep (old_coordinates,new_coordinates): # ! (scott) ATTENTION IL FAUT RETIRER LE FAIT QU'IL ATTACK SI IL Y A UN MOUTON !
+    """Move a sheep or attack if an another sheep is already there  
     parameters
     ----------
     old_coordinates : coordinate in x,y of the sheep where he was (list)
@@ -335,7 +335,7 @@ def can_graze():
 
 
 def is_in_the_box(xy,search):
-    '''return True if there is something in the box 
+    '''return True if there is the asked-thing in the box 
     
     parameters
     ----------
@@ -371,9 +371,9 @@ def is_in_the_box(xy,search):
                 return False
             
     if search == 'void':
-        if xy[0]> map['map_size'][0]:
+        if xy[0]> map['map_size'][0]: #look if outside (abscissa only)
             return True
-        elif xy[1]> map['map_size'][1]:
+        elif xy[1]> map['map_size'][1]: #look if outside (ordinate only)
             return True
         else:
             return False
