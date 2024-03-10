@@ -392,3 +392,14 @@ def is_in_the_box(xy,search):
             if xy in players['player_2']['sheeps'][sheep]:
                 return True
         return False
+
+def can_attack (sheep,target):
+    """Look if you can attack an other sheep or not
+    variable:
+    target: the coordonate of the sheep you want attack (x,y)tuple
+    sheep : your own position (x,y)tuple
+    
+    return:
+    answer: true if you can false if you can't (bool)
+    """
+
