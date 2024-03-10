@@ -395,11 +395,24 @@ def is_in_the_box(xy,search):
 
 def can_attack (sheep,target):
     """Look if you can attack an other sheep or not
+   
     variable:
-    target: the coordonate of the sheep you want attack (x,y)tuple
     sheep : your own position (x,y)tuple
-    
+    target: the coordonate of the sheep you want attack (x,y)tuple
+  
     return:
     answer: true if you can false if you can't (bool)
+
+    Version:
+    Arthur 10/03 v1
     """
+    listx=[target[0]-1,target[0],target[0]+1]
+    listy=[target[1]-1,target[1],target[1]+1]
+    if sheep[0] not in listx :
+        answer=0
+    elif sheep[1]not in listy :
+        answer=0
+    else:
+        answer=1
+    return answer
 
