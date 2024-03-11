@@ -380,16 +380,16 @@ def is_in_the_box(xy,search):
         
     if search == 'grass':
         for herbs in grass:
-            if xy in grass[herbs]:
+            if xy == grass[herbs]['xy']:
                 return True
         return False
     
     if search == 'sheep':
         for sheep in players['player_1']['sheeps']:
-            if xy in players['player_1']['sheeps'][sheep]:
+            if xy == players['player_1']['sheeps'][sheep]['xy']:
                 return True
         for sheep in players['player_2']['sheeps']:
-            if xy in players['player_2']['sheeps'][sheep]:
+            if xy == players['player_2']['sheeps'][sheep]['xy']:
                 return True
         return False
 
