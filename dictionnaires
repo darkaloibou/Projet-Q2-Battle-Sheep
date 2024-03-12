@@ -7,21 +7,17 @@ map = {'rocks':{'rock_1':(x,y),
                'seed_2':(x,y)},
       'nbr_of_turns' : 100}
 
-players = {'player_1':{'sheeps':{'sheep_1':{'live':3,
-                                            'xy':[x,y]},
-                                 'sheep_2':{'live':3,
-                                            'xy':[x,y]}},#vérif 
+players = {'player_1':{'sheeps':{[x,y]:{'live':3,},
+                                 [x,y] :{'live':3,}
+                                 },#vérif 
                        'nbr_of_grass':40},
            
-           'player_2':{'sheeps':{'sheep_1':{'live':3,
-                                            'xy':[x,y]},
-                                 'sheep_2':{'live':3,
-                                            'xy':[x,y]}},
+           'player_2':{'sheeps':{[x,y]:{'live':3,},
+                                 [x,y] :{'live':3,}
+                                 },
                        'nbr_of_grass':0}}
 
-grass = {'grass_1': { 'xy' : [x,y],
-                     'age': 2,
+grass = {   [x,y]: { 'age': 2,
                      'life_state': 0},    #0 if none , 1 if player 1 , 2 if player 2
-         'grass_1': { 'xy' : [x,y],
-                     'age': 2,
-                     'life_stat': 0}
+            [x,y]: { 'age': 2,
+                     'life_stat': 0}}
