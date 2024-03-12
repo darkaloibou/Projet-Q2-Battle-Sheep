@@ -100,16 +100,18 @@ def try_spawn_sheep(grp):
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
     """
-    if grp == 1
+    if grp==1:
+        spawn_point=map['spawn']['spawn_1']
         for sheep in players['player_1']['sheeps']:
-            if map['spawn']['spawn_1'] == players['player_1']['sheeps'][sheep]['xy']: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if spawn_point == sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
                 return
-        spawn_sheep() # à vérif quel fonction 
+        players['player_1']['sheeps'][spawn_point]=3
     else:
+        spawn_point=map['spawn']['spawn_2']
         for sheep in players['player_2']['sheeps']:
-            if map['spawn']['spawn_2'] == players['player_2']['sheeps'][sheep]['xy']: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if  spawn_point== sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
                 return
-        spawn_sheep() # à vérif quel fonction 
+        players['player_2']['sheeps'][spawn_point]=3
 
 def set_grass (coordinates,emoji):
     """Set a grass at the sheep position if the seed isn't already take by a player
