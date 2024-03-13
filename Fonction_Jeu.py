@@ -130,20 +130,36 @@ def set_grass (coordinates,emoji):
             else:
                 grass[coordinates]={'age':1,'life_stats':2}
     
-def update_grass (coordinates):
-    """Plant grass on the all 8 box surroundings
+def update_grass ():
+    """Grow grass and plant grass on the all 4 box surroundings 
     parameters
     ----------
-    coordinates : coordinates (x,y) of the grass that will grow (tuples)
     version
     -------
-    specification: Heynen Scott-Socrate (v1 23/02/24)
-    """
+    specification: Heynen Scott-Socrate (v2 23/02/24)
+    """ #si la grass est à 10
+mature_grass=[]
     for herbs in grass:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
         grass[herbs]['age'] += 1
         if grass[herbs]['age'] == 10:
-            grass['grass_'+str(len(grass)+1)] = {'xy':[x,y],'age':0, player:1} #attention xy et player pas définis
-            #prblm si il y a déjà une plante ça va la reset
+            mature_grass.append(herbs)
+    for herbs in mature_grass:
+        coordinate=herbs
+        print (coordinate)
+        life_state=grass[herbs]['life_state']
+        numbers=[-1,1]
+        for x_term in numbers:
+            print ('try')
+            if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass'):
+                grass[(coordinate[0]+x_term),coordinate[1]]={'age': 1, 'life_state': life_state}
+                if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'sheep'):
+                    manage_emoji(([(coordinate[0]+x_term),coordinate[1]],"🌾"))
+        for y_term in numbers:
+            if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass'):
+                grass[(coordinate[0]),(coordinate[1]+y_term)]={'age': 1, 'life_state': life_state}
+                if not what_in_the_box((coordinate[0]),(coordinate[1]+y_term),'sheep'):
+                    manage_emoji([(coordinate[0]),(coordinate[1]+y_term)],"🌾")
+    
 def manage_emoji (emoji_coordinates,emoji=' '): 
     """change the emoji we need to change
     parameters
