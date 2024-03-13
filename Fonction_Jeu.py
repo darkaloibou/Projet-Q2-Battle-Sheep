@@ -513,7 +513,7 @@ def is_in_the_box(xy,search):
     if search == 'void':
         if xy[0]> map['map_size'][0]: #look if outside (abscissa only)
             return True
-        elif xy[1]> map['map_size'][1]: #look if outside (ordinate only)
+        if xy[1]> map['map_size'][1]: #look if outside (ordinate only)
             return True
         else:
             return False
