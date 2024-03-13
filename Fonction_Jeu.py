@@ -500,15 +500,14 @@ def is_in_the_box(xy,search):
         for rock in map['rocks']:
             if xy == map['rocks'][rock]:
                 return True
-            else:
-                return False
+            
+        return False
             
     if search == 'spawn':
         for spawn in map['spawn']:
             if xy == map['spawn'][spawn]:
                 return True
-            else:
-                return False
+        return False
             
     if search == 'void':
         if xy[0]> map['map_size'][0]: #look if outside (abscissa only)
