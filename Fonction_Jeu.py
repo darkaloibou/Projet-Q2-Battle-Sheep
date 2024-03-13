@@ -99,25 +99,36 @@ def try_spawn_sheep(grp):
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
     """
-    if grp == 1
+    if grp==1:
+        spawn_point=map['spawn']['spawn_1']
         for sheep in players['player_1']['sheeps']:
-            if map['spawn']['spawn_1'] == players['player_1']['sheeps'][sheep]['xy']: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if spawn_point == sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
                 return
-        spawn_sheep() # à vérif quel fonction 
+        players['player_1']['sheeps'][spawn_point]=3
     else:
+        spawn_point=map['spawn']['spawn_2']
         for sheep in players['player_2']['sheeps']:
-            if map['spawn']['spawn_2'] == players['player_2']['sheeps'][sheep]['xy']: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if  spawn_point== sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
                 return
-        spawn_sheep() # à vérif quel fonction 
+        players['player_2']['sheeps'][spawn_point]=3
 
-def set_grass (coordinates):
+def set_grass (coordinates,emoji):
     """Set a grass at the sheep position if the seed isn't already take by a player
     parameters
     -------------
+    emoji: The emoji of the sheep 
     coordinates: coordinates of the sheep
     version
     -------
-    specification: Remacle Thomas (v1 24/02/24)"""
+    specification: Remacle Thomas (v1.1 24/02/24)"""
+    emoji_d=["🐑","🐐"]
+    for seed in map['seed']:
+        if coordinates==map['seed'][seed]:
+            del map ['seed'][seed]
+            if emoji==emoji_d[0]:
+                grass[coordinates]={'age':1,'life_stats':1}
+            else:
+                grass[coordinates]={'age':1,'life_stats':2}
     
 def update_grass (coordinates):
     """Plant grass on the all 8 box surroundings
@@ -133,26 +144,17 @@ def update_grass (coordinates):
         if grass[herbs]['age'] == 10:
             grass['grass_'+str(len(grass)+1)] = {'xy':[x,y],'age':0, player:1} #attention xy et player pas définis
             #prblm si il y a déjà une plante ça va la reset
-def delete_emoji (emoji_coordinates): #SUPRIMER  ??
-    """delete the emoji we need 
-    parameters
-    ----------
-    emoji_coordinates: coordinates (x,y) of the emoji to delete, in fact remplace by a double space (tuples or list depend if the emoji is element of 
-    the map or a sheep/grass)
-    version
-    -------
-    specification: Heynen Scott-Socrate (v1 23/02/24)
-    """
-def create_emoji (emoji_coordinates,emoji):
-    """spawn the emoji we need 
+def manage_emoji (emoji_coordinates,emoji=' '): 
+    """change the emoji we need to change
     parameters
     ----------
     emoji_coordinates: coordinate in (x,y) of the emoji wanted to be created (tuples or list depend if the emoji is element of the map or a sheep/grass)
-    emoji: the emoji wanted to be spawn (str)
+    emoji: the emoji wanted to be spawn, by default recreate the case without emoji on the box (str)
     version
     -------
-    specification: Remacle Thomas (v1 25/02/24)
+    specification: Remacle Thomas (v1.1 25/02/24)
     """
+    ""
     emoji_d=["🐑","🐐", "🌾"]
     if emoji in emoji_d[0]:
         print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_red+emoji)
@@ -160,8 +162,8 @@ def create_emoji (emoji_coordinates,emoji):
         print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_blue+emoji)
     elif emoji in emoji_d[2]:
         for grass_i in grass:
-            if grass[grass_i]['xy']==emoji_coordinates:
-                if grass[grass_i]['life_state']==0:
+            if grass[grass_i]==emoji_coordinates:
+                if grass[grass_i]['life_state']==1:
                     print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_red+emoji)
                 else:
                     print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_blue+emoji)
