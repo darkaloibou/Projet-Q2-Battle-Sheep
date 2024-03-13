@@ -69,13 +69,12 @@ def display_map(map):
         y -= 1
     # Va chercher tout les éléments de la map
     for rock in map["rocks"] :
-        create_emoji(map["rocks"[rock]],​"🪨")
+        manage_emoji(map["rocks"[rock]],​"🪨")
 
-    for sapwns in map["sapwns"] :
-        create_emoji(map["sapwns"[spawn]],​"​ ") # Voir comment display les spawn de moutons
-
+    manage_emoji(map["sapwns"[spawn]],​"​🐑") # Voir comment display les spawn de moutons
+    manage_emoji(map["sapwns"[spawn]],​"​🐐")
     for seed in map["seeds"] :
-        create_emoji(map["seeds"[seed]],​"​🌱")
+        manage_emoji(map["seeds"[seed]],​"​🌱")
     # Il faut regarder si on display la map 1 fois et modifier les élémément ou on recharge la map a chaque tours
     # Dictonary ; Length
     # playerscore_1=str(count_grass(Dictonary['player_grass1']))
