@@ -1,36 +1,28 @@
 import blessed
 
-
-
-
-map = {'rocks': {'rock_1': (11, 22),
-                 'rock_2': (35, 14)},
-       'spawn': {'spawn_1': (18, 29),
-                 'spawn_2': (25, 12)},
-       'map_size': [50, 30],
-       'seed': {'seed_1': (47, 18),
-                'seed_2': (22, 37)},
+map = {'rocks': {'rock_1': [11, 22],
+                 'rock_2': [35, 14]},
+       'spawn': {'spawn_1': [18, 29],
+                 'spawn_2': [25, 12]},
+       'map_size': [60, 40],
+       'seed': {'seed_1': [47, 18],
+                'seed_2': [22, 37]},
        'nbr_of_turns': 100}
 
-players = {'player_1': {'sheeps': {[56, 22]: 3,
-                                    [45, 23]: 3},  # vérif
+players = {'player_1': {'sheeps': {(56, 22): 3,
+                                    (45, 23): 3},  # vérif
                          'nbr_of_grass': 40},
 
-            'player_2': {'sheeps': {[32, 11]: 3,
-                                    [18, 25]: 3},
+            'player_2': {'sheeps': {(32, 11): 3,
+                                    (18, 25): 3},
                          'nbr_of_grass': 0}}
 
-grass = {[47, 31]: {'age': 2,
-                    'life_state': 0},  # 0 if none, 1 if player 1, 2 if player 2
-         [23, 36]: {'age': 2,
-                    'life_stat': 0}}
-
-
-
-
-
-
-
+grass = { (0, 6): {'age': 2,
+                    'life_state': 0},# 0 if none, 1 if player 1, 2 if player 2
+         (22, 3): {'age': 2,
+                    'life_state': 1},
+         (20,1):{'age': -2,
+                    'life_state': 1}
 
 def get_distance(entity1_coordinates,entity2_coordinates):
     """Get the distance (distance between two entities)
@@ -170,29 +162,28 @@ def update_grass ():
     ----------
     version
     -------
-    specification: Heynen Scott-Socrate (v2 23/02/24)
+    specification: Heynen Scott-Socrate (v1 23/02/24)
     """ #si la grass est à 10
-mature_grass=[]
+    mature_grass=[]
     for herbs in grass:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
         grass[herbs]['age'] += 1
         if grass[herbs]['age'] == 10:
             mature_grass.append(herbs)
     for herbs in mature_grass:
         coordinate=herbs
-        print (coordinate)
         life_state=grass[herbs]['life_state']
-        numbers=[-1,1]
-        for x_term in numbers:
-            print ('try')
+        numbers_x=[-2,2]
+        numbers_y=[-1,1]
+        for x_term in numbers_x:
             if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass'):
                 grass[(coordinate[0]+x_term),coordinate[1]]={'age': 1, 'life_state': life_state}
                 if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'sheep'):
-                    manage_emoji(([(coordinate[0]+x_term),coordinate[1]],"🌾"))
-        for y_term in numbers:
+                    manage_emoji([(coordinate[0]+x_term),coordinate[1]],"🌾")
+        for y_term in numbers_y:
             if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass'):
                 grass[(coordinate[0]),(coordinate[1]+y_term)]={'age': 1, 'life_state': life_state}
-                if not what_in_the_box((coordinate[0]),(coordinate[1]+y_term),'sheep'):
-                    manage_emoji([(coordinate[0]),(coordinate[1]+y_term)],"🌾")
+                if not what_in_the_box([coordinate[0],(coordinate[1]+y_term)],'sheep'):
+                    manage_emoji([coordinate[0],(coordinate[1]+y_term)],"🌾")
     
 def manage_emoji (emoji_coordinates,emoji=' '): 
     """change the emoji we need to change
@@ -205,6 +196,7 @@ def manage_emoji (emoji_coordinates,emoji=' '):
     specification: Remacle Thomas (v1.1 25/02/24)
     """
     ""
+    emoji_coordinates=(emoji_coordinates[0],emoji_coordinates[1])
     emoji_d=["🐑","🐐", "🌾"]
     if emoji in emoji_d[0]:
         print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_red+emoji)
@@ -212,7 +204,7 @@ def manage_emoji (emoji_coordinates,emoji=' '):
         print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_blue+emoji)
     elif emoji in emoji_d[2]:
         for grass_i in grass:
-            if grass[grass_i]==emoji_coordinates:
+            if grass_i==emoji_coordinates:
                 if grass[grass_i]['life_state']==1:
                     print(term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_red+emoji)
                 else:
@@ -229,6 +221,7 @@ def manage_emoji (emoji_coordinates,emoji=' '):
                 print (term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.on_darkolivegreen+emoji)
             else:
                 print (term.move_xy(emoji_coordinates[0],emoji_coordinates[1])+term.peru_on_seagreen+emoji)
+
     
 def attack_sheep(attack_coordinates,enemy_coordinates): #Il faut ajouter les coordonées du mouton qui attaque
     """Attack a sheep if he is near enough to be attacked
@@ -541,7 +534,7 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
 def can_graze():
 
 
-def is_in_the_box(xy,search):
+def what_in_the_box(xy,search):
     '''return True if there is the asked-thing in the box 
     
     parameters
@@ -562,6 +555,7 @@ def is_in_the_box(xy,search):
     version
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)'''
+    xy=(xy[0],xy[1])
                 
     if search == 'rock':
         for rock in map['rocks']:
@@ -577,9 +571,11 @@ def is_in_the_box(xy,search):
         return False
             
     if search == 'void':
-        if xy[0]> map['map_size'][0]: #look if outside (abscissa only)
+        if xy[0]>= (map['map_size'][0])*2: #look if outside (abscissa only)
             return True
         if xy[1]> map['map_size'][1]: #look if outside (ordinate only)
+            return True
+        if xy[1]<1:
             return True
         else:
             return False
