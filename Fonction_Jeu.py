@@ -163,6 +163,30 @@ def set_grass (coordinates,emoji):
             else:
                 grass[coordinates]={'age':1,'life_stats':2}
     
+def grass_propagation (mature_grass,life_state):
+    """ The function propage the grass if it's needed 
+    parameters
+    -----------------------
+    mature_grass: A list of grass need to be propaged (list)
+    life_state: If the grass is possed by player_1 or player_2 (str)
+    version
+    ----------
+    specification: Remacle Thomas (v1 14/03/24)
+    implementation: Remacle Thomas (v1 14/03/24)"""
+    
+    for herbs in mature_grass:
+            coordinate=herbs
+            numbers=[-1,1]
+            for x_term in numbers:
+                if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass'):
+                    grass[life_state][(coordinate[0]+x_term),coordinate[1]]=1
+                    if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'sheep'):
+                        manage_emoji([(coordinate[0]+x_term),coordinate[1]],"🌾")
+            for y_term in numbers:
+                if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass'):
+                    grass[life_state][(coordinate[0]),(coordinate[1]+y_term)]=1
+                    if not what_in_the_box([coordinate[0],(coordinate[1]+y_term)],'sheep'):
+                        manage_emoji([coordinate[0],(coordinate[1]+y_term)],"🌾")
 def update_grass ():
     """Grow grass and plant grass on the all 4 box surroundings 
     parameters
@@ -170,26 +194,22 @@ def update_grass ():
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
+    implementation:Heynen Scott-Socrate (v1 23/02/24)
+                   Remacle Thomas (v2 14/03/24)
+                   Remacle Thomas (v2.1 14/03/24)
     """ #si la grass est à 10
-    mature_grass=[]
-    for herbs in grass:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
-        grass[herbs]['age'] += 1
-        if grass[herbs]['age'] == 10:
-            mature_grass.append(herbs)
-    for herbs in mature_grass:
-        coordinate=herbs
-        life_state=grass[herbs]['life_state']
-        numbers=[-1,1]
-        for x_term in numbers:
-            if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass'):
-                grass[(coordinate[0]+x_term),coordinate[1]]={'age': 1, 'life_state': life_state}
-                if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'sheep'):
-                    manage_emoji([(coordinate[0]+x_term),coordinate[1]],"🌾")
-        for y_term in numbers:
-            if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass'):
-                grass[(coordinate[0]),(coordinate[1]+y_term)]={'age': 1, 'life_state': life_state}
-                if not what_in_the_box([coordinate[0],(coordinate[1]+y_term)],'sheep'):
-                    manage_emoji([coordinate[0],(coordinate[1]+y_term)],"🌾")
+    mature_grass_1=[]
+    mature_grass_2=[]
+    for herbs in grass['player_1']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+        grass['player_1'][herbs] += 1
+        if grass['player_1'][herbs]== 10:
+            mature_grass_1.append(herbs)
+    for herbs in grass['player_2']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+        grass['player_2'][herbs] += 1
+        if grass['player_2'][herbs] == 10:
+            mature_grass_2.append(herbs)
+    grass_propagation(mature_grass_1,'player_1')
+    grass_propagation(mature_grass_2,'player_2')
         
     
 def manage_emoji (emoji_coordinates,emoji=' '): 
@@ -201,6 +221,8 @@ def manage_emoji (emoji_coordinates,emoji=' '):
     version
     -------
     specification: Remacle Thomas (v1.1 25/02/24)
+    implementaion: Remacle Thomas (v1 4/03/24)
+                   Remacle Thomas (v1.1 4/03/24)
     """
     ""
     emoji_coordinates=(emoji_coordinates[0],emoji_coordinates[1])
@@ -210,11 +232,11 @@ def manage_emoji (emoji_coordinates,emoji=' '):
     elif emoji in emoji_d [1]:
         print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
     elif emoji in emoji_d[2]:
-        for grass_i in grass:
+        for grass_i in grass['player_1']:
             if grass_i==emoji_coordinates:
-                if grass[grass_i]['life_state']==1:
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_red+emoji)
-                else:
+        for grass_i in grass['player_2']:
+            if grass_i==emoji_coordinates:
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
     else:
         coordinate=emoji_coordinates[0]/2
