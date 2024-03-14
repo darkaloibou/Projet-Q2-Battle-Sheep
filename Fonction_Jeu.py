@@ -407,7 +407,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
 
 
 def sheep_graze(sheep, sheep_coordinates):
-     """Graze a grass if the sheep is on this box
+    """Graze a grass if the sheep is on this box
     parameters
     ----------
     sheep : player sheep (0 for player 1, 1 for player 2) (int)
@@ -420,9 +420,19 @@ def sheep_graze(sheep, sheep_coordinates):
     -------
     specification: Aloïs Baurant (v1 23/02/24)
     """
-    
-    delete_emoji (sheep)
-    del ['x,y']
+    if not what_in_the_box(sheep_coordinates,"grass"):
+         return
+    all_sheep_coordinates=[]
+    if sheep==0:
+        for sheep in players["player_1"]['sheeps']:
+            all_sheep_coordinates.append(sheep)
+    else:
+        for sheep in players["player_2"]['sheeps']:
+            all_sheep_coordinates.append(sheep)
+    if not sheep_coordinates in all_sheep_coordinates:
+        return
+    else:
+        del grass[sheep_coordinates]
 
 def translate_orders(player):
     """Translate a string message into a list to be usable for the program
