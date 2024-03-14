@@ -170,11 +170,11 @@ def update_grass ():
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
-    """ #si la grass est à 10
+    """ 
     mature_grass=[]
     for herbs in grass:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
         grass[herbs]['age'] += 1
-        if grass[herbs]['age'] == 10:
+        if grass[herbs]['age'] == 10: #si la grass est à 10
             mature_grass.append(herbs)
     for herbs in mature_grass:
         coordinate=herbs
@@ -521,8 +521,8 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
 
     parameters
     ----------
-    xy_destination :  the (x,y) coordinates where the sheep is (list)
-    xy_destination : the (x,y) coordinates where the sheep want to go (list)
+    xy_destination :  the (x,y) coordinates where the sheep is (tuples)
+    xy_destination : the (x,y) coordinates where the sheep want to go (tuples)
 
     returns
     -------
@@ -556,7 +556,7 @@ def what_in_the_box(xy,search):
     
     parameters
     ----------
-    xy : the [x,y] coordinates where search (list)
+    xy : the (x,y) coordinates where search (tuples)
     search : the specific element to search:
                 -put 'rock' to search for rock, 
                 -put 'sheep' for sheep, 
