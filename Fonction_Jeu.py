@@ -23,7 +23,14 @@ grass = { (0, 6): {'age': 2,
                     'life_state': 1},
          (20,1):{'age': -2,
                     'life_state': 1}
-
+def show_high_score(Length):
+    playerscore_1=str(players['player_1']['nbr_of_grass'])
+    playerscore_2=str(players['player_2']['nbr_of_grass'])
+    minus=(len(playerscore_1))
+    print (term.move_xy(((Length*2)-14)-minus,0)+term.blue+"Player score :"+playerscore_1)
+    print (term.move_xy(0,0)+term.red+"Player score :"+playerscore_2)
+    print (term.home)
+         
 def get_distance(entity1_coordinates,entity2_coordinates):
     """Get the distance (distance between two entities)
     parameters
