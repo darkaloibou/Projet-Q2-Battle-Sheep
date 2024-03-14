@@ -22,7 +22,7 @@ grass = { (0, 6): {'age': 2,
          (22, 3): {'age': 2,
                     'life_state': 1},
          (20,1):{'age': -2,
-                    'life_state': 1}
+                    'life_state': 1}}
 def show_high_score(Length):
     playerscore_1=str(players['player_1']['nbr_of_grass'])
     playerscore_2=str(players['player_2']['nbr_of_grass'])
@@ -102,12 +102,12 @@ def display_map(map):
         y -= 1
     # Va chercher tout les éléments de la map
     for rock in map["rocks"] :
-        manage_emoji(map["rocks"[rock]],​"🪨")
+        manage_emoji(map["rocks"[rock]],"🪨")
 
-    manage_emoji(map["sapwns"[spawn]],​"​🐑") # Voir comment display les spawn de moutons
-    manage_emoji(map["sapwns"[spawn]],​"​🐐")
+    manage_emoji(map["sapwns"[spawn]],"​🐑") # Voir comment display les spawn de moutons
+    manage_emoji(map["sapwns"[spawn]],"​🐐")
     for seed in map["seeds"] :
-        manage_emoji(map["seeds"[seed]],​"​🌱")
+        manage_emoji(map["seeds"[seed]],"​🌱")
     # Il faut regarder si on display la map 1 fois et modifier les élémément ou on recharge la map a chaque tours
     # Dictonary ; Length
     # playerscore_1=str(count_grass(Dictonary['player_grass1']))
@@ -242,9 +242,9 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #Il faut ajouter les coo
      specification: Aloïs Baurant (v2 13/03/24)
     """
     player = 0
-    for sheep_1 in player[player_1[enemy_coordinates]] # Joueur 1
+    for sheep_1 in player['player_1']['sheep'][enemy_coordinates]: # Joueur 1
         if coordinate == attack_coordinates:
-            sheep = players['player_1']['sheep']['enemy_coordinates']
+            sheep = players['player_1']['sheep'][enemy_coordinates]
             player = 1
     if player != 1:
         sheep = players['player_2']['sheep']['enemy_coordinates']
@@ -347,7 +347,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     -------
     specification: Aloïs Baurant (v1 23/02/24)
     """
-    if attack == 1 # Bouge le mouton sur la carte
+    if attack == 1 :# Bouge le mouton sur la carte
         for rock in map["rocks"] :
             if new_coordinates == rocks :
                 kill_sheep = 1
@@ -361,13 +361,13 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
                 del sheep[old_coordinates]
                 create_emoji(old_coordinates)
 
-    if kill != 1: regarde dans la base de donnée les moutons
-        for sheep_1 in player['player_1'[coordinate]]: # Joueur 1
+    if kill != 1: #regarde dans la base de donnée les moutons
+        for sheep_1 in player['player_1'][coordinate] : # Joueur 1
             if coordinate == old_coordinates:
                 sheep = "​🐑"
                 player = 1
 
-         for sheep_1 in player['player_2'[coordinate]]: # Joeueur 2
+        for sheep_1 in player['player_2'][coordinate] : # Joeueur 2
             if coordinate == old_coordinates:
                 sheep = "​🐐"
                 player = 2
@@ -459,7 +459,8 @@ def translate_orders(player):
     """
     
     get_order = str(input("Insert your instruction"))
-    return split_all_order = get_order.split(',')
+    split_all_order = get_order.split(',')
+    return split_all_order
     
 
 def game_function():   #j'ai changé la spécification mais il faut que je demande au tuteur ou assistant pour la mettre dans se dossier
