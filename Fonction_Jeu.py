@@ -56,9 +56,56 @@ def create_map_dictio(map_path):
     version
     -------
     specification: Heynen Scott-Socrate (v1 20/02/24) V2 à confirmer
+    réalisation: Arthur (v1 14/03)
     """
-    map={}
-    
+      fh=open('./plateau.bsh','r')
+      lines=fh.readlines()
+      dict={}
+      
+      for line in lines:
+          if line =='map:\n':
+              txt=lines[1]
+              txt=txt.split()
+              dict['map_size']=[txt[0],txt[1]]
+          if line =='spawn:\n':
+              spawn={}
+              txt=lines[3]
+              txt=txt.split()
+              if txt[0]=="1":
+                  spawn['spawn_1']=[txt[1],txt[2]]
+                  txt=lines[4]
+                  txt=txt.split()
+                  spawn['spawn_2']=[txt[1],txt[2]]
+              else:
+                  spawn['spawn_2']=[txt[1],txt[2]]
+                  txt=lines[4]
+                  txt=txt.split()
+                  spawn['spawn_1']=[txt[1],txt[2]]
+              dict['spawn']=spawn
+          if line=='seeds:\n':
+              i=6
+              nb=0
+              seed={}
+              longueur=len(lines)
+              while lines[i]!='rocks:\n':
+                  nb+=1
+                  txt=lines[i]
+                  txt=txt.split()
+                  seed[('seed_%d')%(nb)]=[txt[0],txt[1]]
+                  i+=1
+              dict['seed']=seed
+              rocks={}
+              nb=1
+              i+=1
+              while i<longueur:
+                  
+                  txt=lines[i]
+                  txt=txt.split()
+                  rocks[('rock_%d')%(nb)]=[txt[0],txt[1]]
+                  nb+=1
+                  i+=1
+              dict['rocks']=rocks
+        return dict
 
 
 def is_game_over():
