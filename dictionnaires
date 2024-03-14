@@ -15,7 +15,5 @@ players = {'player_1': {'sheeps': {[56, 22]: 3,
                                     [18, 25]: 3},
                          'nbr_of_grass': 0}}
 
-grass = {[47, 31]: {'age': 2,
-                    'life_state': 0},  # 0 if none, 1 if player 1, 2 if player 2
-         [23, 36]: {'age': 2,
-                    'life_stat': 0}}
+grass= {'player_1':{(10,10):2},
+'player_2':{(12,2):4}}
