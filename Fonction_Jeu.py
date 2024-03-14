@@ -351,6 +351,10 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
         for rock in map["rocks"] :
             if new_coordinates == rocks :
                 kill_sheep = 1
+        
+        for spawn in map['spawn'] :
+            if new_coordinates == spawn :
+                move = 1
 
         # if sheep get attacked == 0
         if new_coordinates[0] < 0 or new_coordinates[1] < 0 or kill_sheep == 1 or new_coordinates[0] > map['map_size'][0] or new_coordinates[1] > map['map_size'][1] :
@@ -370,15 +374,19 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
 
         create_emoji(old_coordinates)
         create_emoji(new_coordinates,sheep)
+        if move == 1 :
+            new_coordinates[0] += 1
+            new_coordinates[1] += 1
         new_coordinates=(new_coordinates[0],new_coordinates[1])
+
         if player == 1:
-            life = players['player_1']['sheep'][old_coordinates]
+            alife = players['player_1']['sheep'][old_coordinates]
             del players['player_1']['sheep'][old_coordinates]
-            players['player_1']['sheep'][new_coordinates]=life
+            players['player_1']['sheep'][new_coordinates]=alife
         else:
-            life = players['player_2']['sheep'][old_coordinates]
+            alife = players['player_2']['sheep'][old_coordinates]
             del players['player_2']['sheep'][old_coordinates]
-            players['player_2']['sheep'][new_coordinates]=life
+            players['player_2']['sheep'][new_coordinates]=alife
 
 #    Code poubelle, mais que je supprime pas car je ne le sens pas.
 #    if old_coordinates[0] > new_coordinates[0]:
