@@ -16,4 +16,4 @@ players = {'player_1': {'sheeps': {[56, 22]: 3,
                          'nbr_of_grass': 0}}
 
 grass= {'player_1':{(10,10):2},
-'player_2':{(12,2):4}}
+       'player_2':{(12,2):4}}

@@ -430,6 +430,15 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
                 del sheep[old_coordinates]
                 create_emoji(old_coordinates)
 
+    # vérifie si il y avais une herbe a la position du mouton
+     for grass in grass['players_1']:
+        if old_coordinates == grass :
+            respawn_gras = 1
+
+    for grass in grass['player_2']:
+        if old_coordinates == grass :
+            respawn_gras = 1
+
     if kill != 1: #regarde dans la base de donnée les moutons
         for sheep_1 in player['player_1'][coordinate] : # Joueur 1
             if coordinate == old_coordinates:
@@ -456,6 +465,9 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
             alife = players['player_2']['sheep'][old_coordinates]
             del players['player_2']['sheep'][old_coordinates]
             players['player_2']['sheep'][new_coordinates]=alife
+
+        if respawn_gras == 1:
+            create_emoji(old_coordinates)
 
 #    Code poubelle, mais que je supprime pas car je ne le sens pas.
 #    if old_coordinates[0] > new_coordinates[0]:
