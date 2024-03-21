@@ -42,7 +42,7 @@ def create_map_dictio(map_path):
     version
     -------
     specification: Heynen Scott-Socrate (v1 20/02/24) V2 à confirmer
-    réalisation: Arthur (v1 14/03)
+    implementation: Arthur (v1 14/03)
     """
     fh=open(map_path,'r')
     lines=fh.readlines()
@@ -103,7 +103,8 @@ def is_game_over():
 
     version
     -------
-    specification : Heynen Scott-Socrate (v1 20/02/24) => V2 A VALIDER"""
+    specification : Heynen Scott-Socrate (v2 28/02/24)
+    implementation : Heynen Scott-Socrate (v1 28/02/24)"""
     
     if (players['player_1']['nbr_of_grass'] >= 100 ) or ( players['player_2']['nbr_of_grass'] >= 100 ) : #look if a player have > 100 grass
         return True 
@@ -164,6 +165,7 @@ def try_spawn_sheep(grp):
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
+    implementation: Heynen Scott-Socrate (v1 29/02/24)
     """
     if grp==1:
         spawn_point=map['spawn']['spawn_1']
@@ -227,10 +229,8 @@ def update_grass ():
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
-    implementation:Heynen Scott-Socrate (v1 23/02/24)
-                   Remacle Thomas (v2 14/03/24)
-                   Remacle Thomas (v2.1 14/03/24)
-    """ #si la grass est à 10
+    implementation:Heynen Scott-Socrate (v1 30/02/24), Remacle Thomas (v2 14/03/24)
+    """
     mature_grass_1=[]
     mature_grass_2=[]
     for herbs in grass['player_1']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
@@ -493,7 +493,7 @@ def sheep_graze(sheep, sheep_coordinates):
 
     version
     -------
-    specification: Aloïs Baurant (v1 23/02/24)
+    specification: Aloïs Baurant (v1 23/02/24), Heynen Scott-Socrate (v1 23/02/24)
     """
     if not what_in_the_box(sheep_coordinates,"grass"):
          return
@@ -607,6 +607,7 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
     version
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)
+    implementation: Heynen Scott-Socrate (v1 01/04/24)
     '''
     
     if -1 > xy_destination[0] - xy_sheep[0] or xy_destination[0] - xy_sheep[0] > 1: #look if the sheep is more than 1 box away (abscissa only)
@@ -646,7 +647,8 @@ def what_in_the_box(xy,search):
     
     version
     -------
-    specification: Heynen Scott-Socrate (v1 09/03/24)'''
+    specification: Heynen Scott-Socrate (v1 09/03/24)
+    implementation: Heynen Scott-Socrate (v1 01/04/24)'''
     xy=(xy[0],xy[1])
                 
     if search == 'rock':
