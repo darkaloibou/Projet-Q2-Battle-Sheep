@@ -298,51 +298,56 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #Il faut ajouter les coo
      specification: Aloïs Baurant (v2 13/03/24)
     """
     player = 0
-    for sheep_1 in player['player_1']['sheeps']: # Joueur 1
+    for sheep_1 in players['player_1']['sheeps']: # Joueur 1
         if sheep_1 == enemy_coordinates:
             player='player_1'
-    if player==0:
-      player='player_2'
+    for sheep_2 in players['player_2']['sheeps']: # Joueur 1
+        if sheep_2 == enemy_coordinates:
+            player='player_2'
 
     if attack_coordinates[0] < enemy_coordinates[0] and attack_coordinates[1] < enemy_coordinates[1]: #    if old_x < new_1 and old_y < new_1
-        if player[player]['sheeps'][enemy_coordinates]>= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players['player_1']['sheeps'][enemy_coordinates]>= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
             move_coordinates[0] += 5 # Déplacement de 5 vers la droite
             move_coordinates[1] += 5 # déplacement de 5 vers le haut  
+            move_coordinates = (move_coordinates[0],move_coordinates[1])
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
         
     elif attack_coordinates[0] < enemy_coordinates[0] and attack_coordinates[1] > enemy_coordinates[1]: #     if old_x < new_1 and old_y > new_1
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
             move_coordinates[0] += 5 # Déplacement de 5 vers la droite
             move_coordinates[1] -= 5 # déplacement de 5 vers le bas  
+            move_coordinates = (move_coordinates[0],move_coordinates[1])
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
 
     elif attack_coordinates[0] > enemy_coordinates[0] and attack_coordinates[1] < enemy_coordinates[1]: #     if old_x > new_1 and old_y < new_1
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
             move_coordinates[0] -= 5 # Déplacement de 5 vers la gauche
             move_coordinates[1] += 5 # déplacement de 5 vers le haut  
+            move_coordinates = (move_coordinates[0],move_coordinates[1])
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
 
     elif attack_coordinates[0] > enemy_coordinates[0] and attack_coordinates[1] > enemy_coordinates[1]: #     if old_x > new_1 and old_y > new_1
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
             move_coordinates[0] -= 5 # Déplacement de 5 vers la gauche
-            move_coordinates[1] -= 5 # déplacement de 5 vers le bas  
+            move_coordinates[1] -= 5 # déplacement de 5 vers le bas 
+            move_coordinates = (move_coordinates[0],move_coordinates[1]) 
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
@@ -351,40 +356,44 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #Il faut ajouter les coo
     # attaque en haut; doite, gauche, bas
 
     elif attack_coordinates[0] > enemy_coordinates[0]: #    if old_x > new_x
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]]  # Crée le nouvelle emplacement
             move_coordinates[0] -= 5 # Déplacement de 5 vers la gauche
+            move_coordinates = (move_coordinates[0],move_coordinates[1])
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
 
     elif attack_coordinates[0] < enemy_coordinates[0]: #     if old_x < new_x
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
             move_coordinates[0] += 5 # Déplacement de 5 vers la droite
+            move_coordinates = (move_coordinates[0],move_coordinates[1])
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
 
     elif attack_coordinates[1] < enemy_coordinates[1]: #     if old_y > new_y
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
             move_coordinates[1] -= 5 # déplacement de 5 vers la bas  
+            move_coordinates = (move_coordinates[0],move_coordinates[1])
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
 
     elif attack_coordinates[1] > enemy_coordinates[1]: #     if old_y < new_y
-        if player[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
-            player[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
-            move_coordinates = enemy_coordinates # Crée le nouvelle emplacement
-            move_coordinates[1] -= 5 # déplacement de 5 vers le haut  
+        if players[player]['sheeps'][enemy_coordinates] >= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
+            players[player]['sheeps'][enemy_coordinates] -= 1 # enlève une vie
+            move_coordinates = [enemy_coordinates[0],enemy_coordinates[1]] # Crée le nouvelle emplacement
+            move_coordinates[1] -= 5 # déplacement de 5 vers le haut
+            move_coordinates = (move_coordinates[0],move_coordinates[1])  
             move_sheep(enemy_coordinates,move_coordinates,1) # bouge le mouton
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
@@ -405,6 +414,15 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     kill_sheep=0
     move=0
     respawn_grass=0
+    for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
+        if sheep_1  == old_coordinates:
+            sheep = "🐑"
+            player = "player_1"
+
+    for sheep_2 in players['player_2']['sheeps'] : # Joeueur 2
+        if sheep_2 == old_coordinates:
+            sheep = "🐐"
+            player = "player_2"
     if attack == 1 :# Bouge le mouton sur la carte
         for rock in map["rocks"] :
             if new_coordinates == rock :
@@ -416,7 +434,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
 
         # if sheep get attacked == 0
         if new_coordinates[0] < 0 or new_coordinates[1] < 0 or kill_sheep == 1 or new_coordinates[0] > map['map_size'][0] or new_coordinates[1] > map['map_size'][1] :
-                del sheep[old_coordinates]
+                del players[player]['sheeps'][old_coordinates]
                 manage_emoji(old_coordinates)
                 kill_sheep=1
 
@@ -430,15 +448,6 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
             respawn_grass = 1
 
     if kill_sheep != 1: #regarde dans la base de donnée les moutons
-        for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
-            if sheep_1  == old_coordinates:
-                sheep = "🐑"
-                player = 1
-
-        for sheep_2 in players['player_2']['sheeps'] : # Joeueur 2
-            if sheep_2 == old_coordinates:
-                sheep = "🐐"
-                player = 2
         if move == 1 :
             new_coordinates[0] += 1
             new_coordinates[1] += 1
@@ -447,14 +456,9 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
         manage_emoji(old_coordinates)
         manage_emoji(new_coordinates,sheep)
         
-        if player == 1:
-            alife = players['player_1']['sheeps'][old_coordinates]
-            del players['player_1']['sheeps'][old_coordinates]
-            players['player_1']['sheeps'][new_coordinates]=alife
-        else:
-            alife = players['player_2']['sheeps'][old_coordinates]
-            del players['player_2']['sheeps'][old_coordinates]
-            players['player_2']['sheeps'][new_coordinates]=alife
+        alife = players[player]['sheeps'][old_coordinates]
+        del players[player]['sheeps'][old_coordinates]
+        players[player]['sheeps'][new_coordinates]=alife
 
         if respawn_grass == 1:
             manage_emoji(old_coordinates)
