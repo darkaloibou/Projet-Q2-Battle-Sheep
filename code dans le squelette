@@ -37,11 +37,11 @@ def create_map_dictio(map_path):
 
     parameters
     ----------
-    the path to the map file
+    the path to the map file (str)
 
     version
     -------
-    specification: Heynen Scott-Socrate (v1 20/02/24) V2 à confirmer
+    specification: Heynen Scott-Socrate (v2 30/02/24)
     implementation: Arthur (v1 14/03)
     """
     fh=open(map_path,'r')
@@ -170,13 +170,13 @@ def try_spawn_sheep(grp):
     if grp==1:
         spawn_point=map['spawn']['spawn_1']
         for sheep in players['player_1']['sheeps']:
-            if spawn_point == sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if spawn_point == sheep:  #look if the spawn is free to spawn a sheep
                 return
         players['player_1']['sheeps'][spawn_point]=3
     else:
         spawn_point=map['spawn']['spawn_2']
         for sheep in players['player_2']['sheeps']:
-            if  spawn_point== sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if  spawn_point== sheep:  #look if the spawn is free to spawn a sheep
                 return
         players['player_2']['sheeps'][spawn_point]=3
 
@@ -224,8 +224,9 @@ def grass_propagation (mature_grass,life_state):
                         manage_emoji([coordinate[0],(coordinate[1]+y_term)],"🌾")
 def update_grass ():
     """Grow grass and plant grass on the all 4 box surroundings 
-    parameters
+    notes
     ----------
+    be sur that the 'herbs' dictionary already exist
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
@@ -233,11 +234,11 @@ def update_grass ():
     """
     mature_grass_1=[]
     mature_grass_2=[]
-    for herbs in grass['player_1']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
-        grass['player_1'][herbs] += 1
+    for herbs in grass['player_1']:  
+        grass['player_1'][herbs] += 1 # update every herbs of the player 1
         if grass['player_1'][herbs]== 10:
-            mature_grass_1.append(herbs)
-    for herbs in grass['player_2']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+            mature_grass_1.append(herbs) #create list to transfert the grass that have to be propagated
+    for herbs in grass['player_2']:  
         grass['player_2'][herbs] += 1
         if grass['player_2'][herbs] == 10:
             mature_grass_2.append(herbs)
