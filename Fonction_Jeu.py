@@ -512,9 +512,10 @@ def translate_orders(player):
 
     version
     -------
-    specification: Aloïs Baurant (v1 23/02/24)
+    specification: Aloïs Baurant (v1 23/02/24) 
+    implementation: Aloïs Baurant (v1 30/02/24), Heynen Scott-Socrate (v1 09/03/24)
     """
-    
+    print(term.move_xy(0,map['map_size'][1])+4) #put the cursor below the map
     get_order = str(input("Insert your instruction"))
     split_all_order = get_order.split(',')
     return split_all_order
