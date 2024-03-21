@@ -515,6 +515,23 @@ def translate_orders(player):
     return split_all_order
     
 
+def check_sheep_team(coordinates):
+    """Gives the team the sheep belongs
+    Parameters
+    -------------------------
+    coordinate: The coordinates of the sheep
+    return
+    ----------------------------
+    team: The sheep team (0 if there not the sheep, 1 if the sheep belong to player 1, 2 if the sheep belong to player 2) (int)
+    """
+    for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
+        if sheep_1  == coordinates:
+            return 1
+    for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
+        if sheep_1  == coordinates:
+            return 2
+    return 0
+
 def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécification mais il faut que je demande au tuteur ou assistant pour la mettre dans se dossier
     """Read the list created by traslated_orders() and call others functions to play the game
     version 
@@ -529,10 +546,18 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
     update_grass() #il faut regarder si on fusionne growth_grass et grass_propagation
     my_attacl_list=[]
     for order in player_1_orders:
-        if 'x' in order:
+        order_string=order.split(":")
+        attack_coordinates=order_string[0]
+        coordinate=attack_coordinates.split("-")
+        coordinate=(coordinate[0],coordinate[1])
+        if 'x' in order and check_sheep_team(coordinate)==1:
             my_attacl_list.append(order)
     for order in player_2_orders:
-        if 'x' in order:
+        order_string=order.split(":")
+        attack_coordinates=order_string[0]
+        coordinate=attack_coordinates.split("-")
+        coordinate=(coordinate[0],coordinate[1])
+        if 'x' in order and check_sheep_team(coordinate)==2:
             my_attacl_list.append(order)
     attack_count=0
     for attack in my_attacl_list: 
@@ -556,7 +581,7 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             coordinate=order_string[0]
             old_coordinates=coordinate.split("-")
             coordinate=(old_coordinates[0],old_coordinates[1])
-            if check_sheep_team(coordinate) ==1:
+            if check_sheep_team(coordinate) ==1 and can_move(old_coordinates,new_coordinates,1):
                 move_sheep(old_coordinates,new_coordinates)
     for order in player_2_orders:
         if '@' in order:
@@ -566,29 +591,33 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             coordinate=order_string[0]
             old_coordinates=coordinate.split("-")
             coordinate=(old_coordinates[0],old_coordinates[1])
-            if check_sheep_team(coordinate) ==2:
+            if check_sheep_team(coordinate) ==2 and can_move(old_coordinates,new_coordinates,2):
                 move_sheep(old_coordinates,new_coordinates)
     for order in player_1_orders:
         if '*' in order:
             order_string=order.split(":")
-            coordinate=order_string[1]
+            coordinate=order_string[0]
             grass_coordinate=coordinate.split("-")
-            sheep_graze(0,grass_coordinate)
+            coordinate=(grass_coordinate[0],grass_coordinate[1])
+            if check_sheep_team(coordinate) ==2:
+                sheep_graze(0,grass_coordinate)
     for order in player_2_orders:
         if '*' in order:
             order_string=order.split(":")
-            coordinate=order_string[1]
+            coordinate=order_string[0]
             grass_coordinate=coordinate.split("-")
-            sheep_graze(1,grass_coordinate)
+            coordinate=(grass_coordinate[0],grass_coordinate[1])
+            if check_sheep_team(coordinate) ==2:
+                sheep_graze(1,grass_coordinate)
 
-def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
+def can_move(xy_sheep, xy_destination,team):  #je vais le prendre (scott)
     '''check if a sheep can move to the box 
 
     parameters
     ----------
     xy_destination :  the (x,y) coordinates where the sheep is (tuples)
     xy_destination : the (x,y) coordinates where the sheep want to go (tuples)
-
+    team: the team of the sheep
     returns
     -------
     return True if the sheep can move, return False otherwise (bool)
@@ -597,7 +626,12 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)
     '''
-    
+     if team==1:
+        if players['player_1']['sheeps'][xy_sheep][1]:
+            return False
+    if team==2:
+        if players['player_2']['sheeps'][xy_sheep][1]:
+            return False
     if -1 > xy_destination[0] - xy_sheep[0] or xy_destination[0] - xy_sheep[0] > 1: #look if the sheep is more than 1 box away (abscissa only)
         return False
     elif -1 > xy_destination[1] - xy_sheep[1] or xy_destination[1] - xy_sheep[1] >1 : #look if the sheep is more than 1 box away (ordinate only)
