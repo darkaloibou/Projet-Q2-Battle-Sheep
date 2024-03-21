@@ -59,7 +59,7 @@ def create_map_dictio(map_path):
     specification: Heynen Scott-Socrate (v1 20/02/24) V2 à confirmer
     réalisation: Arthur (v1 14/03)
     """
-    fh=open('./plateau.bsh','r')
+    fh=open(map_path,'r')
     lines=fh.readlines()
     dict={}
     
@@ -106,8 +106,8 @@ def create_map_dictio(map_path):
                 nb+=1
                 i+=1
             dict['rocks']=rocks
-        
-print(dict)
+  return dict
+ 
 
 def is_game_over():
     """check if the game is over
