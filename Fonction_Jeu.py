@@ -313,11 +313,10 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #Il faut ajouter les coo
     """
     player = 0
     for sheep_1 in player['player_1']['sheeps']: # Joueur 1
-        if sheep_1 == attack_coordinates:
+        if sheep_1 == enemy_coordinates:
             player='player_1'
-    for sheep_2 in player['player_2']['sheeps']: # Joueur 1
-        if sheep_2 == attack_coordinates:
-            player='player_2'
+    if player==0:
+      player='player_2'
 
     if attack_coordinates[0] < enemy_coordinates[0] and attack_coordinates[1] < enemy_coordinates[1]: #    if old_x < new_1 and old_y < new_1
         if player[player]['sheeps'][enemy_coordinates]>= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
