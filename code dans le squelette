@@ -476,17 +476,19 @@ def sheep_graze(sheep, sheep_coordinates):
 
     version
     -------
-    specification: Aloïs Baurant (v1 23/02/24), Heynen Scott-Socrate (v1 23/02/24)
+    specification: Aloïs Baurant (v1 23/02/24)
     """
     if not what_in_the_box(sheep_coordinates,"grass"):
          return
     all_sheep_coordinates=[]
     if sheep==0:
         for sheep in players["player_1"]['sheeps']:
-            all_sheep_coordinates.append(sheep)
+            if players["player_1"]['sheeps'][sheep][1]==False:
+                all_sheep_coordinates.append(sheep)
     else:
         for sheep in players["player_2"]['sheeps']:
-            all_sheep_coordinates.append(sheep)
+            if players["player_2"]['sheeps'][sheep][1]==False:
+                all_sheep_coordinates.append(sheep)
     if not sheep_coordinates in all_sheep_coordinates:
         return
     else:
@@ -553,7 +555,9 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             new_coordinates=coordinate.split("-")
             coordinate=order_string[0]
             old_coordinates=coordinate.split("-")
-            move_sheep(old_coordinates,new_coordinates)
+            coordinate=(old_coordinates[0],old_coordinates[1])
+            if check_sheep_team(coordinate) ==1:
+                move_sheep(old_coordinates,new_coordinates)
     for order in player_2_orders:
         if '@' in order:
             order_string=order.split(":")
@@ -561,7 +565,9 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             new_coordinates=coordinate.split("-")
             coordinate=order_string[0]
             old_coordinates=coordinate.split("-")
-            move_sheep(old_coordinates,new_coordinates)
+            coordinate=(old_coordinates[0],old_coordinates[1])
+            if check_sheep_team(coordinate) ==2:
+                move_sheep(old_coordinates,new_coordinates)
     for order in player_1_orders:
         if '*' in order:
             order_string=order.split(":")
@@ -590,7 +596,6 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
     version
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)
-    implementation: Heynen Scott-Socrate (v1 01/04/24)
     '''
     
     if -1 > xy_destination[0] - xy_sheep[0] or xy_destination[0] - xy_sheep[0] > 1: #look if the sheep is more than 1 box away (abscissa only)
@@ -599,11 +604,11 @@ def can_move(xy_sheep, xy_destination):  #je vais le prendre (scott)
         return False
     elif what_in_the_box(xy_destination,'rock'):
         return False
-    elif what_in_the_box('void'):
+    elif what_in_the_box(xy_destination,'void'):
         return False
-    elif what_in_the_box('spawn'):
+    elif what_in_the_box(xy_destination,'spawn'):
         return False
-    elif what_in_the_box('sheep'):
+    elif what_in_the_box(xy_destination,'sheep'):
         return False 
     else:
         return True
