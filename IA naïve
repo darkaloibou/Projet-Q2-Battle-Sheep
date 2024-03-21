@@ -1,1 +1,4 @@
-#voili voilou
+import random
+spawn = 'sheep'
+random = randint(-1,1)
+for sheep in attaque = 
