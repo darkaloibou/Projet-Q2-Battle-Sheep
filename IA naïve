@@ -14,7 +14,11 @@ def get_AI_orders(player_id):
     notes
     -----
     the IA will always try to spawn a sheep
-    
+
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 22/03/24)
+    implementation : Heynen Scott-Socrate (v1 22/03/24)
     """
 
     orders = 'sheep'
