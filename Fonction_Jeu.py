@@ -703,59 +703,60 @@ def can_attack (sheep,target):
 
 
 def check_syntax_order(order):
-  """look if the syntax of an order is correct
+    """look if the syntax of an order is correct
 
-  parameter:
-  order: the order to check (list)
+    parameter:
+    order: the order to check (list)
 
-  return:
-  newliste: a list with all the correct order
+    return:
+    newliste: a list with all the correct order
   
-  version: 
-  V1 Arthur (22/03)
+    version: 
+    V1 Arthur (22/03)"""
   
     newliste=[]
-    for i in liste:
-
+    for i in order:
         if i=='sheep':
             newliste.append(i)
         else:
             txt=i
+            x_len=len(str(map['map_size'][0]))
+            y_len=len(str(map['map_size'][1]))
             number=['0','1','2','3','4','5','6','7','8','9']
             caractere=['@','x']
-            
             if txt[0] in number:
                 a=1
-                while txt[a] in number:
-                    a+=1            
+                print (txt[0])
+                for i in range(x_len-1):
+                    if txt[a] in number:
+                        a+=1            
                 if txt[a]=='-':
                     a+=1
                     if txt[a] in number:
-                        while txt[a] in number:
-                            a+=1
-                    
+                        for i in range(y_len):
+                            if txt[a] in number:
+                                a+=1  
                         if txt[a]==':':
                             a+=1
                             if txt[a] in caractere:
                                 a+=1
-                                
-
                                 if txt[a] in number:
-                                    
-
-                                    while txt[a] in number:
-                                        a+=1
+                                    for i in range(x_len):
+                                        if txt[a] in number:
+                                            a+=1
                                     if txt[a]=='-':
                                         a+=1
-                                        
-                                        if (txt[a] in number) and (txt[a+1] in number):
-
-
-                                            newliste.append(i)
-
-                            
-
-                            elif (txt[a]=='*')and (len(txt)==(a+1)):
-                                newliste.append(i)
+                                        if txt[a] in number:
+                                            for i in range(y_len):
+                                                if a>=(len(txt)):  #Condition to not exit the list 
+                                                    a+=0
+                                                elif txt[a] in number:
+                                                    a+=1
+                                                else:
+                                                    a+=0
+                                            if (len(txt))==a:
+                                                newliste.append(txt)
+                                elif (txt[a]=='*')and (len(txt)==(a+1)):
+                                    newliste.append(txt)
     return newliste
 
