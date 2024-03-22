@@ -1,4 +1,33 @@
 import random
-spawn = 'sheep'
-random = randint(-1,1)
-for sheep in attaque = 
+
+def get_AI_orders(player_id):
+    """Return orders of AI
+    
+    Parameters
+    ----------
+    player_id: player id of AI (int)
+
+    Returns
+    -------
+    orders: orders of AI (str)
+    
+    notes
+    -----
+    the IA will always try to spawn a sheep
+    
+    """
+
+    orders = 'sheep'
+    for sheep in players['player_'+str(player_id)]['sheeps']:
+        random_nbr = random.randint(-1,1)
+        random_add1 = random.choice([-1,1])
+        random_add2 = random.choice([-1,1])
+        
+        if random_nbr == -1: #if random choice is attack
+            orders += ' '+str(sheep[0])+'-'+str(sheep[1])+':x'+str(sheep[0]+random_add1)+'-'+str(sheep[1]+random_add2)
+        elif random_nbr == 0: #if random choice is moove
+            orders += ' '+str(sheep[0])+'-'+str(sheep[1])+':@'+str(sheep[0]+random_add1)+'-'+str(sheep[1]+random_add2)
+        else:   #if random choice is graze
+            orders += ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
+    
+    return orders
