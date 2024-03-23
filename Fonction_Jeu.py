@@ -1,6 +1,12 @@
 import blessed
 term = blessed.Terminal()
 print(term.clear)
+grass={}
+player_1={}
+player_2={}
+grass['player_1']=player_1
+grass['player_2']=player_2
+
 map = {'rocks': {'rock_1': [11, 22],
                  'rock_2': [35, 14]},
        'spawn': {'spawn_1': [18, 29],
