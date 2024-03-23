@@ -712,51 +712,54 @@ def check_syntax_order(order):
     newliste: a list with all the correct order
   
     version: 
-    V1 Arthur (22/03)"""
+    V2 Arthur (23/03)"""
   
-    newliste=[]
-    for i in order:
-        if i=='sheep':
-            newliste.append(i)
-        else:
-            txt=i
-            x_len=len(str(map['map_size'][0]))
-            y_len=len(str(map['map_size'][1]))
-            number=['0','1','2','3','4','5','6','7','8','9']
-            caractere=['@','x']
-            if txt[0] in number:
-                a=1
-                print (txt[0])
-                for i in range(x_len-1):
-                    if txt[a] in number:
-                        a+=1            
-                if txt[a]=='-':
-                    a+=1
-                    if txt[a] in number:
-                        for i in range(y_len):
-                            if txt[a] in number:
-                                a+=1  
-                        if txt[a]==':':
-                            a+=1
-                            if txt[a] in caractere:
-                                a+=1
-                                if txt[a] in number:
-                                    for i in range(x_len):
-                                        if txt[a] in number:
-                                            a+=1
-                                    if txt[a]=='-':
-                                        a+=1
-                                        if txt[a] in number:
-                                            for i in range(y_len):
-                                                if a>=(len(txt)):  #Condition to not exit the list 
-                                                    a+=0
-                                                elif txt[a] in number:
-                                                    a+=1
-                                                else:
-                                                    a+=0
-                                            if (len(txt))==a:
-                                                newliste.append(txt)
-                                elif (txt[a]=='*')and (len(txt)==(a+1)):
-                                    newliste.append(txt)
+  newliste=[]
+  for i in liste:
+  
+      if i=='sheep':
+          newliste.append(i)
+      else:
+              txt=i
+              number=['0','1','2','3','4','5','6','7','8','9']
+              caractere=['@','x']
+              if 5<=len(txt) and 12>=len(txt):
+                  if txt[0] in number:
+                      a=1
+                      while txt[a] in number:
+                          a+=1            
+                      if txt[a]=='-':
+                          a+=1
+                          if txt[a] in number:
+                              while txt[a] in number:
+                                  a+=1
+                          
+                              if txt[a]==':':
+                                  a+=1
+                                  if txt[a] in caractere:
+                                      a+=1
+                                      
+  
+                                      if txt[a] in number:
+                                          
+  
+                                          while txt[a] in number:
+                                              a+=1
+                                          if txt[a]=='-':
+                                              a+=1
+                                              
+  
+                                              if (len(txt)-a)==1:
+                                                  if (txt[a] in number):
+                                                      newliste.append(i)
+                                              elif len(txt)-a==2:
+                                                  if (txt[a] in number) and (txt[a+1] in number):
+  
+                                                      newliste.append(i)
+  
+                                  
+                                   
+                                  elif (txt[a]=='*')and (len(txt)==(a+1)):
+                                      newliste.append(i)
     return newliste
 
