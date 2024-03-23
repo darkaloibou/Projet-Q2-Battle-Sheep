@@ -763,3 +763,40 @@ def check_syntax_order(order):
                                         newliste.append(i)
     return newliste
 
+
+
+
+
+def create_player_dictio(map):
+    """create dict players with a sheep on the spawn for player1 and 2
+    variable:
+    map=the result of the function create_map_dictio (dict)
+    return:
+    players= the informations of the number of the sheeps and number of grass for each player(dict)
+    release: V1 Arthur 23/03
+       
+         """
+    players={}
+    spawn=map['spawn']
+    for i in spawn:
+        if i=='spawn_1':
+            spawn_1=spawn[i]   
+            sheeps={}
+            sheeps[(spawn_1[0],spawn_1[1])]=[3,False]
+            player_1={}
+            player_1['sheeps']=sheeps
+            player_1['nbr_of_grass']=0
+            players['player_1']=player_1
+        elif i=='spawn_2':
+            spawn_2=spawn[i]
+            sheeps={}
+            sheeps[(spawn_2[0],spawn_2[1])]=[3,False]
+            player_2={}
+            player_2['sheeps']=sheeps
+            player_2['nbr_of_grass']=0
+            players['player_2']=player_2
+    return players
+
+
+
+
