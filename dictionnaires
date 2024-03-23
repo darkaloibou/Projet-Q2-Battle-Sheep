@@ -2,18 +2,18 @@ map = {'rocks': {'rock_1': [11, 22],
                  'rock_2': [35, 14]},
        'spawn': {'spawn_1': [18, 29],
                  'spawn_2': [25, 12]},
-       'map_size': [50, 30],
+       'map_size': [60, 40],
        'seed': {'seed_1': [47, 18],
                 'seed_2': [22, 37]},
        'nbr_of_turns': 100}
 
-players = {'player_1': {'sheeps': {[56, 22]: 3,
-                                    [45, 23]: 3},  # vérif
+players = {'player_1': {'sheeps': {(20, 22): [3,False],
+                                    (45, 23): [3,False]},  # vérif
                          'nbr_of_grass': 40},
 
-            'player_2': {'sheeps': {[32, 11]: 3,
-                                    [18, 25]: 3},
+            'player_2': {'sheeps': {(21, 22): [3,False],
+                                    (18, 25): [3,False]},
                          'nbr_of_grass': 0}}
 
-grass= {'player_1':{(10,10):2},
-       'player_2':{(12,2):4}}
+grass= {'player_1':{(14,2):2,(12,45):3},
+'player_2':{(12,2):2}}
