@@ -121,7 +121,7 @@ def create_map_dictio(map_path): #OK
                 nb+=1
                 i+=1
             dict['rocks']=rocks
-  return dict
+    return dict
  
 
 def is_game_over(): #OK
@@ -189,7 +189,7 @@ def try_spawn_sheep(grp): #OK
     specification: Heynen Scott-Socrate (v1 23/02/24)
     implementation: Heynen Scott-Socrate (v1 29/02/24)
     """
-     count=0
+    count=0
     if grp==1:
         spawn_point=map['spawn']['spawn_1']
         spawn_point=(spawn_point[0],spawn_point[1])
