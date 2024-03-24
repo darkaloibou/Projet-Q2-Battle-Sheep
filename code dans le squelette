@@ -160,18 +160,31 @@ def try_spawn_sheep(grp): #OK
     specification: Heynen Scott-Socrate (v1 23/02/24)
     implementation: Heynen Scott-Socrate (v1 29/02/24)
     """
+     count=0
     if grp==1:
         spawn_point=map['spawn']['spawn_1']
+        spawn_point=(spawn_point[0],spawn_point[1])
         for sheep in players['player_1']['sheeps']:
-            if spawn_point == sheep:  #look if the spawn is free to spawn a sheep
-                return
-        players['player_1']['sheeps'][spawn_point]=3
+            count+=1
+            if spawn_point == sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+                return count
+        if (count*30)>players['player_1']['nbr_of_grass']:
+            return count
+        else:
+            players['player_1']['sheeps'][spawn_point]=3
+            manage_emoji(spawn_point,"🐑")
     else:
         spawn_point=map['spawn']['spawn_2']
+        spawn_point=(spawn_point[0],spawn_point[1])
         for sheep in players['player_2']['sheeps']:
-            if  spawn_point== sheep:  #look if the spawn is free to spawn a sheep
-                return
-        players['player_2']['sheeps'][spawn_point]=3
+            count+=1
+            if spawn_point== sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+                return count
+        if (count*30)>players['player_2']['nbr_of_grass']:
+            return count
+        else:
+            players['player_2']['sheeps'][spawn_point]=3
+            manage_emoji(spawn_point,"🐐")
 
 def set_grass (coordinates,emoji): #EMOJI + DICO ?
     """Set a grass at the sheep position if the seed isn't already take by a player
@@ -187,9 +200,9 @@ def set_grass (coordinates,emoji): #EMOJI + DICO ?
         if coordinates==map['seed'][seed]:
             del map ['seed'][seed]
             if emoji==emoji_d[0]:
-                grass[coordinates]={'age':1,'life_stats':1}
+                grass['player_1'][coordinates]=1
             else:
-                grass[coordinates]={'age':1,'life_stats':2}
+                grass['player_2'][coordinates]=1
     
 def grass_propagation (mature_grass,life_state): #EMOJI ?
     """ The function propage the grass if it's needed 
@@ -201,7 +214,6 @@ def grass_propagation (mature_grass,life_state): #EMOJI ?
     ----------
     specification: Remacle Thomas (v1 14/03/24)
     implementation: Remacle Thomas (v1 14/03/24)"""
-    
     for herbs in mature_grass:
             coordinate=herbs
             numbers=[-1,1]
@@ -215,6 +227,7 @@ def grass_propagation (mature_grass,life_state): #EMOJI ?
                     grass[life_state][(coordinate[0]),(coordinate[1]+y_term)]=1
                     if not what_in_the_box([coordinate[0],(coordinate[1]+y_term)],'sheep'):
                         manage_emoji([coordinate[0],(coordinate[1]+y_term)],"🌾")
+    
 
 def update_grass (): #OK NORMALEMENT
     """Grow grass and plant grass on the all 4 box surroundings 
@@ -228,11 +241,11 @@ def update_grass (): #OK NORMALEMENT
     """
     mature_grass_1=[]
     mature_grass_2=[]
-    for herbs in grass['player_1']:  
-        grass['player_1'][herbs] += 1 # update every herbs of the player 1
+    for herbs in grass['player_1']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+        grass['player_1'][herbs] += 1
         if grass['player_1'][herbs]== 10:
-            mature_grass_1.append(herbs) #create list to transfert the grass that have to be propagated
-    for herbs in grass['player_2']:  
+            mature_grass_1.append(herbs)
+    for herbs in grass['player_2']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
         grass['player_2'][herbs] += 1
         if grass['player_2'][herbs] == 10:
             mature_grass_2.append(herbs)
@@ -253,7 +266,7 @@ def manage_emoji (emoji_coordinates,emoji='  '): #EMOJI ?
                    Remacle Thomas (v1.1 4/03/24)
     """
     ""
-    emoji_coordinates=(emoji_coordinates[0],emoji_coordinates[1])
+    emoji_coordinates=(int(emoji_coordinates[0]),int(emoji_coordinates[1]))
     emoji_d=["🐑","🐐", "🌾"]
     if emoji in emoji_d[0]:
         print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_red+emoji)
@@ -408,6 +421,8 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     -------
     specification: Aloïs Baurant (v1 23/02/24)
     """
+    old_coordinates=((int(old_coordinates[0])),(int(old_coordinates[1])))
+    new_coordinates=((int(new_coordinates[0])),(int(new_coordinates[1])))
     kill_sheep=0
     move=0
     respawn_grass=0
@@ -459,6 +474,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
 
         if respawn_grass == 1:
             manage_emoji(old_coordinates)
+    set_grass(new_coordinates,sheep)
 
 
 def sheep_graze(sheep, sheep_coordinates):
@@ -475,23 +491,32 @@ def sheep_graze(sheep, sheep_coordinates):
     -------
     specification: Aloïs Baurant (v1 23/02/24)
     """
-    if not what_in_the_box(sheep_coordinates,"grass"):
-         return
+    if what_in_the_box(sheep_coordinates,"grass"):
+        return 0
+    sheep_coordinates=((int(sheep_coordinates[0])),(int(sheep_coordinates[1])))
     all_sheep_coordinates=[]
     if sheep==0:
         for sheep in players["player_1"]['sheeps']:
-            if players["player_1"]['sheeps'][sheep][1]==False:
+            if players["player_1"]['sheeps'][sheep_coordinates][1]==False:
                 all_sheep_coordinates.append(sheep)
+                players["player_1"]['sheeps'][sheep_coordinates][1]=True
     else:
         for sheep in players["player_2"]['sheeps']:
-            if players["player_2"]['sheeps'][sheep][1]==False:
+            if players["player_2"]['sheeps'][sheep_coordinates][1]==False:
                 all_sheep_coordinates.append(sheep)
+                players["player_2"]['sheeps'][sheep_coordinates][1]=True
     if not sheep_coordinates in all_sheep_coordinates:
-        return
+        return 0
     else:
-        del grass[sheep_coordinates]
+        for herbs in grass['player_1']:
+            if herbs==sheep_coordinates:
+                player='player_1'
+        for herbs in grass['player_2']:
+            if herbs==sheep_coordinates:
+                player='player_2'
+        del grass[player][sheep_coordinates]
 
-def translate_orders(player):
+def translate_orders(order):
     """Translate a string message into a list to be usable for the program
     parameters
     ----------
@@ -507,8 +532,7 @@ def translate_orders(player):
     specification: Aloïs Baurant (v1 23/02/24)
     """
     
-    get_order = str(input("Insert your instruction"))
-    split_all_order = get_order.split(',')
+    split_all_order = get_order.split(' ')
     return split_all_order
     
 
@@ -521,11 +545,12 @@ def check_sheep_team(coordinates):
     ----------------------------
     team: The sheep team (0 if there not the sheep, 1 if the sheep belong to player 1, 2 if the sheep belong to player 2) (int)
     """
+    coordinates=((int(coordinates[0]),(int(coordinates[1]))))
     for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
         if sheep_1  == coordinates:
             return 1
-    for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
-        if sheep_1  == coordinates:
+    for sheep_2 in players['player_2']['sheeps'] : # Joueur 1
+        if sheep_2  == coordinates:
             return 2
     return 0
 
@@ -542,34 +567,44 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             try_spawn_sheep(2)
     update_grass() #il faut regarder si on fusionne growth_grass et grass_propagation
     my_attacl_list=[]
+    move_attack=[]
     for order in player_1_orders:
-        order_string=order.split(":")
-        attack_coordinates=order_string[0]
-        coordinate=attack_coordinates.split("-")
-        coordinate=(coordinate[0],coordinate[1])
-        if 'x' in order and check_sheep_team(coordinate)==1:
-            my_attacl_list.append(order)
+        if 'x' in order:
+            order_string=order.split(":")
+            attack_coordinates=order_string[0]
+            coordinate=attack_coordinates.split("-")
+            coordinate=(coordinate[0],coordinate[1])
+            if check_sheep_team(coordinate)==1:
+                coordinates=((int(coordinate[0]),(int(coordinate[1]))))
+                if not players['player_1']['sheeps'][coordinates][1]:
+                    my_attacl_list.append(order)
+                    players['player_1']['sheeps'][coordinates][1]=True
     for order in player_2_orders:
-        order_string=order.split(":")
-        attack_coordinates=order_string[0]
-        coordinate=attack_coordinates.split("-")
-        coordinate=(coordinate[0],coordinate[1])
-        if 'x' in order and check_sheep_team(coordinate)==2:
-            my_attacl_list.append(order)
-    attack_count=0
-    for attack in my_attacl_list: 
-        order_string=order.split(":")
+        if 'x' in order:
+            order_string=order.split(":")
+            attack_coordinates=order_string[0]
+            coordinate=attack_coordinates.split("-")
+            coordinate=(coordinate[0],coordinate[1])
+            if check_sheep_team(coordinate)==2:
+                coordinates=((int(coordinate[0]),(int(coordinate[1]))))
+                if not players['player_2']['sheeps'][coordinates][1]:
+                    my_attacl_list.append(order)
+                    players['player_2']['sheeps'][coordinates][1]=True
+    for attack in my_attacl_list:
+        order_string=attack.split(":")
         attack_coordinates=order_string[1][1:]
         enemy_coordinates=attack_coordinates.split("-")
         attacker_coordinates=order_string[0].split("-")
         if not can_attack(attacker_coordinates,enemy_coordinates):  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
             my_attacl_list.remove(attack)
-    for attack in my_attacl_list:
-        order_string=order.split(":")
+    for attack_z in my_attacl_list:
+        order_string=attack_z.split(":")
         attack_coordinates=order_string[1][1:]
         enemy_coordinates=attack_coordinates.split("-")
         attacker_coordinates=order_string[0].split("-")
-        attack_sheep(attacker_coordinates,enemy_coordinates)
+        move_attack.append(attack_sheep(attacker_coordinates,enemy_coordinates))
+    for my_list in move_attack:
+        move_sheep(my_list[0],my_list[1],1)
     for order in player_1_orders:
         if '@' in order:
             order_string=order.split(":")
@@ -579,7 +614,10 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             old_coordinates=coordinate.split("-")
             coordinate=(old_coordinates[0],old_coordinates[1])
             if check_sheep_team(coordinate) ==1 and can_move(old_coordinates,new_coordinates,1):
-                move_sheep(old_coordinates,new_coordinates)
+                coordinates=((int(coordinate[0]),(int(coordinate[1]))))
+                if not players['player_1']['sheeps'][coordinates][1]:
+                    move_sheep(old_coordinates,new_coordinates)
+                    players['player_1']['sheeps'][coordinates][1]=True
     for order in player_2_orders:
         if '@' in order:
             order_string=order.split(":")
@@ -589,14 +627,17 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             old_coordinates=coordinate.split("-")
             coordinate=(old_coordinates[0],old_coordinates[1])
             if check_sheep_team(coordinate) ==2 and can_move(old_coordinates,new_coordinates,2):
-                move_sheep(old_coordinates,new_coordinates)
+                coordinates=((int(coordinate[0]),(int(coordinate[1]))))
+                if not players['player_2']['sheeps'][coordinates][1]:
+                    move_sheep(old_coordinates,new_coordinates)
+                    players['player_2']['sheeps'][coordinates][1]=True
     for order in player_1_orders:
         if '*' in order:
             order_string=order.split(":")
             coordinate=order_string[0]
             grass_coordinate=coordinate.split("-")
             coordinate=(grass_coordinate[0],grass_coordinate[1])
-            if check_sheep_team(coordinate) ==2:
+            if check_sheep_team(coordinate) ==1:
                 sheep_graze(0,grass_coordinate)
     for order in player_2_orders:
         if '*' in order:
@@ -606,6 +647,10 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             coordinate=(grass_coordinate[0],grass_coordinate[1])
             if check_sheep_team(coordinate) ==2:
                 sheep_graze(1,grass_coordinate)
+    for player_sheep in players['player_1']['sheeps']:
+        players["player_1"]['sheeps'][player_sheep][1]=False
+    for player_sheep2 in players['player_2']['sheeps']:
+        players["player_2"]['sheeps'][player_sheep2][1]=False
 
 def can_move(xy_sheep, xy_destination,team):  #je vais le prendre (scott)
     '''check if a sheep can move to the box 
@@ -623,12 +668,15 @@ def can_move(xy_sheep, xy_destination,team):  #je vais le prendre (scott)
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)
     '''
-     if team==1:
+    xy_sheep=((int(xy_sheep[0])),(int(xy_sheep[1])))
+    xy_destination=((int(xy_destination[0])),(int(xy_destination[1])))
+    if team==1:
         if players['player_1']['sheeps'][xy_sheep][1]:
             return False
     if team==2:
         if players['player_2']['sheeps'][xy_sheep][1]:
             return False
+    
     if -1 > xy_destination[0] - xy_sheep[0] or xy_destination[0] - xy_sheep[0] > 1: #look if the sheep is more than 1 box away (abscissa only)
         return False
     elif -1 > xy_destination[1] - xy_sheep[1] or xy_destination[1] - xy_sheep[1] >1 : #look if the sheep is more than 1 box away (ordinate only)
@@ -670,6 +718,7 @@ def what_in_the_box(xy,search):
     implementation: Heynen Scott-Socrate (v1 01/04/24)'''
     xy=(xy[0],xy[1])
                 
+    xy=((int(xy[0])),(int(xy[1])))
     if search == 'rock':
         for rock in map['rocks']:
             if xy == map['rocks'][rock]:
@@ -705,7 +754,6 @@ def what_in_the_box(xy,search):
             if xy == sheep:
                 return True
         return False
-
 def can_attack (sheep,target):
     """Look if you can attack an other sheep or not
    
@@ -719,16 +767,77 @@ def can_attack (sheep,target):
     Version:
     Arthur 10/03 v1
     """
+    target=[(int(target[0])),(int(target[1]))]
+    sheep=[(int(sheep[0])),(int(sheep[1]))]
     listx=[target[0]-1,target[0],target[0]+1]
     listy=[target[1]-1,target[1],target[1]+1]
     if sheep[0] not in listx :
-        answer=0
+        answer=False
     elif sheep[1]not in listy :
-        answer=0
+        answer=False
     else:
-        answer=1
+        answer=True
     return answer
+def check_syntax_order(order):
+    """look if the syntax of an order is correct
 
+    parameter:
+    order: the order to check (list)
+
+    return:
+    newliste: a list with all the correct order
+  
+    version: 
+    V2 Arthur (23/03)"""
+    liste=order
+    newliste=[]
+    for i in liste:
+
+        if i=='sheep':
+            newliste.append(i)
+        else:
+                txt=i
+                number=['0','1','2','3','4','5','6','7','8','9']
+                caractere=['@','x']
+                if 5<=len(txt) and 12>=len(txt):
+                    if txt[0] in number:
+                        a=1
+                        while txt[a] in number:
+                            a+=1            
+                        if txt[a]=='-':
+                            a+=1
+                            if txt[a] in number:
+                                while txt[a] in number:
+                                    a+=1
+                            
+                                if txt[a]==':':
+                                    a+=1
+                                    if txt[a] in caractere:
+                                        a+=1
+                                        
+
+                                        if txt[a] in number:
+                                            
+
+                                            while txt[a] in number:
+                                                a+=1
+                                            if txt[a]=='-':
+                                                a+=1
+                                                
+
+                                                if (len(txt)-a)==1:
+                                                    if (txt[a] in number):
+                                                        newliste.append(i)
+                                                elif len(txt)-a==2:
+                                                    if (txt[a] in number) and (txt[a+1] in number):
+
+                                                        newliste.append(i)
+
+                                    
+                                    
+                                    elif (txt[a]=='*')and (len(txt)==(a+1)):
+                                        newliste.append(i)
+    return newliste
 
 # main function
 def play_game(map_path, group_1, type_1, group_2, type_2):
