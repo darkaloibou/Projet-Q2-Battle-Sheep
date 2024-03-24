@@ -614,6 +614,7 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
                 coordinates=((int(coordinate[0]),(int(coordinate[1]))))
                 if not players['player_1']['sheeps'][coordinates][1]:
                     my_attacl_list.append(order)
+                    players['player_1']['sheeps'][coordinates][1]=True
     for order in player_2_orders:
         if 'x' in order:
             order_string=order.split(":")
@@ -624,6 +625,7 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
                 coordinates=((int(coordinate[0]),(int(coordinate[1]))))
                 if not players['player_2']['sheeps'][coordinates][1]:
                     my_attacl_list.append(order)
+                    players['player_2']['sheeps'][coordinates][1]=True
     for attack in my_attacl_list:
         order_string=attack.split(":")
         attack_coordinates=order_string[1][1:]
@@ -648,7 +650,10 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             old_coordinates=coordinate.split("-")
             coordinate=(old_coordinates[0],old_coordinates[1])
             if check_sheep_team(coordinate) ==1 and can_move(old_coordinates,new_coordinates,1):
-                move_sheep(old_coordinates,new_coordinates)
+                coordinates=((int(coordinate[0]),(int(coordinate[1]))))
+                if not players['player_1']['sheeps'][coordinates][1]:
+                    move_sheep(old_coordinates,new_coordinates)
+                    players['player_1']['sheeps'][coordinates][1]=True
     for order in player_2_orders:
         if '@' in order:
             order_string=order.split(":")
@@ -658,7 +663,10 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             old_coordinates=coordinate.split("-")
             coordinate=(old_coordinates[0],old_coordinates[1])
             if check_sheep_team(coordinate) ==2 and can_move(old_coordinates,new_coordinates,2):
-                move_sheep(old_coordinates,new_coordinates)
+                coordinates=((int(coordinate[0]),(int(coordinate[1]))))
+                if not players['player_2']['sheeps'][coordinates][1]:
+                    move_sheep(old_coordinates,new_coordinates)
+                    players['player_2']['sheeps'][coordinates][1]=True
     for order in player_1_orders:
         if '*' in order:
             order_string=order.split(":")
@@ -675,6 +683,10 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
             coordinate=(grass_coordinate[0],grass_coordinate[1])
             if check_sheep_team(coordinate) ==2:
                 sheep_graze(1,grass_coordinate)
+    for player_sheep in players['player_1']['sheeps']:
+        players["player_1"]['sheeps'][player_sheep][1]=False
+    for player_sheep2 in players['player_2']['sheeps']:
+        players["player_2"]['sheeps'][player_sheep2][1]=False
 
 def can_move(xy_sheep, xy_destination,team):  #je vais le prendre (scott)
     '''check if a sheep can move to the box 
