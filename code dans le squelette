@@ -775,24 +775,29 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
 
         # get orders of player 1 and notify them to player 2, if necessary
         if type_1 == 'remote':
-            orders = get_remote_orders(connection)
+            orders1 = get_remote_orders(connection)
         else:
-            orders = get_AI_orders(..., 1)
+            if type_1 == 'humain':
+                orders1 = str(input('player_1 insert your instructions:'))
+            else:
+                orders1 = get_AI_orders(1)
             if type_2 == 'remote':
-                notify_remote_orders(connection, orders)
+                notify_remote_orders(connection, orders1)
         
         # get orders of player 2 and notify them to player 1, if necessary
         if type_2 == 'remote':
-            orders = get_remote_orders(connection)
+            orders2 = get_remote_orders(connection)
         else:
-            orders = get_AI_orders(..., 2)
+            if type_2 =='humain':
+                orders2 = str(input('player_2 insert your instructions:'))
+            else:
+                orders2 = get_IA_orders(2)
+            orders = get_AI_orders(2)
             if type_1 == 'remote':
-                notify_remote_orders(connection, orders)
+                notify_remote_orders(connection, orders2)
 
-        translate_orders(
-
-        
-        game_function(ordre,ordre attention)
+        orders1 = 
+        game_function(ordres1,orders2)
         ...
         ...
 
