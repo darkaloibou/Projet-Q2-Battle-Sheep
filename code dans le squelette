@@ -9,7 +9,8 @@ from remote_play import create_connection, get_remote_orders, notify_remote_orde
 
 # other functions
 
-def show_high_score(Length):
+def show_high_score():
+    lenght = map['map_size']
     playerscore_1=str(players['player_1']['nbr_of_grass'])
     playerscore_2=str(players['player_2']['nbr_of_grass'])
     minus=(len(playerscore_1))
@@ -796,8 +797,10 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
             if type_1 == 'remote':
                 notify_remote_orders(connection, orders2)
 
-        orders1 = 
-        game_function(ordres1,orders2)
+        orders1 = translate_orders(orders1)
+        orders2 = translate_orders(orders2)
+        game_function(orders1,orders2)
+        show_high_score()
         ...
         ...
 
