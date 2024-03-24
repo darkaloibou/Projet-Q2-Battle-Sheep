@@ -568,8 +568,8 @@ def translate_orders(player):
     specification: Aloïs Baurant (v1 23/02/24)
     """
     
-    get_order = str(input("Insert your instruction"))
-    split_all_order = get_order.split(',')
+    
+    split_all_order = get_order.split(' ')
     return split_all_order
     
 def check_sheep_team(coordinates):
