@@ -561,7 +561,7 @@ def translate_orders(order):
     specification: Aloïs Baurant (v1 23/02/24)
     """
     
-    split_all_order = get_order.split(' ')
+    split_all_order = order.split(' ')
     return split_all_order
     
 
