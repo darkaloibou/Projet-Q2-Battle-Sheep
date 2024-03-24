@@ -11,7 +11,7 @@ map = {'rocks': {'rock_1': [11, 22],
        'nbr_of_turns': 100}
 
 players = {'player_1': {'sheeps': {(18, 29): [3,False],
-                                    (45, 23): [3,False]},  # vérif
+                                    (45, 23): [3,False]},
                          'nbr_of_grass': 400},
 
             'player_2': {'sheeps': {(26, 12): [3,False],
@@ -21,7 +21,8 @@ players = {'player_1': {'sheeps': {(18, 29): [3,False],
 grass= {'player_1':{(20,16):2,(12,45):3},
 'player_2':{(12,2):2}}
 print (term.clear)
-def show_high_score(Length):
+def show_high_score():
+    lenght = map['map_size']
     playerscore_1=str(players['player_1']['nbr_of_grass'])
     playerscore_2=str(players['player_2']['nbr_of_grass'])
     minus=(len(playerscore_1))
