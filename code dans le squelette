@@ -200,7 +200,7 @@ def try_spawn_sheep(grp): #OK
         if (count*30)>players['player_1']['nbr_of_grass']:
             return count
         else:
-            players['player_1']['sheeps'][spawn_point]=3
+            players['player_1']['sheeps'][spawn_point]=[3,False]
             manage_emoji(spawn_point,"🐑")
     else:
         spawn_point=map['spawn']['spawn_2']
@@ -212,7 +212,7 @@ def try_spawn_sheep(grp): #OK
         if (count*30)>players['player_2']['nbr_of_grass']:
             return count
         else:
-            players['player_2']['sheeps'][spawn_point]=3
+            players['player_2']['sheeps'][spawn_point]=[3,False]
             manage_emoji(spawn_point,"🐐")
 
 def set_grass (coordinates,emoji): #EMOJI + DICO ?
