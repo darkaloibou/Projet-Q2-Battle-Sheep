@@ -39,7 +39,7 @@ def create_player_dictio(map):
     return players
 
 def show_high_score(): #OK
-    lenght = map['map_size']
+    Length = map['map_size']
     playerscore_1=str(players['player_1']['nbr_of_grass'])
     playerscore_2=str(players['player_2']['nbr_of_grass'])
     minus=(len(playerscore_1))
