@@ -195,7 +195,7 @@ def try_spawn_sheep(grp): #OK
         spawn_point=(spawn_point[0],spawn_point[1])
         for sheep in players['player_1']['sheeps']:
             count+=1
-            if spawn_point == sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if spawn_point == sheep: #look if the spawn is free to spawn a sheep
                 return count
         if (count*30)>players['player_1']['nbr_of_grass']:
             return count
@@ -207,7 +207,7 @@ def try_spawn_sheep(grp): #OK
         spawn_point=(spawn_point[0],spawn_point[1])
         for sheep in players['player_2']['sheeps']:
             count+=1
-            if spawn_point== sheep: #attention x,y bouge? #look if the spawn is free to spawn a sheep
+            if spawn_point== sheep: #look if the spawn is free to spawn a sheep
                 return count
         if (count*30)>players['player_2']['nbr_of_grass']:
             return count
@@ -270,11 +270,11 @@ def update_grass (): #OK NORMALEMENT
     """
     mature_grass_1=[]
     mature_grass_2=[]
-    for herbs in grass['player_1']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+    for herbs in grass['player_1']:  
         grass['player_1'][herbs] += 1
         if grass['player_1'][herbs]== 10:
             mature_grass_1.append(herbs)
-    for herbs in grass['player_2']:  #ATTENTION A BIEN CREER UN DICO GRASS DANS LA MAIN FONCTION
+    for herbs in grass['player_2']:  
         grass['player_2'][herbs] += 1
         if grass['player_2'][herbs] == 10:
             mature_grass_2.append(herbs)
@@ -783,6 +783,7 @@ def what_in_the_box(xy,search):
             if xy == sheep:
                 return True
         return False
+
 def can_attack (sheep,target):
     """Look if you can attack an other sheep or not
    
