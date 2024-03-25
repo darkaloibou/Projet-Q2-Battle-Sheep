@@ -43,8 +43,8 @@ def show_high_score(): #OK
     playerscore_1=str(players['player_1']['nbr_of_grass'])
     playerscore_2=str(players['player_2']['nbr_of_grass'])
     minus=(len(playerscore_1))
-    print (term.move_xy(((lenght*2)-14)-minus,0)+term.blue+"Player score :"+playerscore_1)
-    print (term.move_xy(0,0)+term.red+"Player score :"+playerscore_2)
+    print (term.move_xy(((Length*2)-14)-minus,0)+term.blue+term.on_black+"Player score :"+playerscore_1)
+    print (term.move_xy(0,0)+term.red+term.on_black+"Player score :"+playerscore_2)
     print (term.home)
          
 def get_distance(entity1_coordinates,entity2_coordinates): #OK
