@@ -282,17 +282,20 @@ def update_grass (): #OK NORMALEMENT
     grass_propagation(mature_grass_2,'player_2')
         
     
-def manage_emoji (emoji_coordinates,emoji='  '): #EMOJI ?
+def manage_emoji (emoji_coordinates,emoji='  ',move=0): 
     """change the emoji we need to change
     parameters
     ----------
     emoji_coordinates: coordinate in (x,y) of the emoji wanted to be created (tuples or list depend if the emoji is element of the map or a sheep/grass)
     emoji: the emoji wanted to be spawn, by default recreate the case without emoji on the box (str)
+    move: if the émoji is moved
     version
     -------
     specification: Remacle Thomas (v1.1 25/02/24)
+                   Remacle Thomas (v1.2 25/03/24)
     implementaion: Remacle Thomas (v1 4/03/24)
                    Remacle Thomas (v1.1 4/03/24)
+                   Remacle Thomas (v2 25/03/24)
     """
     ""
     emoji_coordinates=(int(emoji_coordinates[0]),int(emoji_coordinates[1]))
@@ -305,10 +308,12 @@ def manage_emoji (emoji_coordinates,emoji='  '): #EMOJI ?
         for grass_i in grass['player_1']:
             if grass_i==emoji_coordinates:
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_red+emoji)
+                    players['player_1']['nbr_of_grass']+=1
         for grass_i in grass['player_2']:
             if grass_i==emoji_coordinates:
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
-    else:
+                    players['player_2']['nbr_of_grass']+=1
+    elif move==0:           
         coordinate=emoji_coordinates[0]/2
         if emoji_coordinates[1]%2!=0:
             if (coordinate)%2==0:
@@ -320,6 +325,18 @@ def manage_emoji (emoji_coordinates,emoji='  '): #EMOJI ?
                 print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
             else:
                 print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
+    else:
+        coordinate=emoji_coordinates[0]/2
+        if emoji_coordinates[1]%2!=0:
+            if (coordinate)%2==0:
+                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
+            else:
+                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
+        else:
+            if (coordinate)%2==0:
+                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
+            else:
+                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
 
     
 def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST BON J'AI CTRL+C CTRL+V DE PATCHED FONCTIONS
@@ -455,31 +472,59 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     kill_sheep=0
     move=0
     respawn_grass=0
-    for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
-        if sheep_1  == old_coordinates:
-            sheep = "🐑"
-            player = "player_1"
+    check = 0
+    need_move = 0
+    while check == 0 : #Check all the parametter to move the sheep
+        check += 1 # add 1, if a test fail the it will return on 0 and make one more time the cycle
+        for sheep_1 in players['player_1']['sheeps'] : # Player 1
+            if sheep_1  == old_coordinates:
+               sheep = "🐑"
+               player = "player_1"
 
-    for sheep_2 in players['player_2']['sheeps'] : # Joeueur 2
-        if sheep_2 == old_coordinates:
-            sheep = "🐐"
-            player = "player_2"
-    if attack == 1 :# Bouge le mouton sur la carte
-        for rock in map["rocks"] :
-            if new_coordinates == rock :
-                kill_sheep = 1
-        
-        for spawn in map['spawn'] :
-            if new_coordinates == spawn :
-                move = 1
-
-        # if sheep get attacked == 0
+        for sheep_2 in players['player_2']['sheeps'] : # Player 2
+            if sheep_2 == old_coordinates:
+               sheep = "🐐"
+               player = "player_2"
+        if attack == 1 :# Move sheep on the map
+            for rock in map["rocks"] :
+                if new_coordinates == rock :
+                   kill_sheep = 1
+           
+        spawn=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
+        if new_coordinates == spawn :
+                   need_move = 1
+        spawn=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
+        if new_coordinates == spawn :
+                   need_move = 1
+        if what_in_the_box (new_coordinates,"sheep"):
+            need_move=1
+           # if sheep get attacked == 0
         if new_coordinates[0] < 0 or new_coordinates[1] < 0 or kill_sheep == 1 or new_coordinates[0] > map['map_size'][0] or new_coordinates[1] > map['map_size'][1] :
-                del players[player]['sheeps'][old_coordinates]
-                manage_emoji(old_coordinates)
-                kill_sheep=1
+               del players[player]['sheeps'][old_coordinates]
+               manage_emoji(old_coordinates)
+               kill_sheep=1
 
-    # vérifie si il y avais une herbe a la position du mouton
+        #déplace le mouton si il est sur un mouton ou autre
+        while need_move==1:
+            new_coordinates=[new_coordinates[0],new_coordinates[1]]
+            if old_coordinates[0] != new_coordinates[0]:
+                if old_coordinates[0] < new_coordinates[0]:
+                    new_coordinates[0] += 1
+                elif old_coordinates[0] > new_coordinates[0]:
+                    new_coordinates[0] -= 1
+
+            if old_coordinates[1] != new_coordinates[1]:
+                if old_coordinates[1] < new_coordinates[1]:
+                    new_coordinates[1] += 1
+                elif old_coordinates[1] > new_coordinates[1]:
+                    new_coordinates[1] -= 1
+            if what_in_the_box(new_coordinates,"sheep") or what_in_the_box(new_coordinates,"spawn"):
+                need_move=1
+                check=0
+            else:
+                check = 0
+                need_move = 0
+    # check if the is a grass on the sheep pos.
     for herbs in grass['player_1']:
         if old_coordinates == herbs :
             respawn_grass = 1
@@ -488,13 +533,12 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
         if old_coordinates == herbs :
             respawn_grass = 1
 
-    if kill_sheep != 1: #regarde dans la base de donnée les moutons
+    if kill_sheep != 1: #check on the db the sheep
         if move == 1 :
             new_coordinates[0] += 1
             new_coordinates[1] += 1
         new_coordinates=(new_coordinates[0],new_coordinates[1])
-        
-        manage_emoji(old_coordinates)
+        manage_emoji(old_coordinates,"  ",1)
         manage_emoji(new_coordinates,sheep)
         
         alife = players[player]['sheeps'][old_coordinates]
