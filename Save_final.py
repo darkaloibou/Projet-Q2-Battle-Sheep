@@ -117,14 +117,21 @@ def get_AI_orders(player_id):
     
     return orders
 def create_player_dictio(map):
-    """create dict players with a sheep on the spawn for player1 and 2
-    variable:
-    map=the result of the function create_map_dictio (dict)
-    return:
-    players= the informations of the number of the sheeps and number of grass for each player(dict)
-    release: V1 Arthur 23/03
-       
-         """
+"""Create dictionary players with a sheep on the spawn for player 1 and 2
+    parameters
+    -----------
+    map = the result of the function create_map_dictio (dict)
+    
+    return
+    ------
+    players = the informations of the number of the sheeps and number of grass for each player (dict)
+    
+    version
+    -------
+    specification: Arthur Yernaux (v1 23/03/24)
+    specification: Thomas Remacle (v1 24/02/24)
+    implementation: Arthur Yernaux (v1 14/03/24)
+    """
     players={}
     spawn=map['spawn']
     for i in spawn:
@@ -175,12 +182,12 @@ def create_map_dictio(map_path): #OK
 
     parameters
     ----------
-    the path to the map file (str)
+    map_path = the path to the map file (str)
 
     version
     -------
     specification: Heynen Scott-Socrate (v2 30/02/24)
-    implementation: Arthur (v1 14/03)
+    implementation: Arthur Yernaux (v1 14/03/24)
     """
     fh=open(map_path,'r')
     lines=fh.readlines()
@@ -260,6 +267,7 @@ def display_map(map):
     -------
     specification: Aloïs Baurant (v1 23/02/24)
     specification: Aloïs Baurant (v2 02/03/24)
+    implementation: Aloïs Baurant (v2 16/03/24)
     """
     # Recharger la map a chaque round ? 
     # Charge la taille de la map et met la longeur de la map en x et y.
@@ -332,7 +340,8 @@ def set_grass (coordinates,emoji): #EMOJI + DICO ?
     coordinates: coordinates of the sheep
     version
     -------
-    specification: Remacle Thomas (v1.1 24/02/24)"""
+    specification: Thomas Remacle (v1.1 24/02/24)
+    implementation: Thomas Remacle (v1.1 24/02/24)"""
     emoji_d=["🐑","🐐"]
     delete_list=[]
     for seeds in map['seed']:
@@ -352,13 +361,14 @@ def set_grass (coordinates,emoji): #EMOJI + DICO ?
 def grass_propagation (mature_grass,life_state): #EMOJI ?
     """ The function propage the grass if it's needed 
     parameters
-    -----------------------
+    ----------
     mature_grass: A list of grass need to be propaged (list)
     life_state: If the grass is possed by player_1 or player_2 (str)
+
     version
-    ----------
-    specification: Remacle Thomas (v1 14/03/24)
-    implementation: Remacle Thomas (v1 14/03/24)"""
+    -------
+    specification: Thomas Remacle (v1 14/03/24)
+    implementation: Thomas Remacle (v1 14/03/24)"""
     for herbs in mature_grass:
             coordinate=herbs
             numbers=[-1,1]
@@ -380,12 +390,12 @@ def grass_propagation (mature_grass,life_state): #EMOJI ?
 def update_grass (): #OK NORMALEMENT
     """Grow grass and plant grass on the all 4 box surroundings 
     notes
-    ----------
+    -----
     be sur that the 'herbs' dictionary already exist
     version
     -------
     specification: Heynen Scott-Socrate (v1 23/02/24)
-    implementation:Heynen Scott-Socrate (v1 30/02/24), Remacle Thomas (v2 14/03/24)
+    implementation:Heynen Scott-Socrate (v1 30/02/24), Thomas Remacle (v2 14/03/24)
     """
     mature_grass_1=[]
     mature_grass_2=[]
@@ -408,13 +418,14 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
     emoji_coordinates: coordinate in (x,y) of the emoji wanted to be created (tuples or list depend if the emoji is element of the map or a sheep/grass)
     emoji: the emoji wanted to be spawn, by default recreate the case without emoji on the box (str)
     move: if the émoji is moved
+
     version
     -------
-    specification: Remacle Thomas (v1.1 25/02/24)
-                   Remacle Thomas (v1.2 25/03/24)
-    implementaion: Remacle Thomas (v1 4/03/24)
-                   Remacle Thomas (v1.1 4/03/24)
-                   Remacle Thomas (v2 25/03/24)
+    specification: Thomas Remacle (v1.1 25/02/24)
+                   Thomas Remacle (v1.2 25/03/24)
+    implementaion: Thomas Remacle (v1 4/03/24)
+                   Thomas Remacle (v1.1 4/03/24)
+                   Thomas Remacle (v2 25/03/24)
     """
     ""
     emoji_coordinates=(int(emoji_coordinates[0]),int(emoji_coordinates[1]))
@@ -453,7 +464,8 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
     version
     -------
     specification: Aloïs Baurant (v1 23/02/24)
-     specification: Aloïs Baurant (v2 13/03/24)
+    specification: Aloïs Baurant (v2 13/03/24)
+    implementation: Aloïs Baurant (v2 25/03/24)
     """
     enemy_coordinates=((int(enemy_coordinates[0]),(int(enemy_coordinates[1]))))
     attack_coordinates=((int(attack_coordinates[0]),(int(attack_coordinates[1]))))
@@ -571,6 +583,8 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     version
     -------
     specification: Aloïs Baurant (v1 23/02/24)
+    implementation: Aloïs Baurant (v2 24/02/24)
+                    Aloïs Baurant (v3 25/02/24)
     """
     old_coordinates=((int(old_coordinates[0])),(int(old_coordinates[1])))
     new_coordinates=((int(new_coordinates[0])),(int(new_coordinates[1])))
@@ -669,6 +683,7 @@ def sheep_graze(sheep, sheep_coordinates):
     version
     -------
     specification: Aloïs Baurant (v1 23/02/24)
+    implementation: Aloïs Baurant (v1 23/02/24)
     """
     if not what_in_the_box(sheep_coordinates,"grass"):
         return 0
@@ -709,6 +724,7 @@ def translate_orders(order):
     version
     -------
     specification: Aloïs Baurant (v1 23/02/24)
+    implementation: Aloïs Baurant (v1 23/02/24)
     """
     split_all_order = order.split(' ')
     return split_all_order
@@ -722,6 +738,11 @@ def check_sheep_team(coordinates):
     return
     ----------------------------
     team: The sheep team (0 if there not the sheep, 1 if the sheep belong to player 1, 2 if the sheep belong to player 2) (int)
+    
+    version
+    -------
+    specification: Aloïs Baurant (v1 23/02/24)
+    implementation: Aloïs Baurant (v1 23/02/24)
     """
     coordinates=((int(coordinates[0]),(int(coordinates[1]))))
     for sheep_1 in players['player_1']['sheeps'] : # Joueur 1
@@ -738,7 +759,8 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
     """Read the list created by traslated_orders() and call others functions to play the game
     version 
     ---------------
-    specification: Remacle Thomas (V1 26/02/24)"""
+    specification: Thomas Remacle (V1 26/02/24)"""
+
     for order in player_1_orders :
         if order=='sheep':
             try_spawn_sheep(1)
@@ -847,6 +869,7 @@ def can_move(xy_sheep, xy_destination,team):  #je vais le prendre (scott)
     version
     -------
     specification: Heynen Scott-Socrate (v1 09/03/24)
+    implementation: Heynen Scott-Socrate (v1 11/03/24)
     '''
     xy_sheep=((int(xy_sheep[0])),(int(xy_sheep[1])))
     xy_destination=((int(xy_destination[0])),(int(xy_destination[1])))
@@ -943,15 +966,19 @@ def what_in_the_box(xy,search):
 def can_attack (sheep,target):
     """Look if you can attack an other sheep or not
    
-    variable:
+    parameters
+    ----------
     sheep : your own position (x,y)tuple
     target: the coordonate of the sheep you want attack (x,y)tuple
   
-    return:
+    return
+    -------
     answer: true if you can false if you can't (bool)
 
-    Version:
-    Arthur 10/03 v1
+    version
+    -------
+    specification: Arthur Yernaux (v1 10/03/24)
+    implementation: Arthur Yernaux (v1 10/03/24)
     """
     target=[(int(target[0])),(int(target[1]))]
     sheep=[(int(sheep[0])),(int(sheep[1]))]
@@ -969,14 +996,18 @@ def can_attack (sheep,target):
 def check_syntax_order(order):
     """look if the syntax of an order is correct
 
-    parameter:
+    parameters
+    ----------
     order: the order to check (list)
 
-    return:
+    return
+    -------
     newliste: a list with all the correct order
   
-    version: 
-    V2 Arthur (23/03)"""
+    version
+    -------
+    specification: Arthur Yernaux (v1 10/03/24)
+    implementation: Arthur Yernaux (v1 10/03/24)"""
     liste=order
     newliste=[]
     for i in liste:
