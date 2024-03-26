@@ -48,9 +48,9 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
             orders1 = get_remote_orders(connection)
         else:
             if type_1 == 'human':
-                print (term.move_xy(0,60)+term.white+term.on_black)
+                print (term.white+term.on_black)
+                print ('\n'*25)
                 orders1 = str(input('player_1 insert your instructions:'))
-                print (term.move_xy(0,60)+term.white+term.on_black)
             else:
                 orders1 = get_AI_orders(1)
             if type_2 == 'remote':
@@ -61,9 +61,9 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
             orders2 = get_remote_orders(connection)
         else:
             if type_2 =='human':
-                print (term.move_xy(0,60)+term.white+term.on_black)
+                print (term.white+term.on_black)
+                print ('\n'*20)
                 orders2 = str(input('player_2 insert your instructions:'))
-                print (term.move_xy(0,60)+term.white+term.on_black)
             else:
                 orders2 = get_AI_orders(2)
             if type_1 == 'remote':
@@ -334,13 +334,20 @@ def set_grass (coordinates,emoji): #EMOJI + DICO ?
     -------
     specification: Remacle Thomas (v1.1 24/02/24)"""
     emoji_d=["🐑","🐐"]
-    for seed in map['seed']:
-        if coordinates==map['seed'][seed]:
-            del map ['seed'][seed]
+    delete_list=[]
+    for seeds in map['seed']:
+        seed=(map['seed'][seeds][0],map['seed'][seeds][1])
+        if coordinates==seed:
+            seed=[seed[0],seed[1]]
+            delete_list.append(map ['seed'][seeds])
             if emoji==emoji_d[0]:
                 grass['player_1'][coordinates]=1
+                players['player_1']['nbr_of_grass']+=1
             else:
                 grass['player_2'][coordinates]=1
+                players['player_2']['nbr_of_grass']+=1
+    for delete in delete_list:
+        del delete
     
 def grass_propagation (mature_grass,life_state): #EMOJI ?
     """ The function propage the grass if it's needed 
@@ -423,7 +430,7 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
                     players['player_2']['nbr_of_grass']+=1
     elif move==0:           
-        coordinate=emoji_coordinates[0]/2
+        coordinate=emoji_coordinates[0]
         if emoji_coordinates[1]%2!=0:
             if (coordinate)%2==0:
                 print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
@@ -434,18 +441,6 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
                 print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
             else:
                 print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
-    else:
-        coordinate=emoji_coordinates[0]/2
-        if emoji_coordinates[1]%2!=0:
-            if (coordinate)%2==0:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
-            else:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
-        else:
-            if (coordinate)%2==0:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
-            else:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
 
     
 def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST BON J'AI CTRL+C CTRL+V DE PATCHED FONCTIONS
@@ -647,7 +642,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
             new_coordinates[0] += 1
             new_coordinates[1] += 1
         new_coordinates=(new_coordinates[0],new_coordinates[1])
-        manage_emoji(old_coordinates,"  ",1)
+        manage_emoji(old_coordinates,"  ")
         manage_emoji(new_coordinates,sheep)
         
         alife = players[player]['sheeps'][old_coordinates]
@@ -655,7 +650,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
         players[player]['sheeps'][new_coordinates]=alife
 
         if respawn_grass == 1:
-            manage_emoji(old_coordinates)
+            manage_emoji(old_coordinates,"🌾")
     set_grass(new_coordinates,sheep)
 
 
@@ -834,7 +829,7 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
         players["player_1"]['sheeps'][player_sheep][1]=False
     for player_sheep2 in players['player_2']['sheeps']:
         players["player_2"]['sheeps'][player_sheep2][1]=False
-
+    map['nbr_of_turns']+=1
 def can_move(xy_sheep, xy_destination,team):  #je vais le prendre (scott)
     '''check if a sheep can move to the box 
 
