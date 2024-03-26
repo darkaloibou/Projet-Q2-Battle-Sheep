@@ -339,7 +339,7 @@ def set_grass (coordinates,emoji): #EMOJI + DICO ?
         seed=(map['seed'][seeds][0],map['seed'][seeds][1])
         if coordinates==seed:
             seed=[seed[0],seed[1]]
-            delete_list.append(map ['seed'][seeds])
+            delete_list.append(seeds)
             if emoji==emoji_d[0]:
                 grass['player_1'][coordinates]=1
                 players['player_1']['nbr_of_grass']+=1
@@ -347,7 +347,7 @@ def set_grass (coordinates,emoji): #EMOJI + DICO ?
                 grass['player_2'][coordinates]=1
                 players['player_2']['nbr_of_grass']+=1
     for delete in delete_list:
-        del delete
+        del map['seed'][delete]
     
 def grass_propagation (mature_grass,life_state): #EMOJI ?
     """ The function propage the grass if it's needed 
@@ -366,11 +366,14 @@ def grass_propagation (mature_grass,life_state): #EMOJI ?
                 if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass'):
                     grass[life_state][(coordinate[0]+x_term),coordinate[1]]=1
                     if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'sheep'):
+                        players[life_state]['nbr_of_grass']+=1
                         manage_emoji([(coordinate[0]+x_term),coordinate[1]],"🌾")
+
             for y_term in numbers:
                 if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass'):
                     grass[life_state][(coordinate[0]),(coordinate[1]+y_term)]=1
                     if not what_in_the_box([coordinate[0],(coordinate[1]+y_term)],'sheep'):
+                        players[life_state]['nbr_of_grass']+=1
                         manage_emoji([coordinate[0],(coordinate[1]+y_term)],"🌾")
     
 
@@ -424,11 +427,9 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
         for grass_i in grass['player_1']:
             if grass_i==emoji_coordinates:
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_red+emoji)
-                    players['player_1']['nbr_of_grass']+=1
         for grass_i in grass['player_2']:
             if grass_i==emoji_coordinates:
                     print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
-                    players['player_2']['nbr_of_grass']+=1
     elif move==0:           
         coordinate=emoji_coordinates[0]
         if emoji_coordinates[1]%2!=0:
@@ -591,7 +592,8 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
                player = "player_2"
         if attack == 1 :# Move sheep on the map
             for rock in map["rocks"] :
-                if new_coordinates == rock :
+                my_variable=(map['rocks'][rock][0],map['rocks'][rock][1])
+                if new_coordinates == my_variable :
                    kill_sheep = 1
            
         spawn=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
@@ -899,14 +901,16 @@ def what_in_the_box(xy,search):
     xy=((int(xy[0])),(int(xy[1])))
     if search == 'rock':
         for rock in map['rocks']:
-            if xy == map['rocks'][rock]:
+            my_variable=(map['rocks'][rock][0],map['rocks'][rock][1])
+            if xy == my_variable:
                 return True
             
         return False
             
     if search == 'spawn':
         for spawn in map['spawn']:
-            if xy == map['spawn'][spawn]:
+            my_variable=(map['spawn'][spawn][0],map['spawn'][spawn][1])
+            if xy == my_variable:
                 return True
         return False
             
@@ -919,7 +923,10 @@ def what_in_the_box(xy,search):
             return False
     
     if search == 'grass':
-        for herbs in grass:
+        for herbs in grass['player_1']:
+            if xy == herbs:
+                return True
+        for herbs in grass['player_2']:
             if xy == herbs:
                 return True
         return False
