@@ -51,6 +51,7 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
                 print (term.white+term.on_black)
                 print ('\n'*25)
                 orders1 = str(input('player_1 insert your instructions:'))
+                print(term.move_up + term.clear_eos)
             else:
                 orders1 = get_AI_orders(1)
             if type_2 == 'remote':
@@ -62,8 +63,9 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         else:
             if type_2 =='human':
                 print (term.white+term.on_black)
-                print ('\n'*20)
+                print ('\n'*25)
                 orders2 = str(input('player_2 insert your instructions:'))
+                print(term.move_up + term.clear_eos)
             else:
                 orders2 = get_AI_orders(2)
             if type_1 == 'remote':
