@@ -640,7 +640,7 @@ def check_rock_in_course(coordinate,direction):
                 return True
     return False
 
-def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION IL FAUT RETIRER LE FAIT QU'IL ATTACK SI IL Y A UN MOUTON !
+def move_sheep (old_coordinates,new_coordinates,attack=0,direction=''): # ! (scott) ATTENTION IL FAUT RETIRER LE FAIT QU'IL ATTACK SI IL Y A UN MOUTON !
     """Move a sheep or attack if an another sheep is already there  
     parameters
     ----------
