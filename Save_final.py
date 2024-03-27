@@ -752,7 +752,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0,direction=''): # ! (sco
 
         if respawn_grass == 1:
             manage_emoji(old_coordinates,"🌾")
-    set_grass(new_coordinates,sheep)
+        set_grass(new_coordinates,sheep)
 
 
 def sheep_graze(sheep, sheep_coordinates):
