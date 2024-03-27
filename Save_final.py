@@ -76,7 +76,21 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         show_high_score()
         ...
         ...
-
+    print (term.white+term.on_black)
+    print ('\n'*30)
+    if players['player_1']['nbr_of_grass'] >= 100:
+        print ("Player_1 won")
+    elif players['player_1']['nbr_of_grass'] >= 100:
+        print ("Player_2 won")
+    else:
+        x=players['player_1']['nbr_of_grass']
+        y=players['player_2']['nbr_of_grass']
+        if x>y:
+            print ("Player_1 won")
+        elif x<y:
+            print ("Player_2 won")
+        else:
+            print ("Tied")
     # close connection, if necessary
     if type_1 == 'remote' or type_2 == 'remote':
         close_connection(connection)
