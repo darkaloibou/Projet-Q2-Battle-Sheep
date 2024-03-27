@@ -593,7 +593,6 @@ def check_rock_in_course(coordinate,direction):
     implementation: Thomas Remacle (v1 27/03/24)"""
     
     coordinate=[coordinate[0],coordinate[1]]
-    print (direction)
     if direction=='D_R_d':
         for i in range(5):
             coordinate[0]+=1
