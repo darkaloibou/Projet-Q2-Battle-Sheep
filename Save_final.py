@@ -117,7 +117,7 @@ def get_AI_orders(player_id):
     
     return orders
 def create_player_dictio(map):
-"""Create dictionary players with a sheep on the spawn for player 1 and 2
+    """Create dictionary players with a sheep on the spawn for player 1 and 2
     parameters
     -----------
     map = the result of the function create_map_dictio (dict)
