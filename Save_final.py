@@ -484,6 +484,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[1] += 5 # déplacement de 5 vers le haut  
             move_coordinates = (move_coordinates[0],move_coordinates[1])
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='D_R_d'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -496,6 +497,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[1] -= 5 # déplacement de 5 vers le bas  
             move_coordinates = (move_coordinates[0],move_coordinates[1])
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='D_R_u'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -508,6 +510,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[1] += 5 # déplacement de 5 vers le haut  
             move_coordinates = (move_coordinates[0],move_coordinates[1])
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='D_L_d'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -520,6 +523,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[1] -= 5 # déplacement de 5 vers le bas 
             move_coordinates = (move_coordinates[0],move_coordinates[1]) 
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='D_L_u'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -533,6 +537,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[0] -= 5 # Déplacement de 5 vers la gauche
             move_coordinates = (move_coordinates[0],move_coordinates[1])
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='L'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -544,6 +549,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[0] += 5 # Déplacement de 5 vers la droite
             move_coordinates = (move_coordinates[0],move_coordinates[1])
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='R'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -555,6 +561,7 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[1] += 5 # déplacement de 5 vers la bas  
             move_coordinates = (move_coordinates[0],move_coordinates[1])
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='D'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
@@ -566,11 +573,72 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
             move_coordinates[1] -= 5 # déplacement de 5 vers le haut
             move_coordinates = (move_coordinates[0],move_coordinates[1])  
             return_coordinate=[enemy_coordinates,move_coordinates]# bouge le mouton
+            direction='U'
         else : # Supprime le mouton
             del player[player]['sheeps'][enemy_coordinates]
             manage_emoji(enemy_coordinates)
-    return return_coordinate
-
+    return [return_coordinate,direction]
+def check_rock_in_course(coordinate,direction):
+    """Check if there are a rock in the path of sheep when is attacked
+    parameters
+    ---------------
+    coordinate: the coordinate of the sheep was before he was attacked (tuples)
+    direction: the direction of the path of the sheep (str)
+    returns
+    -------------------
+    value:if there are a rock or not (bool) 
+    version
+    -------------
+    specification: Thomas Remacle (v1 27/03/24)
+    implementation: Thomas Remacle (v1 27/03/24)"""
+    
+    coordinate=[coordinate[0],coordinate[1]]
+    print (direction)
+    if direction=='D_R_d':
+        for i in range(5):
+            coordinate[0]+=1
+            coordinate[1]+=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='D_R_u':
+        for i in range(5):
+            coordinate[0]+=1
+            coordinate[1]-=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='D_L_d':
+        for i in range(5):
+            coordinate[0]-=1
+            coordinate[1]+=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='D_L_u':
+        for i in range(5):
+            coordinate[0]-=1
+            coordinate[1]-=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='L':
+        for i in range(5):
+            coordinate[0]-=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='R':
+        for i in range(5):
+            coordinate[0]+=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='D':
+            for i in range(5):
+                coordinate[1]+=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    elif direction=='U':
+        for i in range(5):
+            coordinate[1]-=1
+            if what_in_the_box(coordinate,"rock"):
+                return True
+    return False
 
 def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION IL FAUT RETIRER LE FAIT QU'IL ATTACK SI IL Y A UN MOUTON !
     """Move a sheep or attack if an another sheep is already there  
@@ -609,7 +677,9 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
                 my_variable=(map['rocks'][rock][0],map['rocks'][rock][1])
                 if new_coordinates == my_variable :
                    kill_sheep = 1
-           
+            if check_rock_in_course(old_coordinates,direction):
+                kill_sheep= 1
+
         spawn=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
         if new_coordinates == spawn :
                    need_move = 1
@@ -806,7 +876,7 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
         attacker_coordinates=order_string[0].split("-")
         move_attack.append(attack_sheep(attacker_coordinates,enemy_coordinates))
     for my_list in move_attack:
-        move_sheep(my_list[0],my_list[1],1)
+        move_sheep(my_list[0][0],my_list[0][1],1,my_list[1])
     for order in player_1_orders:
         if '@' in order:
             order_string=order.split(":")
