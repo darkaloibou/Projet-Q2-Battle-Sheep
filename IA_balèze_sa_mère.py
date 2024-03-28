@@ -17,6 +17,15 @@ def look_for_grass(sheep):
     
 def find_path():
     """"""
+    if target[0] > sheep[0] and target[1] < sheep[1]:
+    if target[0] < sheep[0] and target[1] > sheep[1]:
+    if target[0] > sheep[0] and target[1] < sheep[1]:
+    if target[0] < sheep[0] and target[1] > sheep[1]:
+
+    if target[0] > sheep[0]: #Ennemi on the right
+    if target[0] < sheep[0]: #Ennemi on the left
+    if target[1] > sheep[1]: #Ennemi on the top
+    if target[1] < sheep[1]: #Ennemi on the buttom
     
 def attack(sheep1,sheep2):
     """return the attack command 
