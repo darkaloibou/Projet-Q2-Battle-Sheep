@@ -447,28 +447,28 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
     emoji_coordinates=(int(emoji_coordinates[0]),int(emoji_coordinates[1]))
     emoji_d=["🐑","🐐", "🌾"]
     if emoji in emoji_d[0]:
-        print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_red+emoji)
+        print(term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_red+emoji)
     elif emoji in emoji_d [1]:
-        print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
+        print(term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_blue+emoji)
     elif emoji in emoji_d[2]:
         for grass_i in grass['player_1']:
             if grass_i==emoji_coordinates:
-                    print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_red+emoji)
+                    print(term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_red+emoji)
         for grass_i in grass['player_2']:
             if grass_i==emoji_coordinates:
-                    print(term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_blue+emoji)
+                    print(term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_blue+emoji)
     elif move==0:           
-        coordinate=emoji_coordinates[0]
+        coordinate=emoji_coordinates[0]+1
         if emoji_coordinates[1]%2!=0:
             if (coordinate)%2==0:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
+                print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
             else:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
+                print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
         else:
             if (coordinate)%2==0:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
+                print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
             else:
-                print (term.move_xy(emoji_coordinates[0]*2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
+                print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
 
     
 def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST BON J'AI CTRL+C CTRL+V DE PATCHED FONCTIONS
