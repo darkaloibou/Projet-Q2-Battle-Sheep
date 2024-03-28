@@ -43,8 +43,33 @@ def attack(sheep1,sheep2):
     -------
     specification : Heynen Scott-Socrate (v2 28/03/24)"""
 
-def graze():
-    """"""
+def graze(sheep):
+    """return the graze command 
     
-def move_sheep():
-    """"""
+    parameters
+    ----------
+    sheep : the (x,y) coordinates of the sheep who graze (tuples)
+
+    returns
+    -------
+    orders: the order to add to the order list (str)
+    
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 28/03/24)"""
+    
+def move_sheep(old_coordinates, new_coordinates):
+    """return the move command 
+    
+    parameters
+    ----------
+    old_coordinates : the (x,y) coordinates of the sheep before the shift (tuples)
+    new_coordinates : the (x,y) coordinates of the sheep after the shift (tuples)
+    
+    returns
+    -------
+    orders: the order to add to the order list (str)
+    
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 28/03/24)"""
