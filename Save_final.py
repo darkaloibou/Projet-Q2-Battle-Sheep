@@ -457,6 +457,12 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
         for grass_i in grass['player_2']:
             if grass_i==emoji_coordinates:
                     print(term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_blue+emoji)
+    elif emoji=="spawn":
+        xy=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
+        if emoji_coordinates==xy:
+            print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_red+"  ")
+        else:
+            print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_blue+"  ")
     elif move==0:           
         coordinate=emoji_coordinates[0]+1
         if emoji_coordinates[1]%2!=0:
@@ -469,8 +475,6 @@ def manage_emoji (emoji_coordinates,emoji='  ',move=0):
                 print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.on_darkolivegreen+emoji)
             else:
                 print (term.move_xy((emoji_coordinates[0]*2)-2,emoji_coordinates[1])+term.peru_on_seagreen+emoji)
-
-    
 def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST BON J'AI CTRL+C CTRL+V DE PATCHED FONCTIONS
     """Attack a sheep if he is near enough to be attacked
     parameters
@@ -609,6 +613,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     respawn_grass=0
     check = 0
     need_move = 0
+    respawn_spawn = 0
     while check == 0 : #Check all the parametter to move the sheep
         check += 1 # add 1, if a test fail the it will return on 0 and make one more time the cycle
         for sheep_1 in players['player_1']['sheeps'] : # Player 1
@@ -668,6 +673,11 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
     for herbs in grass['player_2']:
         if old_coordinates == herbs :
             respawn_grass = 1
+    
+    for spawn in map['spawn']:
+        xy=(map['spawn'][spawn][0],map['spawn'][spawn][1])
+        if old_coordinates == xy:
+            respawn_spawn = 1
 
     if kill_sheep != 1: #check on the db the sheep
         if move == 1 :
@@ -684,8 +694,8 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
         if respawn_grass == 1:
             manage_emoji(old_coordinates,"🌾")
         set_grass(new_coordinates,sheep)
-
-
+        if respawn_spawn ==1:
+            manage_emoji(old_coordinates,"spawn")
 def sheep_graze(sheep, sheep_coordinates):
     """Graze a grass if the sheep is on this box
     parameters
