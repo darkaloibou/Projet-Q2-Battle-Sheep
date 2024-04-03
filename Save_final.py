@@ -35,10 +35,10 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
 
     ...
     ...
-    ...
-
+    count=0
     while not is_game_over():
-    
+        if count==1:
+            (map['map_size'][1])+=2
         
         ...
         ...
@@ -49,7 +49,7 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         else:
             if type_1 == 'human':
                 print (term.white+term.on_black)
-                print ('\n'*25)
+                print ('\n'*(map['map_size'][1]-3))
                 orders1 = str(input('player_1 insert your instructions:'))
                 print(term.move_up + term.clear_eos)
             else:
@@ -63,7 +63,7 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         else:
             if type_2 =='human':
                 print (term.white+term.on_black)
-                print ('\n'*25)
+                print ('\n'*(map['map_size'][1]-3))
                 orders2 = str(input('player_2 insert your instructions:'))
                 print(term.move_up + term.clear_eos)
             else:
@@ -76,10 +76,9 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         orders2=check_syntax_order(orders2)
         game_function(orders1,orders2)
         show_high_score()
-        ...
-        ...
+        count+=1
     print (term.white+term.on_black)
-    print ('\n'*30)
+    print ('\n'*map['map_size'][1])
     if players['player_1']['nbr_of_grass'] >= 100:
         print ("Player_1 won")
     elif players['player_1']['nbr_of_grass'] >= 100:
@@ -173,9 +172,11 @@ def show_high_score(): #OK
     Length = int(map['map_size'][0])
     playerscore_1=str(players['player_1']['nbr_of_grass'])
     playerscore_2=str(players['player_2']['nbr_of_grass'])
-    minus=(len(playerscore_1))
+    nmbr_turn=str(map['nbr_of_turns'])
+    minus=(len(playerscore_2))
     print (term.move_xy(((Length*2)-14)-minus,0)+term.blue+term.on_black+"Player score :"+playerscore_2)
     print (term.move_xy(0,0)+term.red+term.on_black+"Player score :"+playerscore_1)
+    print (term.move_xy(((Length*2)+10),0)+term.white+term.on_black+"Number of turns:"+nmbr_turn)
     print (term.home)
          
 def get_distance(entity1_coordinates,entity2_coordinates): #OK
@@ -1086,7 +1087,7 @@ def check_syntax_order(order):
 
 # main function
 
-map=create_map_dictio('C:/Users/Thoma/Desktop/Progra/projet/plateau.bsh')
+map=create_map_dictio('C:/Users/Thoma/Desktop/Travail/Projet_python/plateau.bsh')
 players=create_player_dictio(map)
 grass={}
 player_1={}
@@ -1094,4 +1095,4 @@ player_2={}
 grass['player_1']=player_1
 grass['player_2']=player_2 
 display_map(map)
-play_game('C:/Users/Thoma/Desktop/Progra/projet/plateau.bsh',32,'human',1,'AI')
+play_game('C:/Users/Thoma/Desktop/Travail/Projet_python/plateau.bsh',32,'human',1,'AI')
