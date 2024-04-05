@@ -178,6 +178,18 @@ def move_sheep(old_coordinates, new_coordinates):
     orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(new_coordinates[0])+'-'+str(new_coordinates[1])
     return orders
 
+def create_sheepxseed(id):
+    """return a dico with the first sheep with the seed goal
+    
+    parameters
+    ----------
+    id : the player id 1 or 2 (int)
+    
+    return
+    ------
+    dico : the dico with the first sheep and the seed he reach to capture"""
+    dico = {}
+    dico['sheep_1']='coordinates' : players['player_'+str(id)][sheeps]
 
 
 
@@ -196,10 +208,21 @@ def get_AI_orders(game, player_id):
     Returns
     -------
     orders: orders of AI (str)
+
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 29/03/24)
+    implementation : Heynen Scott-Socrate (v1 )
     
     """
+    turn = map['nbr_of_turns']
+    orders = 'sheep'
 
-    orders = ''
+    if turn == 0:
+        
+    
+    if turn >= 15:
+        seed search
     
     
     
