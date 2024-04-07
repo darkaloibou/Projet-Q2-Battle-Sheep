@@ -318,6 +318,7 @@ def move_Ia(location,target):
         move=(location[0]-1,location[1])
     
     if move not in wrong:
+        move=str(location[0])+'-'+str(location[1])+':@'+str(move[0])+'-'+str(move[1])
         return move
     else:
         
