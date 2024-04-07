@@ -228,3 +228,102 @@ def get_AI_orders(game, player_id):
     
     
     return orders
+
+
+
+
+
+wrong=[]
+
+def move_IA(location,target,wrong):
+    '''raproche le mouton de la cible par un chemin optimal
+    parametre:
+    
+    location=l'endroit ou ce trouve le mouton [xx-xx](liste)
+    target=l'endroit ou le mouton veut arriver [xx-xx](liste)
+    wrong=les cases qui sont obstruées (liste)
+    
+    return:
+    order=l'ordre a executer [xx-xx:@yy-yy] (liste)
+  
+    '''
+    
+    if location[0]>target[0] and location[1]>target[1]:
+        
+        move=(location[0]-1,location[1]-1)
+    
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)
+        else:
+            return move
+
+        
+    elif location[0]<target[0] and location[1]>target[1]:
+        
+        move=(location[0]+1,location[1]-1)
+    
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)     
+        else:
+            return move
+
+
+    elif location[0]>target[0] and location[1]<target[1]:
+       
+        move=(location[0]-1,location[1]+1)
+       
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+           wrong.append(move)
+        else:
+            return move
+
+    
+    elif location[0]>target[0] and location[1]<target[1]:
+        
+        move=(location[0]+1,location[1]+1)
+    
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)      
+        else:
+            return move
+
+
+    elif location[0]==target[0] and location[1]>target[1]:
+       
+        move=(location[0],location[1]-1)
+        
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)
+        else:
+            return move
+        
+
+    elif location[0]==target[0] and location[1]<target[1]:
+
+        move=(location[0],location[1]+1)
+    
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)           
+        else:
+            return move
+
+    
+    elif location[0]<target[0] and location[1]==target[1]:
+       
+        move=(location[0]+1,location[1])
+    
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)
+        else:
+            return move
+
+    
+    elif location[0]>target[0] and location[1]==target[1]:
+       
+        move=(location[0]-1,location[1])
+    
+        if what_in_the_box(move,'rock') or what_in_the_box(move,'sheep'):
+            wrong.append(move)
+        else:
+            return move
+        
