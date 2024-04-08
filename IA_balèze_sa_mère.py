@@ -97,7 +97,83 @@ def look_for_grass(sheep):
                 min_distance=distance
                 return_coordinate=final_seed   # Decide the seed of the sheep will
         return return_coordinate
+def look_for_grass_alternative(sheep):
+    """return the best seed to go (2 seeds strategie)
     
+    parameters
+    ----------
+    sheep: the sheep coordinates that will go to the choosen seed
+    
+    return
+    ------
+    the coordinates (x,y) of the seed to go (tuples)
+
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 28/03/24)
+    implémentation : Remacle Thomas (v1 24/02/24)
+    """
+    seeds_dic =map['seed'].copy()  #Copy the dictionnary of the seeds
+    x_map=str(map['map_size'][0])
+    x_map=int(x_map[0])
+    y_map=str(map['map_size'][1])
+    y_map=int(y_map[0])
+    minus=(x_map+y_map)/2   #Calculate the minus, the minus is the tolarance of distance when you trying to find the seeds 
+    range_map=math.floor(minus)
+    return_coordinate=(0,0)
+    min_distance=100000
+    sheep=[sheep[0],sheep[1]]
+    seeds_list=[]
+    other_seed_list=[]
+    for seeds in seeds_dic:
+        distance=get_distance(sheep,seeds_dic[seeds])
+        if min_distance>distance:
+            min_distance=distance
+            return_coordinate=seeds_dic[seeds]
+            seeds_list=[]
+            other_seed_list=[]
+            seeds_list.append(seeds_dic[seeds])
+            other_seed_list.append(seeds)        # This loop finds the seed closest to the sheep
+    min_distance=1000000
+    del seeds_dic[other_seed_list[0]]  #Delete the found seed in the seeds_dic dictionnary to avoid finding it again
+    for seeds in seeds_dic:
+        distance=get_distance(sheep,seeds_dic[seeds])
+        if min_distance>distance:
+            min_distance=distance
+            return_coordinate=seeds_dic[seeds]
+            seed_value=seeds_dic[seeds]
+            seed_name=seeds 
+    seeds_list.append(seed_value)
+    other_seed_list.append(seed_name) 
+    del seeds_dic[other_seed_list[1]]
+    xy_list=[]
+    for x_value in range (range_map+1):
+        if not x_value==0:
+            x_neg_append=-x_value
+            xy_list.append(x_value)
+            xy_list.append(x_neg_append)
+        else:
+            xy_list.append(x_value)
+    number_of_seeds={}
+    for seed in other_seed_list:
+        count=0
+        for x_values in (xy_list):
+            for y_values in (xy_list):
+                coordinate=[map['seed'][seed][0]+x_values,map['seed'][seed][1]+y_values]
+                if not coordinate==map['seed'][seed]:
+                    for m_seeds in map['seed']:
+                        if coordinate==map['seed'][m_seeds]:
+                            count+=1
+        seeds_coordinates=map['seed'][seed]
+        seeds_coordinates=(seeds_coordinates[0],seeds_coordinates[1])
+        number_of_seeds[seeds_coordinates]=count
+    if number_of_seeds[(seeds_list[0][0],seeds_list[0][1])]>=number_of_seeds[(seeds_list[1][0],seeds_list[1][1])]:
+        return_coordinate=(seeds_list[0][0],seeds_list[0][1])
+    else:
+        return_coordinate=(seeds_list[1][0],seeds_list[1][1])
+                            
+    print (number_of_seeds)
+    return return_coordinate            
     
 def find_path():
     """"""
