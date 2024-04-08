@@ -21,7 +21,7 @@ def get_distance(entity1_coordinates,entity2_coordinates):
     if x_value>y_value:
         return_value=x_value #Total distance 
     else:
-        return_value=y_value
+        return_value=y_value    #Take the highest value to measure the distance between entity1_coordinates and entity2_coordinates
     return return_value
 
 def look_for_grass(sheep):
