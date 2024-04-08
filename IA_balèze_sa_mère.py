@@ -11,12 +11,17 @@ def get_distance(entity1_coordinates,entity2_coordinates):
     version
     -------
     specification: Remacle Thomas (v1 24/02/24)
-    implémentation : Remacle Thomas (v1 24/02/24)"""
+    implémentation : Remacle Thomas (v1 24/02/24)
+                     Remacle Thomas (v1.1 24/02/24)"""
+    return_value=0
     entity1_coordinates=[entity1_coordinates[0],entity1_coordinates[1]]
     entity2_coordinates=[entity2_coordinates[0],entity2_coordinates[1]]  #Transform the coordinates
     x_value=abs(entity2_coordinates[0]-entity1_coordinates[0]) #Calculate the distance between the coordinates_x
     y_value=abs(entity2_coordinates[1]-entity1_coordinates[1]) #Calculate the distance between the coordinates_y
-    return_value=x_value+y_value  #Total distance 
+    if x_value>y_value:
+        return_value=x_value #Total distance 
+    else:
+        return_value=y_value
     return return_value
 
 def look_for_grass(sheep):
