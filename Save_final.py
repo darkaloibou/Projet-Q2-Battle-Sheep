@@ -6,7 +6,6 @@ term = blessed.Terminal()
 from remote_play import create_connection, get_remote_orders, notify_remote_orders, close_connection
 
 
-
 # other functions
 def play_game(map_path, group_1, type_1, group_2, type_2):
     """Play a game.
@@ -390,14 +389,14 @@ def grass_propagation (mature_grass,life_state): #EMOJI ?
             coordinate=herbs
             numbers=[-1,1]
             for x_term in numbers:
-                if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass'):
+                if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'void') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'rock') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'grass') and not what_in_the_box([(coordinate[0]+x_term),coordinate[1]],'spawn'):
                     grass[life_state][(coordinate[0]+x_term),coordinate[1]]=1
                     if not what_in_the_box ([(coordinate[0]+x_term),coordinate[1]],'sheep'):
                         players[life_state]['nbr_of_grass']+=1
                         manage_emoji([(coordinate[0]+x_term),coordinate[1]],"🌾")
 
             for y_term in numbers:
-                if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass'):
+                if not what_in_the_box ([(coordinate[0]),(coordinate[1]+y_term)],'void') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'rock') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'grass') and not what_in_the_box([(coordinate[0]),(coordinate[1]+y_term)],'spawn'):
                     grass[life_state][(coordinate[0]),(coordinate[1]+y_term)]=1
                     if not what_in_the_box([coordinate[0],(coordinate[1]+y_term)],'sheep'):
                         players[life_state]['nbr_of_grass']+=1
@@ -492,10 +491,12 @@ def attack_sheep(attack_coordinates,enemy_coordinates): #AUCUNE IDEE DE SI C'EST
     attack_coordinates=((int(attack_coordinates[0]),(int(attack_coordinates[1]))))
     if check_sheep_team(enemy_coordinates)==1:
         player='player_1'
-        attack_player='player_2'
     else:
         player='player_2'
+    if check_sheep_team(attack_coordinates)==1:
         attack_player='player_1'
+    else: 
+        attack_player='player_2'
     players[attack_player]['sheeps'][attack_coordinates][1]=True
     if attack_coordinates[0] < enemy_coordinates[0] and attack_coordinates[1] < enemy_coordinates[1]: #    if old_x < new_1 and old_y < new_1
         if players[player]['sheeps'][enemy_coordinates][0]>= 2 :# vérifie la vie du mouton si elle ne tombe pas a 0 (= mort)
@@ -819,13 +820,16 @@ def game_function(player_1_orders,player_2_orders):   #j'ai changé la spécific
                 if not players['player_2']['sheeps'][coordinates][1]:
                     my_attacl_list.append(order)
                     players['player_2']['sheeps'][coordinates][1]=True
+    other_attack_list=[]
     for attack in my_attacl_list:
         order_string=attack.split(":")
         attack_coordinates=order_string[1][1:]
         enemy_coordinates=attack_coordinates.split("-")
         attacker_coordinates=order_string[0].split("-")
         if not can_attack(attacker_coordinates,enemy_coordinates):  #demander si on mets les coordonées du mouton qui attaque pour être sur qu'il peut attaquer
-            my_attacl_list.remove(attack)
+            other_attack_list.append(attack)
+    for attackz in other_attack_list:
+        my_attacl_list.remove(attackz)
     for attack_z in my_attacl_list:
         order_string=attack_z.split(":")
         attack_coordinates=order_string[1][1:]
@@ -1012,14 +1016,13 @@ def can_attack (sheep,target):
     listx=[target[0]-1,target[0],target[0]+1]
     listy=[target[1]-1,target[1],target[1]+1]
     if sheep[0] not in listx :
-        answer=False
-    elif sheep[1]not in listy :
-        answer=False
-    elif not what_in_the_box(target,"sheep"):
-        answer=False
-    else:
-        answer=True
-    return answer
+        return False
+    if sheep[1]not in listy :
+        return False
+    target=(str(target[0]),str(target[1]))
+    if not what_in_the_box(target,"sheep"):
+        return False
+    return True
 def check_syntax_order(order):
     """look if the syntax of an order is correct
 
@@ -1087,7 +1090,7 @@ def check_syntax_order(order):
 
 # main function
 
-map=create_map_dictio('C:/Users/Thoma/Desktop/Travail/Projet_python/plateau.bsh')
+map=create_map_dictio('C:/Users/Thoma/Desktop/Progra/projet/plateau.bsh')
 players=create_player_dictio(map)
 grass={}
 player_1={}
@@ -1095,4 +1098,4 @@ player_2={}
 grass['player_1']=player_1
 grass['player_2']=player_2 
 display_map(map)
-play_game('C:/Users/Thoma/Desktop/Travail/Projet_python/plateau.bsh',32,'human',1,'AI')
+play_game('C:/Users/Thoma/Desktop/Progra/projet/plateau.bsh',32,'human',1,'AI')
