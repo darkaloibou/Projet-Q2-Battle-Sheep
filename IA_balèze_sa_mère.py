@@ -326,9 +326,11 @@ def create_sheepxseed(sheep,seed):
 #exemple du dico des seed
 #------------------------------------------------
 
-seed_targets = {(x,y) : [[x,y],True], #premier x,y c'est mouton et les 2eme c'est la graine qu'il vise. le True c'est pour dire que sa graine à déjà été calculée
-                (x,y) ; [[x,y],False]}
+seed_targets = {(x,y) : {[x,y],True], #premier x,y c'est mouton et les 2eme c'est la graine qu'il vise. le True c'est pour dire que sa graine à déjà été calculée
+                (x,y) : {[x,y],False]}
 
+
+sheep_targets = {(x,y) : {[x,y],False]}
 #fonction de l'IA
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -363,16 +365,17 @@ def get_AI_orders(game, player_id):
             
     
             if turn <= 15: #capture seed for the 15 first turns
-                if not seed_targets[sheep][1]:
+                if not seed_targets[sheep][1]: #get a seed target for the sheep if it didn't already been calculated
                     seed = look_for_seed(sheep)
                     create_sheepxseed(sheep,seed)
 
                 target = seed_targets[sheep][0]
-                orders += str(move_sheep(sheep,move_ia(sheep,target))) #move the sheep to the seed
+                orders += str(move_sheep(sheep,move_ia(sheep,target))) #move the sheep to the seed     #verif si move_ia return bien seulement coordonnées
                 
-                if tuple(target) == sheep: #verif si le tuple() existe #reset the sheep when he captured the seed
+                if tuple(target) == sheep: #reset the sheep when he captured the seed      #verif si le tuple() existe!!!! 
                     seed_targets[sheep][1]=False #transforme en False
-            
+            if turn > 15:
+                
     
     
     
@@ -380,7 +383,21 @@ def get_AI_orders(game, player_id):
 
 
 
+def choose_what_to_do(sheep):
+    """return the action to do 
+    
+    parameters
+    ----------
+    sheep : the (x,y) coordinates of the sheep to look for what to do (tuples)
 
+    returns
+    -------
+    order : the thing to do that can be 'attack' , 'graze' , 'seed' or 'move' (str) #to check
+
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 11/04/24)
+    """
 
 def move_ia(location,target):
     """search the best path to the target
