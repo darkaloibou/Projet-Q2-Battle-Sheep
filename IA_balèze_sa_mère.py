@@ -280,7 +280,12 @@ def graze(sheep):
                     if total > old_total: # if the total of grass is better than the old one ?
                         old_total = total
                         old_distance = i_grass
-
+    if graze == 1:
+        orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
+    else:
+        aim = move_Ia(sheep,old_distance)
+        orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(aim[0])+'-'+str(aim[1])
+    return orders
 def move_sheep(old_coordinates, new_coordinates):
     """return the move command 
     
