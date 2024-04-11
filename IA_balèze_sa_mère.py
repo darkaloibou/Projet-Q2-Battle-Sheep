@@ -24,7 +24,7 @@ def get_distance(entity1_coordinates,entity2_coordinates):
         return_value=y_value    #Take the highest value to measure the distance between entity1_coordinates and entity2_coordinates
     return return_value
 
-def look_for_grass(sheep):
+def look_for_seed(sheep):
     """return the best seed to go (2 seeds strategie)
     
     parameters
@@ -38,7 +38,7 @@ def look_for_grass(sheep):
     version
     -------
     specification : Heynen Scott-Socrate (v2 28/03/24)
-    implémentation : Remacle Thomas (v1 24/02/24)
+    implémentation : Remacle Thomas (v1 02/04/24)
     """
     seeds_dic =map['seed'].copy()  #Copy the dictionnary of the seeds
     x_map=str(map['map_size'][0])
@@ -97,7 +97,7 @@ def look_for_grass(sheep):
                 min_distance=distance
                 return_coordinate=final_seed   # Decide the seed of the sheep will
         return return_coordinate
-def look_for_grass_alternative(sheep):
+def look_for_seed_alternative(sheep):
     """return the best seed to go (2 seeds strategie)
     
     parameters
@@ -111,7 +111,7 @@ def look_for_grass_alternative(sheep):
     version
     -------
     specification : Heynen Scott-Socrate (v2 28/03/24)
-    implémentation : Remacle Thomas (v1 24/02/24)
+    implémentation : Remacle Thomas (v1 02/04/24)
     """
     seeds_dic =map['seed'].copy()  #Copy the dictionnary of the seeds
     x_map=str(map['map_size'][0])
@@ -310,20 +310,24 @@ def move_sheep(old_coordinates, new_coordinates):
     orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(new_coordinates[0])+'-'+str(new_coordinates[1])
     return orders
 
-def create_sheepxseed(id):
+def create_sheepxseed(sheep,seed):
     """return a dico with the first sheep with the seed goal
     
     parameters
     ----------
-    id : the player id 1 or 2 (int)
-    
+    sheep : the (x,y) coordinates of the sheep to add to the list (tuples)    
+    seed : the (x,y) coordinates of the seed to link to the sheep (list)
     return
     ------
-    dico : the dico with the first sheep and the seed he reach to capture"""
-    dico = {}
-    dico['sheep_1']='coordinates' : players['player_'+str(id)][sheeps]
+    seed_targets : the dico with the sheep and the seed he reach to capture"""
 
+    targets[sheep] = [seed,True]
 
+#exemple du dico des seed
+#------------------------------------------------
+
+seed_targets = {(x,y) : [[x,y],True], #premier x,y c'est mouton et les 2eme c'est la graine qu'il vise. le True c'est pour dire que sa graine à déjà été calculée
+                (x,y) ; [[x,y],False]}
 
 #fonction de l'IA
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -350,13 +354,25 @@ def get_AI_orders(game, player_id):
     turn = map['nbr_of_turns']
     orders = 'sheep'
 
-    if turn == 0:
+    for sheep in players['player_'+str(player_id)]['sheeps']:
         
+            if turn == 0:   #initialize the game 
+                seed_targets={}
+                seed = look_for_seed(sheep)
+                create_sheepxseed(sheep,seed)
+            
     
-    if turn >= 15:
-        seed search
-    
-    
+            if turn <= 15: #capture seed for the 15 first turns
+                if not seed_targets[sheep][1]:
+                    seed = look_for_seed(sheep)
+                    create_sheepxseed(sheep,seed)
+
+                target = seed_targets[sheep][0]
+                orders += str(move_sheep(sheep,move_ia(sheep,target))) #move the sheep to the seed
+                
+                if tuple(target) == sheep: #verif si le tuple() existe #reset the sheep when he captured the seed
+                    seed_targets[sheep][1]=False #transforme en False
+            
     
     
     
