@@ -236,17 +236,17 @@ def graze(sheep):
     x_sheep = sheep[1] # coordinate of the sheep in y
     old_distance = [2,2] # old coordinate
     old_total = 0
-    for e in grass:
-        compute_new = get_distance(sheep,grass)
-        compute_old = old_distance(old_distance,grass)
+    for i_grass in grass[1]:
+        compute_new = get_distance(sheep,i_grass)
+        compute_old = old_distance(old_distance,i_grass)
 
         if compute_new or compute_old == 0: # if sheep is on the grass
             graze == 1
         elif compute_new < compute_old: # Check if the new valor is better than the old one
             old_distance = compute_new
         elif compute_new == compute_old # If the valor is the same
-            for e in grass: # Compute how mutch grass there is around this grass. 
-                compute_grass = get_distance(sheep,grass)
+            for i_grass in grass[1]: # Compute how mutch grass there is around this grass. 
+                compute_grass = get_distance(sheep,i_grass)
                 if compute_grass < 2 # If it is around the frass
                     total += 1
                 if total > old_total # if the total of grass is better than the old one ?
