@@ -361,7 +361,7 @@ def get_AI_orders(game, player_id):
 
 
 
-def move_Ia(location,target):
+def move_ia(location,target):
     """search the best path to the target
     parameter:
    
@@ -419,6 +419,7 @@ def move_Ia(location,target):
 
         wrong.append([location[0],location[1]+1])
 
+    move = location
     if location[0]>target[0] and location[1]>target[1]:
         
         move=[location[0]-1,location[1]-1]
@@ -434,7 +435,7 @@ def move_Ia(location,target):
         move=[location[0]-1,location[1]+1]
        
     
-    elif location[0]>target[0] and location[1]<target[1]:
+    elif location[0]<target[0] and location[1]<target[1]:
         
         move=[location[0]+1,location[1]+1]
     
@@ -459,13 +460,15 @@ def move_Ia(location,target):
         move=[location[0]-1,location[1]]
     
     if move not in wrong:
+       
         return move
+    
     else:
        
         difx=location[0]-target[0]
         dify=location[1]-target[1]
         
-        if abs(difx)>abs(dify):
+        if abs(difx)>=abs(dify):
            
             if difx>0:
                 for i in [1,0,-1]:
@@ -512,7 +515,7 @@ def move_Ia(location,target):
 
             else:
                 for i in [1,0,-1]:
-                    move=[location[0]+i,location[1]+11]
+                    move=[location[0]+i,location[1]+1]
                     if move not in wrong:
                         return move
                 if difx>0:
