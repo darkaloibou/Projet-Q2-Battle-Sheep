@@ -344,6 +344,19 @@ def get_AI_orders(game, player_id):
 
 
 def move_Ia(location,target):
+    """search the best path to the target
+    parameter:
+   
+    location = curent location of the sheep [x,y](list)
+    target = the final destination the sheep want to go [x,y](list)
+    
+    return:
+
+    move = the coordinate of the case where the sheep need to move [x,y] (list)
+    
+    spécification 28/03 Arthur Yeranux
+    v1 06/04 Arthur Yernaux
+    v2 11/04 Arthur Yernaux"""
 
 
 
@@ -390,45 +403,104 @@ def move_Ia(location,target):
 
     if location[0]>target[0] and location[1]>target[1]:
         
-        move=(location[0]-1,location[1]-1)
+        move=[location[0]-1,location[1]-1]
         
 
     elif location[0]<target[0] and location[1]>target[1]:
         
-        move=(location[0]+1,location[1]-1)
+        move=[location[0]+1,location[1]-1]
     
 
     elif location[0]>target[0] and location[1]<target[1]:
        
-        move=(location[0]-1,location[1]+1)
+        move=[location[0]-1,location[1]+1]
        
     
     elif location[0]>target[0] and location[1]<target[1]:
         
-        move=(location[0]+1,location[1]+1)
+        move=[location[0]+1,location[1]+1]
     
 
     elif location[0]==target[0] and location[1]>target[1]:
        
-        move=(location[0],location[1]-1)
+        move=[location[0],location[1]-1]
         
 
     elif location[0]==target[0] and location[1]<target[1]:
 
-        move=(location[0],location[1]+1)
+        move=[location[0],location[1]+1]
     
     
     elif location[0]<target[0] and location[1]==target[1]:
        
-        move=(location[0]+1,location[1])
+        move=[location[0]+1,location[1]]
     
 
     elif location[0]>target[0] and location[1]==target[1]:
        
-        move=(location[0]-1,location[1])
+        move=[location[0]-1,location[1]]
     
     if move not in wrong:
-        move=str(location[0])+'-'+str(location[1])+':@'+str(move[0])+'-'+str(move[1])
         return move
     else:
+       
+        difx=location[0]-target[0]
+        dify=location[1]-target[1]
+        
+        if abs(difx)>abs(dify):
+           
+            if difx>0:
+                for i in [1,0,-1]:
+                    move=[location[0]-1,location[1]+i]
+                    if move not in wrong:
+                        return move
+                if dify>0:
+                    move=[location[0],location[1]-1]
+                    return move
+                else:
+                    move=[location[0],location[1]+1]
+                    return move
+               
+
+            else:
+                
+                for i in [1,0,-1]:
+                    move=[location[0]+1,location[1]+i]
+                    if move not in wrong:
+                        return move
+                if dify>0:
+                    move=[location[0],location[1]-1]
+                    return move
+                else:
+                    move=[location[0],location[1]+1]
+                    return move
+
+
+        if abs(difx)<abs(dify):
+            
+            if dify>0:
+                                
+                for i in [1,0,-1]:
+                    move=[location[0]+i,location[1]-1]
+                    if move not in wrong:
+                        return move
+                if difx>0:
+                    move=[location[0]-1,location[1]]
+                    return move
+                else:
+                    move=[location[0]+1,location[1]]
+                    return move
+
+
+            else:
+                for i in [1,0,-1]:
+                    move=[location[0]+i,location[1]+11]
+                    if move not in wrong:
+                        return move
+                if difx>0:
+                    move=[location[0]-1,location[1]]
+                    return move
+                else:
+                    move=[location[0]+1,location[1]]
+                    return move
         
