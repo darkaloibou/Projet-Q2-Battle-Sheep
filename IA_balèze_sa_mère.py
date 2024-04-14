@@ -210,7 +210,54 @@ def attack(sheep1,sheep2):
     
     orders = ' '+str(sheep1[0])+'-'+str(sheep1[1])+':x'+str(sheep2[0])+'-'+str(sheep2[1])
     return orders
+def search_sheep (sheep):
+    """return the sheeps coordinates near a sheep
+    parameters
+    ----------
+    sheep : the (x,y) coordinates of the sheep to look for what to do (tuples)
 
+    returns
+    -------
+    sheeps_coordinates: A list of the coordinate around the sheep
+
+    version
+    -------
+    specification : Remacle Thomas (v1 14/04/24)
+    """
+    xy=[0,-1,1]
+    sheeps_coordinates=[]
+    for minus in xy:
+        for more in xy:
+            if not (minus==0 and more==0):
+                search_coordinate=[sheep[0]+minus,sheep[1]+more]
+                if what_in_the_box(search_coordinate,'sheep'):
+                    search_coordinate=(sheep[0],sheep[1])
+                    sheeps_coordinates.append(search_coordinate)
+    return sheeps_coordinates
+def search_graze (sheep):
+    """return the grass coordinates near a sheep
+    parameters
+    ----------
+    sheep : the (x,y) coordinates of the sheep to look for what to do (tuples)
+
+    returns
+    -------
+    grass_coordinates: A list of the coordinate around the sheep
+
+    version
+    -------
+    specification : Remacle Thomas (v1 14/04/24)
+    """
+    xy=[0,-1,1]
+    grass_coordinates=[]
+    for minus in xy:
+        for more in xy:
+            if not (minus==0 and more==0):
+                search_coordinate=[sheep[0]+minus,sheep[1]+more]
+                if what_in_the_box(search_coordinate,'grass'):
+                    search_coordinate=(sheep[0],sheep[1])
+                    grass_coordinates.append(search_coordinate)
+    return grass_coordinates
 def graze(sheep):
     """return the graze command 
     
