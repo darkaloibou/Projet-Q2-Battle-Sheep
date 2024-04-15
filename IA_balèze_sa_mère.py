@@ -441,11 +441,11 @@ def choose_what_to_do(sheep):
 
     returns
     -------
-    order : the thing to do that can be 'attack' , 'graze' , 'seed' or 'move' (str) #to check
-
+    order : the thing to do for the sheep already in a correct form for the game (str) 
+    
     version
     -------
-    specification : Heynen Scott-Socrate (v2 11/04/24)
+    specification : Heynen Scott-Socrate (v3 15/04/24)
     """
 
 def move_ia(location,target):
