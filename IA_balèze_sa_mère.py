@@ -218,7 +218,7 @@ def search_sheep (sheep):
 
     returns
     -------
-    sheeps_coordinates: A list of the coordinate around the sheep
+    sheeps_coordinates: A list of the coordinate around the sheep (tuples)
 
     version
     -------
