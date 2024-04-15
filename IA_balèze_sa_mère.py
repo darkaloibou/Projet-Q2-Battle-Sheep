@@ -364,9 +364,14 @@ def create_sheepxseed(sheep,seed):
     ----------
     sheep : the (x,y) coordinates of the sheep to add to the list (tuples)    
     seed : the (x,y) coordinates of the seed to link to the sheep (list)
+    
     return
     ------
-    seed_targets : the dico with the sheep and the seed he reach to capture"""
+    seed_targets : the dico with the sheep and the seed he reach to capture
+    
+    version
+    -------
+    specification : Heynen Scott-Socrate (v2 28/03/24)"""
 
     targets[sheep] = [seed,True]
 
@@ -397,7 +402,7 @@ def get_AI_orders(game, player_id):
     version
     -------
     specification : Heynen Scott-Socrate (v2 29/03/24)
-    implementation : Heynen Scott-Socrate (v1 )
+    implementation : Heynen Scott-Socrate (v2 15/04/24)
     
     """
     turn = map['nbr_of_turns']
@@ -408,13 +413,13 @@ def get_AI_orders(game, player_id):
 
     for sheep in players['player_'+str(player_id)]['sheeps']:
             if turn == 0:   #initialize the game 
-                seed_targets={}
+                seed_targets={} for the seed search only turns
                 seed = look_for_seed(sheep)
                 create_sheepxseed(sheep,seed)
             
     
-            if turn <= search_turns: #capture seed for the 15 first turns
-                if not seed_targets[sheep][1]: #get a seed target for the sheep if it didn't already been calculated
+            if turn <= search_turns: #for the seed search only turns
+                if not seed_targets[sheep][1]: #get a seed target for the sheep if it didn't already have been calculated
                     seed = look_for_seed(sheep)
                     create_sheepxseed(sheep,seed)
 
@@ -423,6 +428,7 @@ def get_AI_orders(game, player_id):
                 
                 if tuple(target) == sheep: #reset the sheep when he captured the seed      #verif si le tuple() existe!!!! 
                     seed_targets[sheep][1]=False #transforme en False
+                    
             if turn > search_turns:
                 orders += str(choose_what_to_do(sheep)) #à vérifier si return bien les orders tels-quel
     
