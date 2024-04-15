@@ -402,6 +402,9 @@ def get_AI_orders(game, player_id):
     """
     turn = map['nbr_of_turns']
     orders = 'sheep'
+    
+    max_map = max(map['map_size'])
+    search_turns = int (max_map - (max_map / 2))  # calcul the number of turn to only search seed
 
     for sheep in players['player_'+str(player_id)]['sheeps']:
         
@@ -411,7 +414,7 @@ def get_AI_orders(game, player_id):
                 create_sheepxseed(sheep,seed)
             
     
-            if turn <= 15: #capture seed for the 15 first turns
+            if turn <= search_turns: #capture seed for the 15 first turns
                 if not seed_targets[sheep][1]: #get a seed target for the sheep if it didn't already been calculated
                     seed = look_for_seed(sheep)
                     create_sheepxseed(sheep,seed)
@@ -421,8 +424,8 @@ def get_AI_orders(game, player_id):
                 
                 if tuple(target) == sheep: #reset the sheep when he captured the seed      #verif si le tuple() existe!!!! 
                     seed_targets[sheep][1]=False #transforme en False
-            if turn > 15:
-                
+            if turn > search_turns:
+                orders += str(choose_what_to_do(sheep)) #à vérifier si return bien les orders tels-quel
     
     
     
