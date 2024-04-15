@@ -404,10 +404,9 @@ def get_AI_orders(game, player_id):
     orders = 'sheep'
     
     max_map = max(map['map_size'])
-    search_turns = int (max_map - (max_map / 2))  # calcul the number of turn to only search seed
+    search_turns = int (max_map - (max_map / 2))  # calcul the number of turn to only search seed (depend of the map size)
 
     for sheep in players['player_'+str(player_id)]['sheeps']:
-        
             if turn == 0:   #initialize the game 
                 seed_targets={}
                 seed = look_for_seed(sheep)
