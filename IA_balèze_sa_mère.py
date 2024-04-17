@@ -262,13 +262,11 @@ def search_graze (sheep,distance):
     sheeps_coordinates=[]
     for minus in xy:
         for more in xy:
-            if not (minus==0 and more==0):
-                search_coordinate=[sheep[0]+minus,sheep[1]+more]
-                if what_in_the_box(search_coordinate,'grass'):
-                    search_coordinate=(search_coordinate[0],search_coordinate[1])
-                    sheeps_coordinates.append(search_coordinate)
+            search_coordinate=[sheep[0]+minus,sheep[1]+more]
+            if what_in_the_box(search_coordinate,'grass'):
+                search_coordinate=(search_coordinate[0],search_coordinate[1])
+                sheeps_coordinates.append(search_coordinate)
     return sheeps_coordinates
-
 def search_seeds (sheep,distance):
     """return the grass coordinates near a sheep
     parameters
