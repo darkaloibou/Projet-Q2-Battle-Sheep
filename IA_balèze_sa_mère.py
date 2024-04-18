@@ -531,7 +531,7 @@ def get_AI_orders(game, player_id):
     version
     -------
     specification : Heynen Scott-Socrate (v2 29/03/24)
-    implementation : Heynen Scott-Socrate (v2 15/04/24)
+    implementation : Heynen Scott-Socrate (v4 18/04/24)
     
     """
     turn = map['nbr_of_turns']
@@ -541,27 +541,45 @@ def get_AI_orders(game, player_id):
     search_turns = int (max_map - (max_map / 2))  # calcul the number of turn to only search seed (depend of the map size)
 
     for sheep in players['player_'+str(player_id)]['sheeps']:
-            if turn == 0:   #initialize the game 
-                seed_targets={} for the seed search only turns
-                seed = look_for_seed(sheep)
-                create_sheepxseed(sheep,seed)
+        free_to_action = True    
+        
+        if turn <= search_turns or players['player_'+str(player_id)]['nbr_of_grass'] < 30: #for the seed search only turns
             
-    
-            if turn <= search_turns or players['player_'+str(player_id)]['nbr_of_grass']] < 30: #for the seed search only turns
-                if not seed_targets[sheep][1]: #get a seed target for the sheep if it didn't already have been calculated
-                    seed = look_for_seed(sheep)
-                    create_sheepxseed(sheep,seed)
-
-                target = seed_targets[sheep][0]
-                orders += str(move_sheep(sheep,move_ia(sheep,target))) #move the sheep to the seed     #verif si move_ia return bien seulement coordonnées
+            target_seed = look_for_seed(sheep)
+            
+            if player_id == 1:  #look if there is a sheep in a 1 box distance and attack (player 1)
+                for ennemi_sheep in players["player_2"]["sheeps"]:
+                    distance = get_distance(ennemi_sheep,sheep)
+                    if distance == 1:
+                        orders += attack(sheep,ennemi_sheep)
+                        free_to_action = False
                 
-                if tuple(target) == sheep: #reset the sheep when he captured the seed      #verif si le tuple() existe!!!! 
-                    seed_targets[sheep][1]=False #transforme en False
-                    
-            if turn > search_turns:
-                orders += str(choose_what_to_do(sheep)) #à vérifier si return bien les orders tels-quel
-    
-    
+            if player_id == 2:  #look if there is a sheep in a 1 box distance and attack (player 2)
+                for ennemi_sheep in players["player_2"]["sheeps"]:
+                    distance = get_distance(ennemi_sheep,sheep)
+                    if distance == 1:
+                        orders += attack(sheep,ennemi_sheep)    
+                        free_to_action = False
+                
+            if free_to_action:
+                orders += str(move_sheep(sheep,move_ia(sheep,target_seed))) #move the sheep to the seed
+                
+        if turn > search_turns:
+            minimum_distance = 99999
+                
+            for sheep_role in players['player_'+str(player_id)]['sheeps']: # look for the role of the sheep (0 = defend)
+                distance = get_distance(map['spawn']['spawn'+str(player_id)],sheep_role)
+                if distance < minimum_distance:
+                    minimum_distance = distance # down to the nearest sheep
+                    defend_sheep = sheep_role
+                        
+                        
+            if defend_sheep == sheep:      
+                orders += str(choose_what_to_do(sheep,0))
+                free_to_action = False
+            else :
+                orders += str(choose_what_to_do(sheep,1))
+                free_to_action = False
     
     return orders
 
