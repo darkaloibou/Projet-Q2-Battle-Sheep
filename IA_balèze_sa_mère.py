@@ -352,7 +352,7 @@ def search_attack(sheep):
                     new_distance = get_distance(ennemi_sheep,sheep)
                     old_distance = get_distance(ennemi_sheep,old_pos)
                     if new_distance == 1:
-                        #return # ORDRE POUR ATTAQUER
+                        return attack(sheep, ennemi_sheep)
                     elif new_distance <= old_distance:
                         if compute_hp_new > compute_hp_new:
                             old_pos = ennemi_sheep
@@ -373,14 +373,15 @@ def search_attack(sheep):
                     new_distance = get_distance(ennemi_sheep,sheep)
                     old_distance = get_distance(ennemi_sheep,old_pos)
                     if new_distance == 1:
-                        #return # ORDRE POUR ATTAQUER
+                        return attack(sheep, ennemi_sheep)
                     elif new_distance <= old_distance:
                         if compute_hp_new > compute_hp_new:
                             old_pos = ennemi_sheep
     if old_distance > 2:
         return #false
     else:
-        return # Bouger vers le mouton
+        move = find_path(sheep, old_pos)
+        return move_sheep(sheep, move)
         
     #orders += ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
     #return orders
