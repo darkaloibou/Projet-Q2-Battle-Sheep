@@ -225,6 +225,11 @@ def search_sheep (sheep,distance):
     specification : Remacle Thomas (v1 14/04/24)
     """
     xy=[0]
+    player_team_sheep_1="player_2"
+    player_team_sheep_2="player_2"
+    for player_sheep in players['player_1']['sheeps']:
+        if sheep==player_sheep:
+            player_team_sheep_1="player_1"
     for i in range(distance+1):
         if i!=0:
             xy.append(i)
@@ -237,7 +242,11 @@ def search_sheep (sheep,distance):
                 search_coordinate=[sheep[0]+minus,sheep[1]+more]
                 if what_in_the_box(search_coordinate,'sheep'):
                     search_coordinate=(search_coordinate[0],search_coordinate[1])
-                    sheeps_coordinates.append(search_coordinate)
+                    for player_sheep in players['player_1']['sheeps']:
+                        if search_coordinate==player_sheep:
+                            player_team_sheep_2="player_1"
+                    if player_team_sheep_1!=player_team_sheep_2:
+                        sheeps_coordinates.append(search_coordinate)
     return sheeps_coordinates
 def search_graze (sheep,distance):
     """return the grass coordinates near a sheep
