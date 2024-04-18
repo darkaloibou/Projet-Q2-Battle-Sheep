@@ -460,7 +460,7 @@ def get_AI_orders(game, player_id):
                 create_sheepxseed(sheep,seed)
             
     
-            if turn <= search_turns: #for the seed search only turns
+            if turn <= search_turns or players['player_'+str(player_id)]['nbr_of_grass']] < 30: #for the seed search only turns
                 if not seed_targets[sheep][1]: #get a seed target for the sheep if it didn't already have been calculated
                     seed = look_for_seed(sheep)
                     create_sheepxseed(sheep,seed)
