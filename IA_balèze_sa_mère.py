@@ -226,7 +226,6 @@ def search_sheep (sheep,distance):
     """
     xy=[0]
     player_team_sheep_1="player_2"
-    player_team_sheep_2="player_2"
     for player_sheep in players['player_1']['sheeps']:
         if sheep==player_sheep:
             player_team_sheep_1="player_1"
@@ -241,6 +240,7 @@ def search_sheep (sheep,distance):
             if not (minus==0 and more==0):
                 search_coordinate=[sheep[0]+minus,sheep[1]+more]
                 if what_in_the_box(search_coordinate,'sheep'):
+                    player_team_sheep_2="player_2"
                     search_coordinate=(search_coordinate[0],search_coordinate[1])
                     for player_sheep in players['player_1']['sheeps']:
                         if search_coordinate==player_sheep:
@@ -248,7 +248,7 @@ def search_sheep (sheep,distance):
                     if player_team_sheep_1!=player_team_sheep_2:
                         sheeps_coordinates.append(search_coordinate)
     return sheeps_coordinates
-def search_graze (sheep,distance):
+def search_grass (sheep,distance,owner_grass='e'):
     """return the grass coordinates near a sheep
     parameters
     ----------
@@ -263,6 +263,10 @@ def search_graze (sheep,distance):
     specification : Remacle Thomas (v1 14/04/24)
     """
     xy=[0]
+    player_team_sheep_1="player_2"
+    for player_sheep in players['player_1']['sheeps']:
+        if sheep==player_sheep:
+            player_team_sheep_1="player_1"
     for i in range(distance+1):
         if i!=0:
             xy.append(i)
@@ -273,8 +277,17 @@ def search_graze (sheep,distance):
         for more in xy:
             search_coordinate=[sheep[0]+minus,sheep[1]+more]
             if what_in_the_box(search_coordinate,'grass'):
+                player_grass_team="player_2"
                 search_coordinate=(search_coordinate[0],search_coordinate[1])
-                sheeps_coordinates.append(search_coordinate)
+                for player_grass in grass['player_1']:
+                    if search_coordinate==player_grass:
+                        player_grass_team="player_1"
+                if owner_grass=='a':
+                    if player_team_sheep_1==player_grass_team:
+                        sheeps_coordinates.append(search_coordinate)
+                else:
+                    if player_team_sheep_1!=player_grass_team:
+                        sheeps_coordinates.append(search_coordinate)
     return sheeps_coordinates
 def search_seeds (sheep,distance):
     """return the grass coordinates near a sheep
