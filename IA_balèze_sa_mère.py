@@ -481,7 +481,7 @@ def graze(sheep):
     if graze == 1:
         orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
     else:
-        aim = move_Ia(sheep,old_distance)
+        aim = move_ia(sheep,old_distance)
         orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(aim[0])+'-'+str(aim[1])
     return orders
 def move_sheep(old_coordinates, new_coordinates):
