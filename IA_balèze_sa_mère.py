@@ -553,7 +553,7 @@ def get_AI_orders(game, player_id):
     version
     -------
     specification : Heynen Scott-Socrate (v2 29/03/24)
-    implementation : Heynen Scott-Socrate (v4 18/04/24)
+    implementation : Heynen Scott-Socrate (v2 15/04/24)
     
     """
     turn = map['nbr_of_turns']
@@ -584,13 +584,16 @@ def get_AI_orders(game, player_id):
                         free_to_action = False
                 
             if free_to_action:
-                orders += str(move_sheep(sheep,move_ia(sheep,target_seed))) #move the sheep to the seed
+                orders += str(move_sheep(sheep,move_ia(sheep,target_seed))) #move the sheep to the seed     #verif si move_ia return bien seulement coordonnées
+                
+            """if tuple(target) == sheep: #reset the sheep when he captured the seed      #verif si le tuple() existe!!!! 
+                seed_targets[sheep][1]=False #transforme en False"""
                 
         if turn > search_turns:
-            minimum_distance = 99999
+            minimum_distance = 999
                 
             for sheep_role in players['player_'+str(player_id)]['sheeps']: # look for the role of the sheep (0 = defend)
-                distance = get_distance(map['spawn']['spawn'+str(player_id)],sheep_role)
+                distance = get_distance(map['spawn']['spawn_'+str(player_id)],sheep_role)
                 if distance < minimum_distance:
                     minimum_distance = distance # down to the nearest sheep
                     defend_sheep = sheep_role
@@ -604,7 +607,6 @@ def get_AI_orders(game, player_id):
                 free_to_action = False
     
     return orders
-
 
 
 def choose_what_to_do(sheep):
