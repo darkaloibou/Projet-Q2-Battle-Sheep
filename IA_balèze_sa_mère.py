@@ -747,3 +747,108 @@ def move_ia(location,target):
                 else:
                     move=[location[0]+1,location[1]]
                     return (move[0],move[1])
+
+
+
+
+
+def what_should_do(sheep,role=1):
+    """prend les décision en fonction de la situation du mouton et donne le comportement à adopter
+    
+    parametre:
+    sheep=position du mouton appartenant à l'ia(tuple)(x,y)
+    role=si il est plus proche du spawn et qu'il n'es pas tout seul role=0 (boull)
+    
+    return:
+    l'ordre à executer
+
+    spécification:
+    Arthur Yernaux 06/04/2024
+    v1 19/04/2024 Arthur Yernaux
+    """
+
+    mouton_coller=search_sheep(sheep,1)
+    if len(mouton_coller) != 0 :
+        return attack(sheep,mouton_coller[0])
+    
+
+    if role==0 :
+        seed=search_seed(sheep,5)
+        ennemy=search_sheep(sheep,5)
+        all_ennemy=search_sheep(sheep,100)
+        ennemy_proche=[]
+        for i in all_ennemy:
+            for a in grass:
+                if get_distance(i,a)<5 and i not in ennemy_proche:
+                    ennemy_proche.append(i)
+        if len(seed) != 0 and len(search_grass(sheep,5,'a')) != 0 :
+            if len(seed)==1:
+                target=move_ia(sheep,seed[0])
+                return move_sheep(sheep,target)
+            else:
+                target=move_ia(sheep,look_for_seed(sheep))
+                return move_sheep(sheep,target)
+            
+        
+        elif len(ennemy)!=0 and len(search_grass(sheep,5,'a')):
+            
+            return attack(sheep,ennemy[0])
+        
+        elif len(all_ennemy)!=0 :
+            min=1000
+            for b in ennemy_proche:
+                distance=get_distance(b,sheep)
+                if distance<min:
+                    min=distance
+                    ennemy_opti=b
+            target=move_ia(sheep,ennemy_opti)
+            return move_sheep(sheep,target)
+        
+        
+        else:
+            grass=search_grass(sheep,100,'a')
+            taille=map['map_size']
+            taille[0]=taille[0]/2
+            taille[1]=taille[1]/2
+            min=1000
+            for i in grass:
+                distance=get_distance(i,taille)
+                if distance<min:
+                    min=distance
+                    grass_opti=i
+            target=move_ia(sheep,grass_opti)
+            return move_sheep(sheep,target)
+    
+
+    else:
+        list_seed =search_seed(sheep,10)
+        ennemy_grass =search_grass(sheep,1000)
+        if what_in_the_box(sheep,'grass'):
+            return graze(sheep)
+        
+        elif len(list_seed)!=0:
+            min=1000
+            for seed in list_seed:
+                distance=get_distance(seed,sheep)
+                if distance<min:
+                    min=distance
+                    seed_opti=seed
+            target=move_ia(sheep,seed_opti)
+            return move_sheep(sheep,target)
+        
+        
+        elif len(search_sheep(sheep,5))!=0:
+            ennemy=search_sheep(sheep,5)
+            return attack(sheep,ennemy[0])
+
+        else:
+            min=1000
+            for grass in ennemy_grass:
+                distance=get_distance(grass,sheep)
+                if distance<min:
+                    min=distance
+                    grass_opti=grass
+            target=move_ia(sheep,grass)
+            return move_sheep(sheep,target)
+
+
