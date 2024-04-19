@@ -553,7 +553,7 @@ def get_AI_orders(game, player_id):
     version
     -------
     specification : Heynen Scott-Socrate (v2 29/03/24)
-    implementation : Heynen Scott-Socrate (v2 15/04/24)
+    implementation : Heynen Scott-Socrate (v5 19/04/24)
     
     """
     turn = map['nbr_of_turns']
