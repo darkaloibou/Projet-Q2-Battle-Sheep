@@ -881,7 +881,7 @@ def what_should_do(sheep,role=1):
                 distance=get_distance(seed,sheep)
                 if distance<min:
                     min=distance
-                    seed_opti=seed
+                    seed_opti=list_seed[seed]
             target=move_ia(sheep,seed_opti)
             return move_sheep(sheep,target)
         
@@ -896,6 +896,6 @@ def what_should_do(sheep,role=1):
                 distance=get_distance(grass,sheep)
                 if distance<min:
                     min=distance
-                    grass_opti=herbe
+                    grass_opti=ennemy_grass[herbe]
             target=move_ia(sheep,grass_opti)
             return move_sheep(sheep,target)
