@@ -855,7 +855,7 @@ def what_should_do(sheep,role=1):
                     return orders
         
         
-        elif len(ennemy)!=0:
+        if len(ennemy)!=0:
             
 
 
