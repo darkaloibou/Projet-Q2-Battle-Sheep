@@ -773,7 +773,7 @@ def what_should_do(sheep,role=1):
     
 
     if role==0 :
-        seed=search_seed(sheep,5)
+        seed=search_seeds(sheep,5)
         ennemy=search_sheep(sheep,5)
         all_ennemy=search_sheep(sheep,100)
         ennemy_proche=[]
