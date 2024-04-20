@@ -174,18 +174,7 @@ def look_for_seed_alternative(sheep):
                             
     print (number_of_seeds)
     return return_coordinate            
-    
-def find_path():
-    """"""
-    if target[0] > sheep[0] and target[1] < sheep[1]:
-    if target[0] < sheep[0] and target[1] > sheep[1]:
-    if target[0] > sheep[0] and target[1] < sheep[1]:
-    if target[0] < sheep[0] and target[1] > sheep[1]:
 
-    if target[0] > sheep[0]: #Ennemi on the right
-    if target[0] < sheep[0]: #Ennemi on the left
-    if target[1] > sheep[1]: #Ennemi on the top
-    if target[1] < sheep[1]: #Ennemi on the buttom
     
 def attack(sheep1,sheep2):
     """return the attack command 
@@ -507,35 +496,6 @@ def move_sheep(old_coordinates, new_coordinates):
 
     orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(new_coordinates[0])+'-'+str(new_coordinates[1])
     return orders
-
-def create_sheepxseed(sheep,seed):
-    """return a dico with the first sheep with the seed goal
-    
-    parameters
-    ----------
-    sheep : the (x,y) coordinates of the sheep to add to the list (tuples)    
-    seed : the (x,y) coordinates of the seed to link to the sheep (list)
-    
-    return
-    ------
-    seed_targets : the dico with the sheep and the seed he reach to capture
-    
-    version
-    -------
-    specification : Heynen Scott-Socrate (v2 28/03/24)"""
-
-    targets[sheep] = [seed,True]
-
-#exemple du dico des seed
-#------------------------------------------------
-
-seed_targets = {(x,y) : {[x,y],True], #premier x,y c'est mouton et les 2eme c'est la graine qu'il vise. le True c'est pour dire que sa graine à déjà été calculée
-                (x,y) : {[x,y],False]}
-
-
-sheep_targets = {(x,y) : {[x,y],False]}
-#fonction de l'IA
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # main function - if necessary, other parameters can be used
 def get_AI_orders(game, player_id):
