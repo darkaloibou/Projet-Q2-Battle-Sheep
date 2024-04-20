@@ -862,7 +862,7 @@ def what_should_do(sheep,role=1):
                 ennemy=players["player_2"]
                 ennemy=ennemy["sheeps"]
                 for ennemys in ennemy:
-                    mouton=ennemys
+                    mouton=ennemy[ennemys]
                     if mouton[0]==1:
                         return search_attack(sheep,ennemys)
                         
@@ -870,7 +870,7 @@ def what_should_do(sheep,role=1):
                 ennemy=players["player_1"]
                 ennemy=ennemy["sheeps"]
                 for ennemys in ennemy:
-                    mouton=ennemys
+                    mouton=ennemy[ennemys]
                     if mouton[0]==1:
                         return search_attack(sheep,ennemys)
 
