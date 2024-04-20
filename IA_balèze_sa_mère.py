@@ -778,7 +778,7 @@ def what_should_do(sheep,role=1):
     
 
     if role==0 :
-        seed=search_seed(sheep,5)
+        seed=search_seeds(sheep,5)
         ennemy=search_sheep(sheep,5)
         all_ennemy=search_sheep(sheep,100)
         ennemy_proche=[]
@@ -828,7 +828,7 @@ def what_should_do(sheep,role=1):
 
     else:
         ennemy=search_sheep(sheep,8)
-        list_seed =search_seed(sheep,10)
+        list_seed =search_seeds(sheep,10)
         ennemy_grass =search_grass(sheep,1000)
         player_team_sheep_1="player_2"
         for player_sheep in players['player_1']['sheeps']:
