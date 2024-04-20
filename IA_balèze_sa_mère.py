@@ -174,18 +174,7 @@ def look_for_seed_alternative(sheep):
                             
     print (number_of_seeds)
     return return_coordinate            
-    
-def find_path():
-    """"""
-    if target[0] > sheep[0] and target[1] < sheep[1]:
-    if target[0] < sheep[0] and target[1] > sheep[1]:
-    if target[0] > sheep[0] and target[1] < sheep[1]:
-    if target[0] < sheep[0] and target[1] > sheep[1]:
 
-    if target[0] > sheep[0]: #Ennemi on the right
-    if target[0] < sheep[0]: #Ennemi on the left
-    if target[1] > sheep[1]: #Ennemi on the top
-    if target[1] < sheep[1]: #Ennemi on the buttom
     
 def attack(sheep1,sheep2):
     """return the attack command 
@@ -225,6 +214,10 @@ def search_sheep (sheep,distance):
     specification : Remacle Thomas (v1 14/04/24)
     """
     xy=[0]
+    player_team_sheep_1="player_2"
+    for player_sheep in players['player_1']['sheeps']:
+        if sheep==player_sheep:
+            player_team_sheep_1="player_1"
     for i in range(distance+1):
         if i!=0:
             xy.append(i)
@@ -236,10 +229,15 @@ def search_sheep (sheep,distance):
             if not (minus==0 and more==0):
                 search_coordinate=[sheep[0]+minus,sheep[1]+more]
                 if what_in_the_box(search_coordinate,'sheep'):
+                    player_team_sheep_2="player_2"
                     search_coordinate=(search_coordinate[0],search_coordinate[1])
-                    sheeps_coordinates.append(search_coordinate)
+                    for player_sheep in players['player_1']['sheeps']:
+                        if search_coordinate==player_sheep:
+                            player_team_sheep_2="player_1"
+                    if player_team_sheep_1!=player_team_sheep_2:
+                        sheeps_coordinates.append(search_coordinate)
     return sheeps_coordinates
-def search_graze (sheep,distance):
+def search_grass (sheep,distance,owner_grass='e'):
     """return the grass coordinates near a sheep
     parameters
     ----------
@@ -254,6 +252,10 @@ def search_graze (sheep,distance):
     specification : Remacle Thomas (v1 14/04/24)
     """
     xy=[0]
+    player_team_sheep_1="player_2"
+    for player_sheep in players['player_1']['sheeps']:
+        if sheep==player_sheep:
+            player_team_sheep_1="player_1"
     for i in range(distance+1):
         if i!=0:
             xy.append(i)
@@ -264,8 +266,17 @@ def search_graze (sheep,distance):
         for more in xy:
             search_coordinate=[sheep[0]+minus,sheep[1]+more]
             if what_in_the_box(search_coordinate,'grass'):
+                player_grass_team="player_2"
                 search_coordinate=(search_coordinate[0],search_coordinate[1])
-                sheeps_coordinates.append(search_coordinate)
+                for player_grass in grass['player_1']:
+                    if search_coordinate==player_grass:
+                        player_grass_team="player_1"
+                if owner_grass=='a':
+                    if player_team_sheep_1==player_grass_team:
+                        sheeps_coordinates.append(search_coordinate)
+                else:
+                    if player_team_sheep_1!=player_grass_team:
+                        sheeps_coordinates.append(search_coordinate)
     return sheeps_coordinates
 def search_seeds (sheep,distance):
     """return the grass coordinates near a sheep
@@ -380,88 +391,13 @@ def search_attack(sheep):
     if old_distance > 2:
         return #false
     else:
-        move = find_path(sheep, old_pos)
+        move = move_ia(sheep, old_pos)
         return move_sheep(sheep, move)
         
     #orders += ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
     #return orders
 
 
-def graze(sheep):
-    """return the graze command 
-    
-    parameters
-    ----------
-    sheep : the (x,y) coordinates of the sheep who graze (tuples)
-
-    returns
-    -------
-    orders: the order to add to the order list (str)
-
-    notes
-    -----
-    this function don't check if the order is valide
-    
-    version
-    -------
-    specification : Heynen Scott-Socrate (v2 28/03/24)
-    implementation : Heynen Scott-Socrate (v1 29/03/24)"""
-    grass_list=[]
-    sheep=[sheep[0],sheep[1]] # sheep
-    x_sheep = sheep[0] # coordinate of the sheep in x
-    x_sheep = sheep[1] # coordinate of the sheep in y
-    old_total = 0
-    total = 0
-    new = 0
-
-    # check with sheep is playing
-    for sheep_1 in players['player_1']['sheeps'] : # Player 1
-        sheep_1=[sheep[0],sheep[1]]
-        if sheep_1  == sheep:
-           sheep_player = 1
-
-    for sheep_2 in players['player_2']['sheeps'] : # Player 2
-        sheep_2=[sheep[0],sheep[1]]
-        if sheep_2 == sheep:
-           sheep_player = 2
-
-    # Create a list with all grass
-    if sheep_player == 1:
-        for i_grass in grass["player_1"]:
-            grass_list.append(i_grass)
-    else:
-        for i_grass in grass["player_2"]:
-            grass_list.append(i_grass)
-    # Check the grass witch one is the better
-    for i_grass in grass_list:
-        if new == 0: # Check if the function work for the first time
-            old_distance = i_grass
-            new = 1
-            for u_grass in grass_list: # Compute how mutch grass there is around this grass. 
-                    compute_grass = get_distance(i_grass,u_grass)
-                    if compute_grass <= 2: # If it is around the grass
-                        old_total += 1
-        else:
-            compute_new = get_distance(sheep,i_grass)
-            compute_old = get_distance(sheep,old_distance)
-            if compute_new==0 or compute_old == 0: # if sheep is on the grass
-                graze == 1
-            elif compute_new < compute_old: # Check if the new valor is better than the old one
-                old_distance = i_grass
-            elif compute_new == compute_old: # If the valor is the same
-                for u_grass in grass_list: # Compute how mutch grass there is around this grass. 
-                    compute_grass = get_distance(i_grass,u_grass)
-                    if compute_grass <= 2: # If it is around the grass
-                        total += 1
-                    if total > old_total: # if the total of grass is better than the old one ?
-                        old_total = total
-                        old_distance = i_grass
-    if graze == 1:
-        orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
-    else:
-        aim = move_Ia(sheep,old_distance)
-        orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(aim[0])+'-'+str(aim[1])
-    return orders
 def move_sheep(old_coordinates, new_coordinates):
     """return the move command 
     
@@ -486,35 +422,6 @@ def move_sheep(old_coordinates, new_coordinates):
     orders = ' '+str(old_coordinates[0])+'-'+str(old_coordinates[1])+':@'+str(new_coordinates[0])+'-'+str(new_coordinates[1])
     return orders
 
-def create_sheepxseed(sheep,seed):
-    """return a dico with the first sheep with the seed goal
-    
-    parameters
-    ----------
-    sheep : the (x,y) coordinates of the sheep to add to the list (tuples)    
-    seed : the (x,y) coordinates of the seed to link to the sheep (list)
-    
-    return
-    ------
-    seed_targets : the dico with the sheep and the seed he reach to capture
-    
-    version
-    -------
-    specification : Heynen Scott-Socrate (v2 28/03/24)"""
-
-    targets[sheep] = [seed,True]
-
-#exemple du dico des seed
-#------------------------------------------------
-
-seed_targets = {(x,y) : {[x,y],True], #premier x,y c'est mouton et les 2eme c'est la graine qu'il vise. le True c'est pour dire que sa graine à déjà été calculée
-                (x,y) : {[x,y],False]}
-
-
-sheep_targets = {(x,y) : {[x,y],False]}
-#fonction de l'IA
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 # main function - if necessary, other parameters can be used
 def get_AI_orders(game, player_id):
     """Return orders of AI.
@@ -531,7 +438,7 @@ def get_AI_orders(game, player_id):
     version
     -------
     specification : Heynen Scott-Socrate (v2 29/03/24)
-    implementation : Heynen Scott-Socrate (v4 18/04/24)
+    implementation : Heynen Scott-Socrate (v5 19/04/24)
     
     """
     turn = map['nbr_of_turns']
@@ -562,13 +469,16 @@ def get_AI_orders(game, player_id):
                         free_to_action = False
                 
             if free_to_action:
-                orders += str(move_sheep(sheep,move_ia(sheep,target_seed))) #move the sheep to the seed
+                orders += str(move_sheep(sheep,move_ia(sheep,target_seed))) #move the sheep to the seed     #verif si move_ia return bien seulement coordonnées
+                
+            """if tuple(target) == sheep: #reset the sheep when he captured the seed      #verif si le tuple() existe!!!! 
+                seed_targets[sheep][1]=False #transforme en False"""
                 
         if turn > search_turns:
-            minimum_distance = 99999
+            minimum_distance = 999
                 
             for sheep_role in players['player_'+str(player_id)]['sheeps']: # look for the role of the sheep (0 = defend)
-                distance = get_distance(map['spawn']['spawn'+str(player_id)],sheep_role)
+                distance = get_distance(map['spawn']['spawn_'+str(player_id)],sheep_role)
                 if distance < minimum_distance:
                     minimum_distance = distance # down to the nearest sheep
                     defend_sheep = sheep_role
@@ -582,7 +492,6 @@ def get_AI_orders(game, player_id):
                 free_to_action = False
     
     return orders
-
 
 
 def choose_what_to_do(sheep):
@@ -723,3 +632,154 @@ def move_ia(location,target):
                 else:
                     move=[location[0]+1,location[1]]
                     return (move[0],move[1])
+
+
+
+def what_should_do(sheep,role=1):
+    """prend les décision en fonction de la situation du mouton et donne le comportement à adopter
+    
+    parametre:
+    sheep=position du mouton appartenant à l'ia(tuple)(x,y)
+    role=si il est plus proche du spawn et qu'il n'es pas tout seul role=0 (boull)
+    
+    return:
+    l'ordre à executer
+
+    spécification:
+    Arthur Yernaux 06/04/2024
+    implémentation
+    v1 19/04/2024 Arthur Yernaux
+    v2 20/04/2024 Arthur Yernaux
+
+    """
+
+    mouton_coller=search_sheep(sheep,1)
+    if len(mouton_coller) != 0 :
+        return search_attack(sheep,mouton_coller[0])
+    
+
+    if role==0 :
+        seed=search_seeds(sheep,5)
+        ennemy=search_sheep(sheep,5)
+        all_ennemy=search_sheep(sheep,100)
+        ennemy_proche=[]
+        herbe=search_grass(sheep,1000,'a')
+        for i in all_ennemy:
+            for a in herbe:
+                if get_distance(i,a)<5 and i not in ennemy_proche:
+                    ennemy_proche.append(i)
+        if len(seed) != 0 and len(search_grass(sheep,5,'a')) != 0 :
+            if len(seed)==1:
+                target=move_ia(sheep,seed[0])
+                return move_sheep(sheep,target)
+            else:
+                target=move_ia(sheep,look_for_seed(sheep))
+                return move_sheep(sheep,target)
+            
+        
+        elif len(ennemy)!=0 and len(search_grass(sheep,5,'a')):
+            
+            return search_attack(sheep,ennemy[0])
+        
+        elif len(ennemy_proche)!=0 :
+            min=1000
+            for b in ennemy_proche:
+                distance=get_distance(b,sheep)
+                if distance<min:
+                    min=distance
+                    ennemy_opti=b
+            target=move_ia(sheep,ennemy_opti)
+            return move_sheep(sheep,target)
+        
+        
+        else:
+            herbe=search_grass(sheep,100,'a')
+            taille=map['map_size']
+            taille[0]=math.floor(taille[0]/2)
+            taille[1]=math.floor(taille[1]/2)
+            min=1000
+            for i in herbe:
+                distance=get_distance(i,taille)
+                if distance<min:
+                    min=distance
+                    grass_opti=i
+            if sheep!=grass_opti:
+                target=move_ia(sheep,grass_opti)
+                return move_sheep(sheep,target)
+            else:
+                grass_opti[0]=grass_opti[0]+1
+                target=move_ia(sheep,grass_opti)
+                return move_sheep(sheep,target)
+                
+    
+
+    else:
+        ennemy=search_sheep(sheep,8)
+        list_seed =search_seeds(sheep,10)
+        ennemy_grass =search_grass(sheep,1000)
+        player_team_sheep_1="player_2"
+        for player_sheep in players['player_1']['sheeps']:
+            if sheep==player_sheep:
+                player_team_sheep_1="player_1"
+
+        
+        
+        
+        if what_in_the_box(sheep,'grass'):
+            
+            if player_team_sheep_1=="player_1":
+                herbe=grass['player_2']
+                if sheep in herbe:
+                    orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
+                    return orders
+            elif player_team_sheep_1=="player_2":
+                herbe=grass['player1']
+                if sheep in herbe:
+                    orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
+                    return orders
+        
+        
+        if len(ennemy)!=0:
+            
+
+
+            if player_team_sheep_1=="player_1":
+                ennemy=players["player_2"]
+                ennemy=ennemy["sheeps"]
+                for ennemys in ennemy:
+                    mouton=ennemy[ennemys]
+                    if mouton[0]==1:
+                        return search_attack(sheep,ennemys)
+                        
+            else:
+                ennemy=players["player_1"]
+                ennemy=ennemy["sheeps"]
+                for ennemys in ennemy:
+                    mouton=ennemy[ennemys]
+                    if mouton[0]==1:
+                        return search_attack(sheep,ennemys)
+
+        elif len(list_seed)!=0:
+            min=1000
+            for seed in list_seed:
+                distance=get_distance(seed,sheep)
+                if distance<min:
+                    min=distance
+                    seed_opti=seed
+            target=move_ia(sheep,seed_opti)
+            return move_sheep(sheep,target)
+        
+        
+        elif len(search_sheep(sheep,5))!=0:
+            ennemy=search_sheep(sheep,5)
+            return search_attack(sheep,ennemy[0])
+
+        else:
+            min=1000
+            for herbe in ennemy_grass:
+                distance=get_distance(grass,sheep)
+                if distance<min:
+                    min=distance
+                    grass_opti=herbe
+            target=move_ia(sheep,grass_opti)
+            return move_sheep(sheep,target)
