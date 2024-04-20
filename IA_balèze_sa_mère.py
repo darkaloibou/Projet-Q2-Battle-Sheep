@@ -822,8 +822,13 @@ def what_should_do(sheep,role=1):
                 if distance<min:
                     min=distance
                     grass_opti=i
-            target=move_ia(sheep,grass_opti)
-            return move_sheep(sheep,target)
+            if sheep!=grass_opti:
+                target=move_ia(sheep,grass_opti)
+                return move_sheep(sheep,target)
+            else:
+                grass_opti[0]=grass_opti[0]+1
+                target=move_ia(sheep,grass_opti)
+                return move_sheep(sheep,target)
     
 
     else:
