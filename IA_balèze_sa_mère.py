@@ -345,7 +345,6 @@ def search_attack(sheep):
         if sheep_2_list == sheep:
            sheep_player = 2
            sheep_1_hp = players["player_2"]["sheeps"][sheep_2][0]
-
     new = 0
     if sheep_player == 1 : # fonction of the player 1
         for ennemi_sheep in players["player_2"]["sheeps"]:
@@ -354,49 +353,54 @@ def search_attack(sheep):
                 old_pos = ennemi_sheep
                 new = 1
                 sheep_old_hp = players["player_2"]["sheeps"][ennemi_sheep][0]
+                old_distance=get_distance(ennemi_sheep,sheep)
+                if old_distance==1:
+                    return attack(sheep,ennemi_sheep)
             else:
                 # check the difference of hp of both of them
                 sheep_new_hp = players["player_2"]["sheeps"][ennemi_sheep][0]
                 compute_hp_new = sheep_1_hp - sheep_new_hp
                 compute_hp_old = sheep_1_hp - sheep_old_hp
+                new_distance = get_distance(ennemi_sheep,sheep)
+                old_distance = get_distance(sheep,old_pos)
+                if new_distance == 1:
+                    return attack(sheep, ennemi_sheep)
                 if compute_hp_new > -1:
-                    new_distance = get_distance(ennemi_sheep,sheep)
-                    old_distance = get_distance(ennemi_sheep,old_pos)
-                    if new_distance == 1:
-                        return attack(sheep, ennemi_sheep)
-                    elif new_distance <= old_distance:
-                        if compute_hp_new > compute_hp_new:
+                    if new_distance < old_distance:
+                        old_pos=ennemi_sheep
+                    elif new_distance==old_distance:
+                        if compute_hp_new > compute_hp_old:
                             old_pos = ennemi_sheep
                     
     else : # PLayer 2
         for ennemi_sheep in players["player_1"]["sheeps"]:
-            ennemi_sheep_list=[ennemi_sheep[0],ennemi_sheep[1]] # Set a list of sheep
+            ennemi_sheep_list =[ennemi_sheep[0],ennemi_sheep[1]] # Set a list of sheep
             if new == 0 :
                 old_pos = ennemi_sheep
                 new = 1
                 sheep_old_hp = players["player_1"]["sheeps"][ennemi_sheep][0]
+                old_distance=get_distance(ennemi_sheep,sheep)
+                if old_distance==1:
+                    return attack(sheep,ennemi_sheep)
             else:
                 # check the difference of hp of both of them
                 sheep_new_hp = players["player_1"]["sheeps"][ennemi_sheep][0]
                 compute_hp_new = sheep_1_hp - sheep_new_hp
                 compute_hp_old = sheep_1_hp - sheep_old_hp
+                new_distance = get_distance(ennemi_sheep,sheep)
+                old_distance = get_distance(sheep,old_pos)
+                if new_distance == 1:
+                    return attack(sheep, ennemi_sheep)
                 if compute_hp_new > -1:
-                    new_distance = get_distance(ennemi_sheep,sheep)
-                    old_distance = get_distance(ennemi_sheep,old_pos)
-                    if new_distance == 1:
-                        return attack(sheep, ennemi_sheep)
-                    elif new_distance <= old_distance:
-                        if compute_hp_new > compute_hp_new:
+                    if new_distance < old_distance:
+                        old_pos=ennemi_sheep
+                    elif new_distance==old_distance:
+                        if compute_hp_new > compute_hp_old:
                             old_pos = ennemi_sheep
-    if old_distance > 2:
-        return #false
-    else:
+    old_distance = get_distance(sheep,old_pos)
+    if not old_distance > 5:
         move = move_ia(sheep, old_pos)
         return move_sheep(sheep, move)
-        
-    #orders += ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
-    #return orders
-
 
 def move_sheep(old_coordinates, new_coordinates):
     """return the move command 
@@ -485,10 +489,10 @@ def get_AI_orders(game, player_id):
                         
                         
             if defend_sheep == sheep:      
-                orders += str(choose_what_to_do(sheep,0))
+                orders += str(what_should_do(sheep,0))
                 free_to_action = False
             else :
-                orders += str(choose_what_to_do(sheep,1))
+                orders += str(what_should_do(sheep,1))
                 free_to_action = False
     
     return orders
@@ -655,7 +659,7 @@ def what_should_do(sheep,role=1):
 
     mouton_coller=search_sheep(sheep,1)
     if len(mouton_coller) != 0 :
-        return search_attack(sheep,mouton_coller[0])
+        return search_attack(sheep)
     
 
     if role==0 :
@@ -678,8 +682,8 @@ def what_should_do(sheep,role=1):
             
         
         elif len(ennemy)!=0 and len(search_grass(sheep,5,'a')):
-            
-            return search_attack(sheep,ennemy[0])
+
+            return search_attack(sheep)
         
         elif len(ennemy_proche)!=0 :
             min=1000
@@ -749,7 +753,7 @@ def what_should_do(sheep,role=1):
                 for ennemys in ennemy:
                     mouton=ennemy[ennemys]
                     if mouton[0]==1:
-                        return search_attack(sheep,ennemys)
+                        return search_attack(sheep)
                         
             else:
                 ennemy=players["player_1"]
@@ -757,7 +761,7 @@ def what_should_do(sheep,role=1):
                 for ennemys in ennemy:
                     mouton=ennemy[ennemys]
                     if mouton[0]==1:
-                        return search_attack(sheep,ennemys)
+                        return search_attack(sheep)
 
         elif len(list_seed)!=0:
             min=1000
@@ -772,7 +776,7 @@ def what_should_do(sheep,role=1):
         
         elif len(search_sheep(sheep,5))!=0:
             ennemy=search_sheep(sheep,5)
-            return search_attack(sheep,ennemy[0])
+            return search_attack(sheep)
 
         else:
             min=1000
