@@ -800,7 +800,7 @@ def what_should_do(sheep,role=1):
             
             return attack(sheep,ennemy[0])
         
-        elif len(all_ennemy)!=0 :
+        elif len(ennemy_proche)!=0 :
             min=1000
             for b in ennemy_proche:
                 distance=get_distance(b,sheep)
