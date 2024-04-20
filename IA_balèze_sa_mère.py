@@ -753,6 +753,7 @@ def move_ia(location,target):
 
 
 
+
 def what_should_do(sheep,role=1):
     """prend les décision en fonction de la situation du mouton et donne le comportement à adopter
     
@@ -768,6 +769,7 @@ def what_should_do(sheep,role=1):
     implémentation
     v1 19/04/2024 Arthur Yernaux
     v2 20/04/2024 Arthur Yernaux
+
     """
 
     mouton_coller=search_sheep(sheep,1)
@@ -780,8 +782,9 @@ def what_should_do(sheep,role=1):
         ennemy=search_sheep(sheep,5)
         all_ennemy=search_sheep(sheep,100)
         ennemy_proche=[]
+        herbe=search_grass(sheep,1000,'a')
         for i in all_ennemy:
-            for a in grass:
+            for a in herbe:
                 if get_distance(i,a)<5 and i not in ennemy_proche:
                     ennemy_proche.append(i)
         if len(seed) != 0 and len(search_grass(sheep,5,'a')) != 0 :
@@ -809,12 +812,12 @@ def what_should_do(sheep,role=1):
         
         
         else:
-            grass=search_grass(sheep,100,'a')
+            herbe=search_grass(sheep,100,'a')
             taille=map['map_size']
             taille[0]=math.floor(taille[0]/2)
             taille[1]=math.floor(taille[1]/2)
             min=1000
-            for i in grass:
+            for i in herbe:
                 distance=get_distance(i,taille)
                 if distance<min:
                     min=distance
@@ -827,17 +830,29 @@ def what_should_do(sheep,role=1):
         ennemy=search_sheep(sheep,8)
         list_seed =search_seed(sheep,10)
         ennemy_grass =search_grass(sheep,1000)
-        
+        player_team_sheep_1="player_2"
+        for player_sheep in players['player_1']['sheeps']:
+            if sheep==player_sheep:
+                player_team_sheep_1="player_1"
         
         
         if what_in_the_box(sheep,'grass'):
-            return graze(sheep)
+            
+            if player_team_sheep_1=="player_1":
+                herbe=grass['player_2']
+                if sheep in herbe:
+                    orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
+                    return orders
+            elif player_team_sheep_1=="player_2":
+                herbe=grass['player1']
+                if sheep in herbe:
+                    orders = ' '+str(sheep[0])+'-'+str(sheep[1])+':*'
+                    return orders
+        
         
         elif len(ennemy)!=0:
-            player_team_sheep_1="player_2"
-            for player_sheep in players['player_1']['sheeps']:
-                if sheep==player_sheep:
-                    player_team_sheep_1="player_1"
+            
+
 
             if player_team_sheep_1=="player_1":
                 ennemy=players["player_2"]
@@ -872,10 +887,10 @@ def what_should_do(sheep,role=1):
 
         else:
             min=1000
-            for grass in ennemy_grass:
+            for herbe in ennemy_grass:
                 distance=get_distance(grass,sheep)
                 if distance<min:
                     min=distance
-                    grass_opti=grass
-            target=move_ia(sheep,grass)
+                    grass_opti=herbe
+            target=move_ia(sheep,grass_opti)
             return move_sheep(sheep,target)
