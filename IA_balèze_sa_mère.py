@@ -863,7 +863,7 @@ def what_should_do(sheep,role=1):
                 ennemy=players["player_2"]
                 ennemy=ennemy["sheeps"]
                 for ennemys in ennemy:
-                    mouton=ennemy[ennemys]
+                    mouton=ennemys
                     if mouton[0]==1:
                         return attack(sheep,ennemys)
                         
@@ -871,7 +871,7 @@ def what_should_do(sheep,role=1):
                 ennemy=players["player_1"]
                 ennemy=ennemy["sheeps"]
                 for ennemys in ennemy:
-                    mouton=ennemy[ennemys]
+                    mouton=ennemys
                     if mouton[0]==1:
                         return attack(sheep,ennemys)
 
@@ -881,7 +881,7 @@ def what_should_do(sheep,role=1):
                 distance=get_distance(seed,sheep)
                 if distance<min:
                     min=distance
-                    seed_opti=list_seed[seed]
+                    seed_opti=seed
             target=move_ia(sheep,seed_opti)
             return move_sheep(sheep,target)
         
@@ -896,6 +896,6 @@ def what_should_do(sheep,role=1):
             distance=get_distance(grass,sheep)
             if distance<min:
                 min=distance
-                grass_opti=ennemy_grass[herbe]
+                grass_opti=herbe
         target=move_ia(sheep,grass_opti)
         return move_sheep(sheep,target)
