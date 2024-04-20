@@ -750,10 +750,6 @@ def move_ia(location,target):
 
 
 
-
-
-
-
 def what_should_do(sheep,role=1):
     """prend les décision en fonction de la situation du mouton et donne le comportement à adopter
     
@@ -774,7 +770,7 @@ def what_should_do(sheep,role=1):
 
     mouton_coller=search_sheep(sheep,1)
     if len(mouton_coller) != 0 :
-        return attack(sheep,mouton_coller[0])
+        return search_attack(sheep,mouton_coller[0])
     
 
     if role==0 :
@@ -798,7 +794,7 @@ def what_should_do(sheep,role=1):
         
         elif len(ennemy)!=0 and len(search_grass(sheep,5,'a')):
             
-            return attack(sheep,ennemy[0])
+            return search_attack(sheep,ennemy[0])
         
         elif len(ennemy_proche)!=0 :
             min=1000
@@ -829,6 +825,7 @@ def what_should_do(sheep,role=1):
                 grass_opti[0]=grass_opti[0]+1
                 target=move_ia(sheep,grass_opti)
                 return move_sheep(sheep,target)
+                
     
 
     else:
@@ -839,6 +836,8 @@ def what_should_do(sheep,role=1):
         for player_sheep in players['player_1']['sheeps']:
             if sheep==player_sheep:
                 player_team_sheep_1="player_1"
+
+        
         
         
         if what_in_the_box(sheep,'grass'):
@@ -865,7 +864,7 @@ def what_should_do(sheep,role=1):
                 for ennemys in ennemy:
                     mouton=ennemys
                     if mouton[0]==1:
-                        return attack(sheep,ennemys)
+                        return search_attack(sheep,ennemys)
                         
             else:
                 ennemy=players["player_1"]
@@ -873,9 +872,9 @@ def what_should_do(sheep,role=1):
                 for ennemys in ennemy:
                     mouton=ennemys
                     if mouton[0]==1:
-                        return attack(sheep,ennemys)
+                        return search_attack(sheep,ennemys)
 
-        if len(list_seed)!=0:
+        elif len(list_seed)!=0:
             min=1000
             for seed in list_seed:
                 distance=get_distance(seed,sheep)
@@ -886,16 +885,16 @@ def what_should_do(sheep,role=1):
             return move_sheep(sheep,target)
         
         
-        if len(search_sheep(sheep,5))!=0:
+        elif len(search_sheep(sheep,5))!=0:
             ennemy=search_sheep(sheep,5)
-            return attack(sheep,ennemy[0])
+            return search_attack(sheep,ennemy[0])
 
-
-        min=1000
-        for herbe in ennemy_grass:
-            distance=get_distance(grass,sheep)
-            if distance<min:
-                min=distance
-                grass_opti=herbe
-        target=move_ia(sheep,grass_opti)
-        return move_sheep(sheep,target)
+        else:
+            min=1000
+            for herbe in ennemy_grass:
+                distance=get_distance(grass,sheep)
+                if distance<min:
+                    min=distance
+                    grass_opti=herbe
+            target=move_ia(sheep,grass_opti)
+            return move_sheep(sheep,target)
