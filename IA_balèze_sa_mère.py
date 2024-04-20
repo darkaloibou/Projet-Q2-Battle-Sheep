@@ -752,6 +752,7 @@ def move_ia(location,target):
 
 
 
+
 def what_should_do(sheep,role=1):
     """prend les décision en fonction de la situation du mouton et donne le comportement à adopter
     
@@ -764,7 +765,9 @@ def what_should_do(sheep,role=1):
 
     spécification:
     Arthur Yernaux 06/04/2024
+    implémentation
     v1 19/04/2024 Arthur Yernaux
+    v2 20/04/2024 Arthur Yernaux
     """
 
     mouton_coller=search_sheep(sheep,1)
@@ -773,7 +776,7 @@ def what_should_do(sheep,role=1):
     
 
     if role==0 :
-        seed=search_seeds(sheep,5)
+        seed=search_seed(sheep,5)
         ennemy=search_sheep(sheep,5)
         all_ennemy=search_sheep(sheep,100)
         ennemy_proche=[]
@@ -808,8 +811,8 @@ def what_should_do(sheep,role=1):
         else:
             grass=search_grass(sheep,100,'a')
             taille=map['map_size']
-            taille[0]=taille[0]/2
-            taille[1]=taille[1]/2
+            taille[0]=math.floor(taille[0]/2)
+            taille[1]=math.floor(taille[1]/2)
             min=1000
             for i in grass:
                 distance=get_distance(i,taille)
@@ -821,11 +824,37 @@ def what_should_do(sheep,role=1):
     
 
     else:
+        ennemy=search_sheep(sheep,8)
         list_seed =search_seed(sheep,10)
         ennemy_grass =search_grass(sheep,1000)
+        
+        
+        
         if what_in_the_box(sheep,'grass'):
             return graze(sheep)
         
+        elif len(ennemy)!=0:
+            player_team_sheep_1="player_2"
+            for player_sheep in players['player_1']['sheeps']:
+                if sheep==player_sheep:
+                    player_team_sheep_1="player_1"
+
+            if player_team_sheep_1=="player_1":
+                ennemy=players["player_2"]
+                ennemy=ennemy["sheeps"]
+                for ennemys in ennemy:
+                    mouton=ennemy[ennemys]
+                    if mouton[0]==1:
+                        return attack(sheep,ennemys)
+                        
+            else:
+                ennemy=players["player_1"]
+                ennemy=ennemy["sheeps"]
+                for ennemys in ennemy:
+                    mouton=ennemy[ennemys]
+                    if mouton[0]==1:
+                        return attack(sheep,ennemys)
+
         elif len(list_seed)!=0:
             min=1000
             for seed in list_seed:
@@ -850,5 +879,3 @@ def what_should_do(sheep,role=1):
                     grass_opti=grass
             target=move_ia(sheep,grass)
             return move_sheep(sheep,target)
-
-
