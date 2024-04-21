@@ -696,7 +696,7 @@ def what_should_do(sheep,role=1):
             return move_sheep(sheep,target)
         
         
-        else:
+        elif len(search_grass(sheep,100,'a'))>0:
             herbe=search_grass(sheep,100,'a')
             taille=map['map_size']
             taille[0]=math.floor(taille[0]/2)
@@ -714,7 +714,8 @@ def what_should_do(sheep,role=1):
                 grass_opti[0]=grass_opti[0]+1
                 target=move_ia(sheep,grass_opti)
                 return move_sheep(sheep,target)
-                
+        else:
+            #aller au spawn ou juste à côté
     
 
     else:
