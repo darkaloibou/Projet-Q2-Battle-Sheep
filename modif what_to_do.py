@@ -282,7 +282,7 @@ def what_should_do(sheep,role,map,players,grass):
         else:
             min=1000
             for herbe in ennemy_grass:
-                distance=get_distance(grass,sheep)
+                distance=get_distance(herbe,sheep)
                 if distance<min:
                     min=distance
                     grass_opti=herbe
