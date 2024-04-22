@@ -539,6 +539,12 @@ def move_ia(location,target):
                     wrong.append([location[0]+minus,location[1]+more])
     if what_in_the_box([location[0]+1,location[1]],'sheep') or what_in_the_box([location[0]+1,location[1]],'rock'):
         wrong.append([location[0]+1,location[1]])
+    spawn_append=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
+    wrong.append(spawn_append)
+    spawn_append=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
+    wrong.append(spawn_append)
+    
+    
     move = location
     
     if location[0]>target[0] and location[1]>target[1]:
