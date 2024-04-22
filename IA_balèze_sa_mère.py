@@ -466,7 +466,7 @@ def get_AI_orders(game, player_id):
                         free_to_action = False
                 
             if player_id == 2:  #look if there is a sheep in a 1 box distance and attack (player 2)
-                for ennemi_sheep in players["player_2"]["sheeps"]:
+                for ennemi_sheep in players["player_1"]["sheeps"]:
                     distance = get_distance(ennemi_sheep,sheep)
                     if distance == 1:
                         orders += attack(sheep,ennemi_sheep)    
@@ -535,14 +535,10 @@ def move_ia(location,target):
     for minus in xy:
         for more in xy:
             if not (minus==0 and more==0):
-                if what_in_the_box([location[0]+minus,location[1]+more],'sheep') or what_in_the_box([location[0]+minus,location[1]+more],'rock'):
+                if what_in_the_box([location[0]+minus,location[1]+more],'sheep') or what_in_the_box([location[0]+minus,location[1]+more],'rock') or what_in_the_box([location[0]+minus,location[1]+more],'spawn'):
                     wrong.append([location[0]+minus,location[1]+more])
-    if what_in_the_box([location[0]+1,location[1]],'sheep') or what_in_the_box([location[0]+1,location[1]],'rock'):
+    if what_in_the_box([location[0]+1,location[1]],'sheep') or what_in_the_box([location[0]+1,location[1]],'rock') or what_in_the_box([location[0]+1,location[1]],'spawn'):
         wrong.append([location[0]+1,location[1]])
-    spawn_append=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
-    wrong.append(spawn_append)
-    spawn_append=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
-    wrong.append(spawn_append)
     
     
     move = location
