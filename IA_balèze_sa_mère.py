@@ -328,8 +328,8 @@ def search_attack(sheep):
     
     version
     -------
-    specification : Heynen Scott-Socrate (v2 28/03/24)
-    implementation : Heynen Scott-Socrate (v1 29/03/24)"""
+    specification : Aloïs Baurant (v1 3/04/24)
+    implementation : Aloïs Baurant (v1 4/04/24)"""
     sheep=[sheep[0],sheep[1]] # sheep
     new_distance = 0
     old_distance = 0
