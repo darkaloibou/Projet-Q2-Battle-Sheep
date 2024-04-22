@@ -17,6 +17,10 @@ def move_ia(location,target,map,players,grass):
     location=[location[0],location[1]]
     target=[target[0],target[1]]
     wrong=[]
+    spawn_append=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
+    wrong.append(spawn_append)
+    spawn_append=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
+    wrong.append(spawn_append)
     xy=[0,1,-1]
     for minus in xy:
         for more in xy:
@@ -26,10 +30,6 @@ def move_ia(location,target,map,players,grass):
     if what_in_the_box([location[0]+1,location[1]],'sheep',map,players,grass) or what_in_the_box([location[0]+1,location[1]],'rock',map,players,grass):
         wrong.append([location[0]+1,location[1]])
 
-        spawn_append=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
-        wrong.append(spawn_append)
-        spawn_append=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
-        wrong.append(spawn_append)
        
     
     move = location
