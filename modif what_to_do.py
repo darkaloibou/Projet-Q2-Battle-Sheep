@@ -926,6 +926,13 @@ def move_ia(location,target,map,players,grass):
                     wrong.append([location[0]+minus,location[1]+more])
     if what_in_the_box([location[0]+1,location[1]],'sheep',map,players,grass) or what_in_the_box([location[0]+1,location[1]],'rock',map,players,grass):
         wrong.append([location[0]+1,location[1]])
+
+    spawn_append=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
+    wrong.append(spawn_append)
+    spawn_append=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
+    wrong.append(spawn_append)
+   
+    
     move = location
     
     if location[0]>target[0] and location[1]>target[1]:
@@ -1082,7 +1089,7 @@ def what_should_do(sheep,role,map,players,grass):
             return move_sheep(sheep,target)
         
         
-        else:
+        elif len(search_grass(map,players,grass,sheep,100,'a'))!=0:
             herbe=search_grass(map,players,grass,sheep,100,'a')
             taille=map['map_size'].copy()
             taille[0]=math.floor(taille[0]/2)
@@ -1100,7 +1107,16 @@ def what_should_do(sheep,role,map,players,grass):
                 grass_opti[0]=grass_opti[0]+1
                 target=move_ia(sheep,grass_opti,map,players,grass)
                 return move_sheep(sheep,target)
-                
+        else:
+            spawn=map['spawn']['spawn_'+str(player_id)]
+            if sheep[0]!= spawn[0]+1:
+                spawn[0]=spawn[0]+1
+                target=move_ia(sheep,spawn,map,players,grass)
+                return move_sheep(sheep,target)
+            else:
+                spawn[0]=spawn[0]-1
+                target=move_ia(sheep,spawn,map,players,grass)
+                return move_sheep(sheep,target)   
     
 
     else:
