@@ -489,10 +489,10 @@ def get_AI_orders(game, player_id):
                         
                         
             if defend_sheep == sheep:      
-                orders += str(what_should_do(sheep,0))
+                orders += str(what_should_do(sheep,player_id,0))
                 free_to_action = False
             else :
-                orders += str(what_should_do(sheep,1))
+                orders += str(what_should_do(sheep,player_id,1))
                 free_to_action = False
     
     return orders
