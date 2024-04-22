@@ -639,13 +639,13 @@ def move_ia(location,target):
 
 
 
-def what_should_do(sheep,role=1):
+def what_should_do(sheep,player_id,role=1):
     """prend les décision en fonction de la situation du mouton et donne le comportement à adopter
     
     parametre:
     sheep=position du mouton appartenant à l'ia(tuple)(x,y)
     role=si il est plus proche du spawn et qu'il n'es pas tout seul role=0 (boull)
-    
+    player_id= le numéo de joueur du mouton
     return:
     l'ordre à executer
 
@@ -715,7 +715,15 @@ def what_should_do(sheep,role=1):
                 target=move_ia(sheep,grass_opti)
                 return move_sheep(sheep,target)
         else:
-            #aller au spawn ou juste à côté
+            spawn=map['spawn']['spawn_'+str(player_id)]
+            if sheep[0]!= spawn[0]+1:
+                spawn[0]=spawn[0]+1
+                target=move_ia(sheep,spawn)
+                return move_sheep(sheep,target)
+            else:
+                spawn[0]=spawn[0]-1
+                target=move_ia(sheep,spawn)
+                return move_sheep(sheep,target)
     
 
     else:
@@ -726,6 +734,7 @@ def what_should_do(sheep,role=1):
         for player_sheep in players['player_1']['sheeps']:
             if sheep==player_sheep:
                 player_team_sheep_1="player_1"
+            
 
         
         
