@@ -173,7 +173,7 @@ def what_should_do(sheep,role,map,players,grass):
                 return move_sheep(sheep,target)
             
         
-        elif len(ennemy)!=0 and len(search_grass(map,players,grass,sheep,5,'a')):
+        elif len(ennemy)!=0 and len(search_grass(map,players,grass,sheep,5,'a'))!=0:
 
             return search_attack(sheep,map,players,grass)
         
