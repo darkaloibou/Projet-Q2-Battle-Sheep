@@ -704,7 +704,7 @@ def what_should_do(sheep,player_id,role=1):
         
         elif len(search_grass(sheep,100,'a'))>0:
             herbe=search_grass(sheep,100,'a')
-            taille=map['map_size']
+            taille=map['map_size'].copy()
             taille[0]=math.floor(taille[0]/2)
             taille[1]=math.floor(taille[1]/2)
             min=1000
