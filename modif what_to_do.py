@@ -156,3 +156,140 @@ def what_should_do(sheep,player_id,role=1):
                     grass_opti=herbe
             target=move_ia(sheep,grass_opti)
             return move_sheep(sheep,target)
+
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+def move_ia(location,target):
+    """search the best path to the target
+    parameter:
+   
+    location = curent location of the sheep (x,y) (tuple)
+    target = the final destination the sheep want to go (x,y) (tuple)
+    
+    return:
+
+    move = the coordinate of the case where the sheep need to move [x,y] (list)
+    
+    spécification 28/03 Arthur Yeranux
+    v1 06/04 Arthur Yernaux
+    v2 11/04 Arthur Yernaux"""
+    location=[location[0],location[1]]
+    target=[target[0],target[1]]
+    wrong=[]
+    xy=[0,1,-1]
+    for minus in xy:
+        for more in xy:
+            if not (minus==0 and more==0):
+                if what_in_the_box([location[0]+minus,location[1]+more],'sheep') or what_in_the_box([location[0]+minus,location[1]+more],'rock'):
+                    wrong.append([location[0]+minus,location[1]+more])
+    if what_in_the_box([location[0]+1,location[1]],'sheep') or what_in_the_box([location[0]+1,location[1]],'rock'):
+        wrong.append([location[0]+1,location[1]])
+    spawn_append=(map['spawn']['spawn_1'][0],map['spawn']['spawn_1'][1])
+    wrong.append(spawn_append)
+    spawn_append=(map['spawn']['spawn_2'][0],map['spawn']['spawn_2'][1])
+    wrong.append(spawn_append)
+    
+    
+    move = location
+    
+    if location[0]>target[0] and location[1]>target[1]:
+        move=[location[0]-1,location[1]-1]
+        
+
+    elif location[0]<target[0] and location[1]>target[1]:
+        move=[location[0]+1,location[1]-1]
+    
+
+    elif location[0]>target[0] and location[1]<target[1]:
+        move=[location[0]-1,location[1]+1]
+       
+    
+    elif location[0]<target[0] and location[1]<target[1]:
+        move=[location[0]+1,location[1]+1]
+    
+
+    elif location[0]==target[0] and location[1]>target[1]:
+        move=[location[0],location[1]-1]
+        
+
+    elif location[0]==target[0] and location[1]<target[1]:
+        move=[location[0],location[1]+1]
+    
+    
+    elif location[0]<target[0] and location[1]==target[1]:
+        move=[location[0]+1,location[1]]
+    
+
+    elif location[0]>target[0] and location[1]==target[1]:
+        move=[location[0]-1,location[1]]
+    
+    if move not in wrong:
+        return (move[0],move[1])
+    
+    else:
+       
+        difx=location[0]-target[0]
+        dify=location[1]-target[1]
+        
+        if abs(difx)>=abs(dify):
+           
+            if difx>0:
+                for i in [1,0,-1]:
+                    move=[location[0]-1,location[1]+i]
+                    if move not in wrong:
+                        return (move[0],move[1])
+                if dify>0:
+                    move=[location[0],location[1]-1]
+                    return (move[0],move[1])
+                else:
+                    move=[location[0],location[1]+1]
+                    return (move[0],move[1])
+               
+
+            else:
+                
+                for i in [1,0,-1]:
+                    move=[location[0]+1,location[1]+i]
+                    if move not in wrong:
+                        return (move[0],move[1])
+                if dify>0:
+                    move=[location[0],location[1]-1]
+                    return (move[0],move[1])
+                else:
+                    move=[location[0],location[1]+1]
+                    return (move[0],move[1])
+
+
+        if abs(difx)<abs(dify):
+            
+            if dify>0:
+                                
+                for i in [1,0,-1]:
+                    move=[location[0]+i,location[1]-1]
+                    if move not in wrong:
+                        return (move[0],move[1])
+                if difx>0:
+                    move=[location[0]-1,location[1]]
+                    return (move[0],move[1])
+                else:
+                    move=[location[0]+1,location[1]]
+                    return (move[0],move[1])
+
+
+            else:
+                for i in [1,0,-1]:
+                    move=[location[0]+i,location[1]+1]
+                    if move not in wrong:
+                        return (move[0],move[1])
+                if difx>0:
+                    move=[location[0]-1,location[1]]
+                    return (move[0],move[1])
+                else:
+                    move=[location[0]+1,location[1]]
+                    return (move[0],move[1])
