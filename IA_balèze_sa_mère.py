@@ -480,7 +480,10 @@ def get_AI_orders(game, player_id):
                 
         if turn > search_turns:
             minimum_distance = 999
-                
+
+            if len(players['player_'+str(player_id)]['sheeps']) =0:
+                return orders
+            
             for sheep_role in players['player_'+str(player_id)]['sheeps']: # look for the role of the sheep (0 = defend)
                 distance = get_distance(map['spawn']['spawn_'+str(player_id)],sheep_role)
                 if distance < minimum_distance:
