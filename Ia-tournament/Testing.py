@@ -769,7 +769,7 @@ def what_should_do(sheep,role,map,players,grass,player_id):
     else:
         ennemy=search_sheep(sheep,8,players)
         list_seed =search_seeds(sheep,10,map)
-        ennemy_grass =search_grass(map,players,grass,sheep,1000)
+        ennemy_grass =search_grass(map,players,grass,sheep,100)
         player_team_sheep_1="player_2"
         for player_sheep in players['player_1']['sheeps']:
             if sheep==player_sheep:
