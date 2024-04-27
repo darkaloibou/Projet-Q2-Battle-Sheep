@@ -1139,7 +1139,7 @@ def check_syntax_order(order):
 
 # main function
 
-map=create_map_dictio("C:/Users/Thoma/Desktop/Progra/projet/plateau.bsh")
+map=create_map_dictio("./plateau.bsh")
 players=create_player_dictio(map)
 grass={}
 player_1={}
@@ -1147,4 +1147,4 @@ player_2={}
 grass['player_1']=player_1
 grass['player_2']=player_2 
 display_map(map)
-play_game('C:/Users/sshey/Desktop/Test_ia_dos/Test_ia_dos/plateau.bsh',32,'AI',1,'AI')
+play_game('./plateau.bsh',32,'AI',1,'AI')
