@@ -699,7 +699,8 @@ def what_should_do(sheep,role,map,players,grass,player_id):
     """
     mouton_coller=search_sheep(sheep,1,players)
     if len(mouton_coller) != 0 :
-        return search_attack(sheep,map,players,grass)
+        order=attack(sheep,mouton_coller[0])
+        return order  
     
 
     if role==0 :
@@ -715,15 +716,18 @@ def what_should_do(sheep,role,map,players,grass,player_id):
         if len(seed) != 0 and len(search_grass(map,players,grass,sheep,5,'a')) != 0 :
             if len(seed)==1:
                 target=move_ia(sheep,seed[0],map,players,grass)
-                return move_sheep(sheep,target)
+                order= move_sheep(sheep,target)
+                return order  
             else:
                 target=move_ia(sheep,look_for_seed(sheep),map,players,grass)
-                return move_sheep(sheep,target)
+                order= move_sheep(sheep,target)
+                return order  
             
         
         elif len(ennemy)!=0 and len(search_grass(map,players,grass,sheep,5,'a')) !=0 :
 
-            return search_attack(sheep,map,players,grass)
+            order= search_attack(sheep,map,players,grass)
+            return order  
         
         elif len(ennemy_proche)!=0 :
             min=1000
@@ -733,7 +737,8 @@ def what_should_do(sheep,role,map,players,grass,player_id):
                     min=distance
                     ennemy_opti=b
             target=move_ia(sheep,ennemy_opti,map,players,grass)
-            return move_sheep(sheep,target)
+            order= move_sheep(sheep,target)
+            return order  
         
         
         elif len(search_grass(map,players,grass,sheep,100,'a'))!=0:
@@ -749,35 +754,59 @@ def what_should_do(sheep,role,map,players,grass,player_id):
                     grass_opti=[i[0],i[1]]
             if sheep!=grass_opti:
                 target=move_ia(sheep,grass_opti,map,players,grass)
-                return move_sheep(sheep,target)
+                order= move_sheep(sheep,target)
+                return order  
             else:
                 grass_opti[0]=grass_opti[0]+1
                 target=move_ia(sheep,grass_opti,map,players,grass)
-                return move_sheep(sheep,target)
+                order= move_sheep(sheep,target)
+                return order  
         else:
             spawn=map['spawn']['spawn_'+str(player_id)]
             if sheep[0]!= spawn[0]+1:
                 spawn[0]=spawn[0]+1
                 target=move_ia(sheep,spawn,map,players,grass)
-                return move_sheep(sheep,target)
+                order= move_sheep(sheep,target)
+                return order  
             else:
                 spawn[0]=spawn[0]-1
                 target=move_ia(sheep,spawn,map,players,grass)
-                return move_sheep(sheep,target)   
+                order= move_sheep(sheep,target) 
+                return order  
     
 
     else:
         ennemy=search_sheep(sheep,8,players)
-        list_seed =search_seeds(sheep,10,map)
-        ennemy_grass =search_grass(map,players,grass,sheep,100)
+        
+        mechantbug=0
+
+
         player_team_sheep_1="player_2"
         for player_sheep in players['player_1']['sheeps']:
             if sheep==player_sheep:
                 player_team_sheep_1="player_1"
 
+
+
+        if player_team_sheep_1=="player_1":
+            ennemy=players["player_2"]
+            ennemy=ennemy["sheeps"]
+            for ennemys in ennemy:
+                mouton=ennemy[ennemys]
+                if mouton[0]==1:
+                    mechantbug=1
+        else:
+            ennemy=players["player_1"]
+            ennemy=ennemy["sheeps"]
+            for ennemys in ennemy:
+                mouton=ennemy[ennemys]
+                if mouton[0]==1:
+                    mechantbug=1
         
+        list_seed =search_seeds(sheep,10,map)
         
-        
+        ennemy_grass =search_grass(map,players,grass,sheep,100)
+
         if what_in_the_box(sheep,'grass',map,players,grass):
             
             if player_team_sheep_1=="player_1":
@@ -792,27 +821,10 @@ def what_should_do(sheep,role,map,players,grass,player_id):
                     return orders
         
         
-        if len(ennemy)!=0:
+        if mechantbug:
             
-
-
-            if player_team_sheep_1=="player_1":
-                ennemy=players["player_2"]
-                ennemy=ennemy["sheeps"]
-                for ennemys in ennemy:
-                    mouton=ennemy[ennemys]
-                    if mouton[0]==1:
-                        orders=search_attack(sheep,map,players,grass)
-                        return orders
-                        
-            else:
-                ennemy=players["player_1"]
-                ennemy=ennemy["sheeps"]
-                for ennemys in ennemy:
-                    mouton=ennemy[ennemys]
-                    if mouton[0]==1:
-                        orders=search_attack(sheep,map,players,grass)
-                        return orders
+            orders=search_attack(sheep,map,players,grass)
+            return orders
 
         elif len(list_seed)!=0:
             min=1000
@@ -841,4 +853,5 @@ def what_should_do(sheep,role,map,players,grass,player_id):
             target=move_ia(sheep,grass_opti,map,players,grass)
             orders=move_sheep(sheep,target)
             return orders
+        
         
