@@ -390,7 +390,8 @@ def search_attack(sheep,map,players,grass):
                 sheep_old_hp = players["player_2"]["sheeps"][ennemi_sheep][0]
                 old_distance=get_distance(ennemi_sheep,sheep)
                 if old_distance==1:
-                    return attack(sheep,ennemi_sheep)
+                    order= attack(sheep,ennemi_sheep)
+                    return order
             else:
                 # check the difference of hp of both of them
                 sheep_new_hp = players["player_2"]["sheeps"][ennemi_sheep][0]
@@ -399,7 +400,8 @@ def search_attack(sheep,map,players,grass):
                 new_distance = get_distance(ennemi_sheep,sheep)
                 old_distance = get_distance(sheep,old_pos)
                 if new_distance == 1:
-                    return attack(sheep, ennemi_sheep)
+                    order= attack(sheep, ennemi_sheep)
+                    return order
                 if compute_hp_new > -1:
                     if new_distance < old_distance:
                         old_pos=ennemi_sheep
@@ -416,7 +418,8 @@ def search_attack(sheep,map,players,grass):
                 sheep_old_hp = players["player_1"]["sheeps"][ennemi_sheep][0]
                 old_distance=get_distance(ennemi_sheep,sheep)
                 if old_distance==1:
-                    return attack(sheep,ennemi_sheep)
+                    order= attack(sheep,ennemi_sheep)
+                    return order
             else:
                 # check the difference of hp of both of them
                 sheep_new_hp = players["player_1"]["sheeps"][ennemi_sheep][0]
@@ -425,7 +428,8 @@ def search_attack(sheep,map,players,grass):
                 new_distance = get_distance(ennemi_sheep,sheep)
                 old_distance = get_distance(sheep,old_pos)
                 if new_distance == 1:
-                    return attack(sheep, ennemi_sheep)
+                    order= attack(sheep, ennemi_sheep)
+                    return order
                 if compute_hp_new > -1:
                     if new_distance < old_distance:
                         old_pos=ennemi_sheep
@@ -433,9 +437,9 @@ def search_attack(sheep,map,players,grass):
                         if compute_hp_new > compute_hp_old:
                             old_pos = ennemi_sheep
     old_distance = get_distance(sheep,old_pos)
-    if not old_distance > 5:
-        move = move_ia(sheep, old_pos,map,players,grass)
-        return move_sheep(sheep, move)
+    move = move_ia(sheep, old_pos,map,players,grass)
+    order= move_sheep(sheep, move)
+    return order
 
 def move_sheep(old_coordinates, new_coordinates):
     """return the move command 
@@ -853,5 +857,4 @@ def what_should_do(sheep,role,map,players,grass,player_id):
             target=move_ia(sheep,grass_opti,map,players,grass)
             orders=move_sheep(sheep,target)
             return orders
-        
         
