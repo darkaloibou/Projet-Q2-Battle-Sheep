@@ -118,7 +118,7 @@ def look_for_seed(sheep,map):
         for z_minus in x:
             for other_minus in y:
                 if not abs(x)==abs(y):
-                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][0]+other_minus),'rock'):
+                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][0]+other_minus),'rock',map,players,grass):
                         del seeds_dic[delete_seed]#Copy the dictionnary of the seeds
     x_map=str(map['map_size'][0])
     x_map=int(x_map[0])
@@ -506,7 +506,7 @@ def get_AI_orderz(map_dict,players_dict,grass_dict, player_id):
         
         if (turn <= search_turns or players['player_'+str(player_id)]['nbr_of_grass'] < 30) and len(map['seed'])>0: #for the seed search only turns
             
-            target_seed = look_for_seed(sheep,map)
+            target_seed = look_for_seed(sheep,map,players,grass)
             
             if player_id == 1:  #look if there is a sheep in a 1 box distance and attack (player 1)
                 for ennemi_sheep in players["player_2"]["sheeps"]:
