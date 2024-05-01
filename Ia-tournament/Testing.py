@@ -1,4 +1,4 @@
-
+import random
 import math 
 map={}
 players={}
@@ -111,15 +111,7 @@ def look_for_seed(sheep,map):
     specification : Heynen Scott-Socrate (v2 28/03/24)
     implémentation : Remacle Thomas (v1 02/04/24)
     """
-    x=[0,-1,1]
-    y=[0,-1,1]
-    seeds_dic =map['seed'].copy() #Copy the dictionnary of the seeds
-    for delete_seed in seeds_dic:
-        for z_minus in x:
-            for other_minus in y:
-                if not abs(z_minus)==abs(other_minus):
-                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][0]+other_minus),'rock',map,players,grass):
-                        del seeds_dic[delete_seed]#Copy the dictionnary of the seeds
+    seeds_dic =map['seed'].copy()  #Copy the dictionnary of the seeds
     x_map=str(map['map_size'][0])
     x_map=int(x_map[0])
     y_map=str(map['map_size'][1])
@@ -506,7 +498,7 @@ def get_AI_orderz(map_dict,players_dict,grass_dict, player_id):
         
         if (turn <= search_turns or players['player_'+str(player_id)]['nbr_of_grass'] < 30) and len(map['seed'])>0: #for the seed search only turns
             
-            target_seed = look_for_seed(sheep,map,players,grass)
+            target_seed = look_for_seed(sheep,map)
             
             if player_id == 1:  #look if there is a sheep in a 1 box distance and attack (player 1)
                 for ennemi_sheep in players["player_2"]["sheeps"]:
@@ -566,129 +558,155 @@ def choose_what_to_do(sheep):
     """
 
 def move_ia(location,target,map,players,grass):
-    """search the best path to the target
-    parameter:
+       
+       """search the best path to the target
+       parameter:
    
-    location = curent location of the sheep (x,y) (tuple)
-    target = the final destination the sheep want to go (x,y) (tuple)
+       location = curent location of the sheep (x,y) (tuple)
+       target = the final destination the sheep want to go (x,y) (tuple)
     
-    return:
+       return:
 
-    move = the coordinate of the case where the sheep need to move [x,y] (list)
+       move = the coordinate of the case where the sheep need to move [x,y] (list)
     
-    spécification 28/03 Arthur Yeranux
-    v1 06/04 Arthur Yernaux
-    v2 11/04 Arthur Yernaux"""
-    location=[location[0],location[1]]
-    target=[target[0],target[1]]
-    wrong=[]
-    xy=[0,1,-1]
-    for minus in xy:
-        for more in xy:
-            if not (minus==0 and more==0):
-                if what_in_the_box([location[0]+minus,location[1]+more],'sheep',map,players,grass) or what_in_the_box([location[0]+minus,location[1]+more],'rock',map,players,grass) or what_in_the_box([location[0]+minus,location[1]+more],'spawn',map,players,grass):
-                    wrong.append([location[0]+minus,location[1]+more])
-    if what_in_the_box([location[0]+1,location[1]],'sheep',map,players,grass) or what_in_the_box([location[0]+1,location[1]],'rock',map,players,grass) or what_in_the_box([location[0]+minus,location[1]+more],'spawn',map,players,grass):
-        wrong.append([location[0]+1,location[1]])
-   
-    
-    move = location
-    
-    if location[0]>target[0] and location[1]>target[1]:
-        move=[location[0]-1,location[1]-1]
+       spécification 28/03 Arthur Yeranux
+       v1 06/04 Arthur Yernaux
+       v2 11/04 Arthur Yernaux"""
+       location=[location[0],location[1]]
+       target=[target[0],target[1]]
+       wrong=[]
+       for ennemy_sheep in players['player_1']['sheeps']:
+              wrong.append(ennemy_sheep)
+       for ennemy_sheep in players['player_2']['sheeps']:
+              wrong.append(ennemy_sheep) 
+       for i in map['rocks']:
+              wrong.append(map['rocks'][i])
+
+       
+       move = location
+       if location[0]>target[0] and location[1]>target[1]:
+              move=[location[0]-1,location[1]-1]
         
 
-    elif location[0]<target[0] and location[1]>target[1]:
-        move=[location[0]+1,location[1]-1]
+       elif location[0]<target[0] and location[1]>target[1]:
+           move=[location[0]+1,location[1]-1]
     
 
-    elif location[0]>target[0] and location[1]<target[1]:
-        move=[location[0]-1,location[1]+1]
+       elif location[0]>target[0] and location[1]<target[1]:
+           move=[location[0]-1,location[1]+1]
        
     
-    elif location[0]<target[0] and location[1]<target[1]:
-        move=[location[0]+1,location[1]+1]
+       elif location[0]<target[0] and location[1]<target[1]:
+           move=[location[0]+1,location[1]+1]
     
 
-    elif location[0]==target[0] and location[1]>target[1]:
-        move=[location[0],location[1]-1]
+       elif location[0]==target[0] and location[1]>target[1]:
+           move=[location[0],location[1]-1]
         
 
-    elif location[0]==target[0] and location[1]<target[1]:
-        move=[location[0],location[1]+1]
+       elif location[0]==target[0] and location[1]<target[1]:
+           move=[location[0],location[1]+1]
     
     
-    elif location[0]<target[0] and location[1]==target[1]:
-        move=[location[0]+1,location[1]]
+       elif location[0]<target[0] and location[1]==target[1]:
+           move=[location[0]+1,location[1]]
     
 
-    elif location[0]>target[0] and location[1]==target[1]:
-        move=[location[0]-1,location[1]]
+       elif location[0]>target[0] and location[1]==target[1]:
+           move=[location[0]-1,location[1]]
     
-    if move not in wrong:
-        return (move[0],move[1])
+       if move not in wrong:
+           return (move[0],move[1])
     
-    else:
-       
-        difx=location[0]-target[0]
-        dify=location[1]-target[1]
-        
-        if abs(difx)>=abs(dify):
-           
-            if difx>0:
-                for i in [1,0,-1]:
-                    move=[location[0]-1,location[1]+i]
-                    if move not in wrong:
-                        return (move[0],move[1])
-                if dify>0:
-                    move=[location[0],location[1]-1]
-                    return (move[0],move[1])
-                else:
-                    move=[location[0],location[1]+1]
-                    return (move[0],move[1])
-               
-
-            else:
-                
-                for i in [1,0,-1]:
-                    move=[location[0]+1,location[1]+i]
-                    if move not in wrong:
-                        return (move[0],move[1])
-                if dify>0:
-                    move=[location[0],location[1]-1]
-                    return (move[0],move[1])
-                else:
-                    move=[location[0],location[1]+1]
-                    return (move[0],move[1])
-
-
-        if abs(difx)<abs(dify):
-            
-            if dify>0:
-                                
-                for i in [1,0,-1]:
-                    move=[location[0]+i,location[1]-1]
-                    if move not in wrong:
-                        return (move[0],move[1])
-                if difx>0:
-                    move=[location[0]-1,location[1]]
-                    return (move[0],move[1])
-                else:
-                    move=[location[0]+1,location[1]]
-                    return (move[0],move[1])
-
-
-            else:
-                for i in [1,0,-1]:
-                    move=[location[0]+i,location[1]+1]
-                    if move not in wrong:
-                        return (move[0],move[1])
-                if difx>0:
-                    move=[location[0]-1,location[1]]
-                    return (move[0],move[1])
-                else:
-                    move=[location[0]+1,location[1]]
-                    return (move[0],move[1])
+       else:
+              difx=location[0]-target[0]
+              dify=location[1]-target[1]
+              if abs(difx)>=dify:
+                     if difx>0:
+                            all_move=[[location[0]-1,location[1]],[location[0]-1,location[1]+1],[location[0]-1,location[1]-1]]
+                            for i in all_move:
+                                   if (i not in wrong) and ([i[0]-2,i[1]] not in wrong):
+                                          return i
+                            move_alt=[[location[0],location[1]+1],[location[0],location[1]-1]]
+                            for i in move_alt:
+                                   if (i not in wrong) and ([i[0]-2,i[1]] not in wrong):
+                                          return i
+                                   else:  
+                                          random_nbr = random.randint(-1,0,1)
+                                          random_nbr1=random.randint(-1,0,1)
+                                          move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                          if move not in wrong:
+                                                 return move
+                                          else:
+                                                 while move in wrong:
+                                                        random_nbr = random.randint(-1,0,1)
+                                                        random_nbr1=random.randint(-1,0,1)
+                                                        move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                                 return move
+                     else:
+                            all_move=[[location[0]+1,location[1]],[location[0]+1,location[1]+1],[location[0]+1,location[1]-1]]
+                            for i in all_move:
+                                   if (i not in wrong) and ([i[0]+2,i[1]] not in wrong):
+                                          return i
+                            move_alt=[[location[0],location[1]+1],[location[0],location[1]-1]]
+                            for i in move_alt:
+                                   if (i not in wrong) and ([i[0]+2,i[1]] not in wrong):
+                                          return i
+                                   else:  
+                                          random_nbr = random.randint(-1,0,1)
+                                          random_nbr1=random.randint(-1,0,1)
+                                          move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                          if move not in wrong:
+                                                 return move
+                                          else:
+                                                 while move in wrong:
+                                                        random_nbr = random.randint(-1,0,1)
+                                                        random_nbr1=random.randint(-1,0,1)
+                                                        move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                                 return move
+              if abs(difx)<abs(dify):
+                            if dify>0:
+                                   all_move=[[location[0],location[1]-1],[location[0]-1,location[1]-1],[location[0]+1,location[1]-1]]
+                                   for i in all_move:
+                                          if (i not in wrong) and ([i[0],i[1]-2] not in wrong):
+                                                 return i
+                                   move_alt=[[location[0]-1,location[1]],[location[0]+1,location[1]]]
+                                   for i in move_alt:
+                                          if (i not in wrong) and ([i[0],i[1]-2] not in wrong):
+                                                 return i
+                                          else:  
+                                                 random_nbr = random.randint(-1,0,1)
+                                                 random_nbr1=random.randint(-1,0,1)
+                                                 move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                                 if move not in wrong:
+                                                        return move
+                                                 else:
+                                                        while move in wrong:
+                                                               random_nbr = random.randint(-1,0,1)
+                                                               random_nbr1=random.randint(-1,0,1)
+                                                               move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                                        return move
+                            else:
+                                   all_move=[[location[0],location[1]+1],[location[0]+1,location[1]+1],[location[0]-1,location[1]+1]]
+                                   for i in all_move:
+                                          if (i not in wrong) and ([i[0],i[1]+2] not in wrong):
+                                                 return i
+                                   move_alt=[[location[0]+1,location[1]],[location[0]-1,location[1]]]
+                                   for i in move_alt:
+                                          if (i not in wrong) and ([i[0],i[1]+2] not in wrong):
+                                                 return i
+                                          else:  
+                                                 random_nbr = random.randint(-1,0,1)
+                                                 random_nbr1=random.randint(-1,0,1)
+                                                 move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                                 if move not in wrong:
+                                                        return move
+                                                 else:
+                                                        while move in wrong:
+                                                               random_nbr = random.randint(-1,0,1)
+                                                               random_nbr1=random.randint(-1,0,1)
+                                                               move=[location[0]+random_nbr,location[1]+random_nbr1]
+                                                        return move
 
 
 
