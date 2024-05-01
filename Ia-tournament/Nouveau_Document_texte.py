@@ -1010,7 +1010,7 @@ def what_in_the_box(xy,search):
         return False
             
     if search == 'void':
-        if xy[0] >= map['map_size'][0] or xy[0] < 0 : #look  if outside (abscissa only)
+        if xy[0] > map['map_size'][0] or xy[0] < 0 : #look  if outside (abscissa only)
             return True
         if xy[1]> map['map_size'][1] or xy[1] < 1 : #look if outside (ordinate only)
             return True
