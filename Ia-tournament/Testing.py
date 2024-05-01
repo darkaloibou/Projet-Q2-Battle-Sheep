@@ -708,8 +708,10 @@ def what_should_do(sheep,role,map,players,grass,player_id):
     
 
     if role==0 :
-        seed=search_seeds(sheep,5,map)
-        ennemy=search_sheep(sheep,5,players)
+        max_map = max(map['map_size'])
+        range_search=int(max_map/5)
+        seed=search_seeds(sheep,range_search,map)
+        ennemy=search_sheep(sheep,range_search,players)
         all_ennemy=search_sheep(sheep,100,players)
         ennemy_proche=[]
         herbe=search_grass(map,players,grass,sheep,100,'a')
@@ -717,18 +719,18 @@ def what_should_do(sheep,role,map,players,grass,player_id):
             for a in herbe:
                 if get_distance(i,a)<5 and i not in ennemy_proche:
                     ennemy_proche.append(i)
-        if len(seed) != 0 and len(search_grass(map,players,grass,sheep,5,'a')) != 0 :
+        if len(seed) != 0 and len(search_grass(map,players,grass,sheep,range_search,'a')) != 0 :
             if len(seed)==1:
                 target=move_ia(sheep,seed[0],map,players,grass)
                 order= move_sheep(sheep,target)
                 return order  
             else:
-                target=move_ia(sheep,look_for_seed(sheep),map,players,grass)
+                target=move_ia(sheep,look_for_seed((sheep),map,),map,players,grass)
                 order= move_sheep(sheep,target)
                 return order  
             
         
-        elif len(ennemy)!=0 and len(search_grass(map,players,grass,sheep,5,'a')) !=0 :
+        elif len(ennemy)!=0 and len(search_grass(map,players,grass,sheep,range_search,'a')) !=0 :
 
             order= search_attack(sheep,map,players,grass)
             return order  
@@ -780,7 +782,10 @@ def what_should_do(sheep,role,map,players,grass,player_id):
     
 
     else:
-        ennemy=search_sheep(sheep,8,players)
+        
+        max_map = max(map['map_size'])
+        onehp_search=int(max_map-max_map/3)
+        ennemy=search_sheep(sheep,onehp_search,players)
         
         mechantbug=0
 
@@ -806,10 +811,15 @@ def what_should_do(sheep,role,map,players,grass,player_id):
                 mouton=ennemy[ennemys]
                 if mouton[0]==1:
                     mechantbug=1
-        
-        list_seed =search_seeds(sheep,10,map)
+        seed_near=int(max_map-max_map/2)
+        list_seed =search_seeds(sheep,seed_near,map)
         
         ennemy_grass =search_grass(map,players,grass,sheep,100)
+
+
+        max_map = max(map['map_size'])
+        range_search=int(max_map/6)
+        
 
         if what_in_the_box(sheep,'grass',map,players,grass):
             
@@ -841,9 +851,8 @@ def what_should_do(sheep,role,map,players,grass,player_id):
             orders=move_sheep(sheep,target)
             return orders
         
-        
-        elif len(search_sheep(sheep,5,players))!=0:
-            ennemy=search_sheep(sheep,5,players)
+        elif len(search_sheep(sheep,range_search,players))!=0:
+            ennemy=search_sheep(sheep,range_search,players)
             orders=search_attack(sheep,map,players,grass)
             return orders
 
