@@ -117,7 +117,7 @@ def look_for_seed(sheep,map):
     for delete_seed in seeds_dic:
         for z_minus in x:
             for other_minus in y:
-                if not x==0 and y==0:
+                if not abs(x)==abs(y):
                     if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][0]+other_minus),'rock'):
                         del seeds_dic[delete_seed]#Copy the dictionnary of the seeds
     x_map=str(map['map_size'][0])
