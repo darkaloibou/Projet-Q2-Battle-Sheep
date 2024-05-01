@@ -111,7 +111,15 @@ def look_for_seed(sheep,map):
     specification : Heynen Scott-Socrate (v2 28/03/24)
     implémentation : Remacle Thomas (v1 02/04/24)
     """
-    seeds_dic =map['seed'].copy()  #Copy the dictionnary of the seeds
+    x=[0,-1,1]
+    y=[0,-1,1]
+    seeds_dic =map['seed'].copy() #Copy the dictionnary of the seeds
+    for delete_seed in seeds_dic:
+        for z_minus in x:
+            for other_minus in y:
+                if not x==0 and y==0:
+                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][0]+other_minus),'rock'):
+                        del seeds_dic[delete_seed]#Copy the dictionnary of the seeds
     x_map=str(map['map_size'][0])
     x_map=int(x_map[0])
     y_map=str(map['map_size'][1])
