@@ -238,7 +238,7 @@ def create_map_dictio(map_path): #OK
             nb=0
             seed={}
             longueur=len(lines)
-            while lines[i]!='rocks:\n':
+            while lines[i]!='rocks:\n' and lines[i]!='rocks:':
                 nb+=1
                 txt=lines[i]
                 txt=txt.split()
@@ -248,8 +248,7 @@ def create_map_dictio(map_path): #OK
             rocks={}
             nb=1
             i+=1
-            while i<longueur:
-                
+            while i<longueur and ((line !='rocks:.\n') or (line!= None)):
                 txt=lines[i]
                 txt=txt.split()
                 rocks[('rock_%d')%(nb)]=[int(txt[0]),int(txt[1])]
@@ -1139,7 +1138,7 @@ def check_syntax_order(order):
 
 # main function
 
-map=create_map_dictio("./plateau.bsh")
+map=create_map_dictio("plateau.bsh")
 players=create_player_dictio(map)
 grass={}
 player_1={}
