@@ -670,7 +670,7 @@ def move_sheep (old_coordinates,new_coordinates,attack=0): # ! (scott) ATTENTION
         if what_in_the_box (new_coordinates,"sheep"):
             need_move=1
            # if sheep get attacked == 0
-        if new_coordinates[0] < 0 or new_coordinates[1] < 0 or kill_sheep == 1 or new_coordinates[0] > map['map_size'][0] or new_coordinates[1] > map['map_size'][1] :
+        if new_coordinates[0] <= 0 or new_coordinates[1] <= 0 or kill_sheep == 1 or new_coordinates[0] > map['map_size'][0] or new_coordinates[1] > map['map_size'][1] :
                del players[player]['sheeps'][old_coordinates]
                manage_emoji(old_coordinates)
                kill_sheep=1
