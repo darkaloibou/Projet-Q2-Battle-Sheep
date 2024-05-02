@@ -592,69 +592,186 @@ def choose_what_to_do(sheep):
 
 def move_ia(location,target,map,players,grass):
        
-       """search the best path to the target
-       parameter:
+    """search the best path to the target
+    parameter:
    
-       location = curent location of the sheep (x,y) (tuple)
-       target = the final destination the sheep want to go (x,y) (tuple)
+    location = curent location of the sheep (x,y) (tuple)
+    target = the final destination the sheep want to go (x,y) (tuple)
     
-       return:
+    return:
 
-       move = the coordinate of the case where the sheep need to move [x,y] (list)
+    move = the coordinate of the case where the sheep need to move [x,y] (list)
     
-       spécification 28/03 Arthur Yeranux
-       v1 06/04 Arthur Yernaux
-       v2 11/04 Arthur Yernaux"""
-       location=[location[0],location[1]]
-       target=[target[0],target[1]]
-       wrong=[]
-       for ennemy_sheep in players['player_1']['sheeps']:
-              wrong.append(ennemy_sheep)
-       for ennemy_sheep in players['player_2']['sheeps']:
-              wrong.append(ennemy_sheep) 
-       for i in map['rocks']:
-              wrong.append(map['rocks'][i])
+    spécification 28/03 Arthur Yeranux
+    v1 06/04 Arthur Yernaux
+    v2 11/04 Arthur Yernaux"""
+    
+    
+    location=[location[0],location[1]]
+    target=[target[0],target[1]]
+    wrong=[]
+    for ennemy_sheep in players['player_1']['sheeps']:
+        wrong.append(ennemy_sheep)
+    for ennemy_sheep in players['player_2']['sheeps']:
+        wrong.append(ennemy_sheep) 
+    for i in map['rocks']:
+        wrong.append(map['rocks'][i])
 
-       for i in map['spawn']:
-             wrong.append(map['spawn'][i])
+    for i in map['spawn']:
+        wrong.append(map['spawn'][i])
 
        
-       move = location
-       if location[0]>target[0] and location[1]>target[1]:
-              move=[location[0]-1,location[1]-1]
-        
-
-       elif location[0]<target[0] and location[1]>target[1]:
-           move=[location[0]+1,location[1]-1]
+    move = location
+    if location[0]>target[0] and location[1]>target[1]:
+        move=[location[0]-1,location[1]-1]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+                
     
 
-       elif location[0]>target[0] and location[1]<target[1]:
-           move=[location[0]-1,location[1]+1]
+        
+
+    elif location[0]<target[0] and location[1]>target[1]:
+        move=[location[0]+1,location[1]-1]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+    
+
+    elif location[0]>target[0] and location[1]<target[1]:
+        move=[location[0]-1,location[1]+1]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
        
     
-       elif location[0]<target[0] and location[1]<target[1]:
-           move=[location[0]+1,location[1]+1]
+    elif location[0]<target[0] and location[1]<target[1]:
+        move=[location[0]+1,location[1]+1]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
     
 
-       elif location[0]==target[0] and location[1]>target[1]:
-           move=[location[0],location[1]-1]
+    elif location[0]==target[0] and location[1]>target[1]:
+        move=[location[0],location[1]-1]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
         
 
-       elif location[0]==target[0] and location[1]<target[1]:
-           move=[location[0],location[1]+1]
+    elif location[0]==target[0] and location[1]<target[1]:
+        move=[location[0],location[1]+1]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]]
+        if move not in wrong:
+            return (move[0],move[1])
     
     
-       elif location[0]<target[0] and location[1]==target[1]:
-           move=[location[0]+1,location[1]]
+    elif location[0]<target[0] and location[1]==target[1]:
+        move=[location[0]+1,location[1]]
+        if move not in wrong:
+            return move
+        move=[location[0]+1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]+1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
     
 
-       elif location[0]>target[0] and location[1]==target[1]:
-           move=[location[0]-1,location[1]]
+    elif location[0]>target[0] and location[1]==target[1]:
+        move=[location[0]-1,location[1]]
+        if move not in wrong:
+            return move
+        move=[location[0]-1,location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0]-1,location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]-1]
+        if move not in wrong:
+            return (move[0],move[1])
+        move=[location[0],location[1]+1]
+        if move not in wrong:
+            return (move[0],move[1])
     
-       if move not in wrong:
-           return (move[0],move[1])
+    if move not in wrong:
+        return (move[0],move[1])
     
-       else:
+    else:
               difx=location[0]-target[0]
               dify=location[1]-target[1]
               if abs(difx)>=dify:
