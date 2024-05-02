@@ -582,6 +582,9 @@ def move_ia(location,target,map,players,grass):
        for i in map['rocks']:
               wrong.append(map['rocks'][i])
 
+       for i in map['spawn']:
+             wrong.append(map['spawn'][i])
+
        
        move = location
        if location[0]>target[0] and location[1]>target[1]:
@@ -687,11 +690,11 @@ def move_ia(location,target,map,players,grass):
                                                                move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                         return move
                             else:
-                                   all_move=[[location[0],location[1]+1],[location[0]+1,location[1]+1],[location[0]-1,location[1]+1]]
+                                   all_move=[[location[0],location[1]+1],[location[0]-1,location[1]+1],[location[0]+1,location[1]+1]]
                                    for i in all_move:
                                           if (i not in wrong) and ([i[0],i[1]+2] not in wrong):
                                                  return i
-                                   move_alt=[[location[0]+1,location[1]],[location[0]-1,location[1]]]
+                                   move_alt=[[location[0]-1,location[1]],[location[0]+1,location[1]]]
                                    for i in move_alt:
                                           if (i not in wrong) and ([i[0],i[1]+2] not in wrong):
                                                  return i
@@ -707,6 +710,7 @@ def move_ia(location,target,map,players,grass):
                                                                random_nbr1=random.randint(-1,0,1)
                                                                move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                         return move
+
 
 
 
