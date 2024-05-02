@@ -557,6 +557,8 @@ def choose_what_to_do(sheep):
     specification : Heynen Scott-Socrate (v3 15/04/24)
     """
 
+
+
 def move_ia(location,target,map,players,grass):
        
        """search the best path to the target
@@ -635,15 +637,15 @@ def move_ia(location,target,map,players,grass):
                                    if (i not in wrong) and ([i[0]-2,i[1]] not in wrong):
                                           return i
                                    else:  
-                                          random_nbr = random.randint(-1,0,1)
-                                          random_nbr1=random.randint(-1,0,1)
+                                          random_nbr = random.randint(-1,1)
+                                          random_nbr1=random.randint(-1,1)
                                           move=[location[0]+random_nbr,location[1]+random_nbr1]
                                           if move not in wrong:
                                                  return move
                                           else:
                                                  while move in wrong:
-                                                        random_nbr = random.randint(-1,0,1)
-                                                        random_nbr1=random.randint(-1,0,1)
+                                                        random_nbr = random.randint(-1,1)
+                                                        random_nbr1=random.randint(-1,1)
                                                         move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                  return move
                      else:
@@ -656,15 +658,15 @@ def move_ia(location,target,map,players,grass):
                                    if (i not in wrong) and ([i[0]+2,i[1]] not in wrong):
                                           return i
                                    else:  
-                                          random_nbr = random.randint(-1,0,1)
-                                          random_nbr1=random.randint(-1,0,1)
+                                          random_nbr = random.randint(-1,1)
+                                          random_nbr1=random.randint(-1,1)
                                           move=[location[0]+random_nbr,location[1]+random_nbr1]
                                           if move not in wrong:
                                                  return move
                                           else:
                                                  while move in wrong:
-                                                        random_nbr = random.randint(-1,0,1)
-                                                        random_nbr1=random.randint(-1,0,1)
+                                                        random_nbr = random.randint(-1,1)
+                                                        random_nbr1=random.randint(-1,1)
                                                         move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                  return move
               if abs(difx)<abs(dify):
@@ -678,15 +680,15 @@ def move_ia(location,target,map,players,grass):
                                           if (i not in wrong) and ([i[0],i[1]-2] not in wrong):
                                                  return i
                                           else:  
-                                                 random_nbr = random.randint(-1,0,1)
-                                                 random_nbr1=random.randint(-1,0,1)
+                                                 random_nbr = random.randint(-1,1)
+                                                 random_nbr1=random.randint(-1,1)
                                                  move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                  if move not in wrong:
                                                         return move
                                                  else:
                                                         while move in wrong:
-                                                               random_nbr = random.randint(-1,0,1)
-                                                               random_nbr1=random.randint(-1,0,1)
+                                                               random_nbr = random.randint(-1,1)
+                                                               random_nbr1=random.randint(-1,1)
                                                                move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                         return move
                             else:
@@ -699,18 +701,17 @@ def move_ia(location,target,map,players,grass):
                                           if (i not in wrong) and ([i[0],i[1]+2] not in wrong):
                                                  return i
                                           else:  
-                                                 random_nbr = random.randint(-1,0,1)
-                                                 random_nbr1=random.randint(-1,0,1)
+                                                 random_nbr = random.randint(-1,1)
+                                                 random_nbr1=random.randint(-1,1)
                                                  move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                  if move not in wrong:
                                                         return move
                                                  else:
                                                         while move in wrong:
-                                                               random_nbr = random.randint(-1,0,1)
-                                                               random_nbr1=random.randint(-1,0,1)
+                                                               random_nbr = random.randint(-1,1)
+                                                               random_nbr1=random.randint(-1,1)
                                                                move=[location[0]+random_nbr,location[1]+random_nbr1]
                                                         return move
-
 
 
 
