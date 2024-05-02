@@ -355,9 +355,25 @@ def search_seeds (sheep,distance,map):
     -------
     specification : Remacle Thomas (v1 14/04/24)
     """
+    x=[0,-1,1]
+    y=[0,-1,1]
+    seeds_dic =map['seed'].copy()#Copy the dictionnary of the seeds
+    delete_list=[]
+    other_delete_list=[]
+    for delete_seed in seeds_dic:
+        for z_minus in x:
+            for other_minus in y:
+                if not abs(z_minus)==abs(other_minus):
+                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][1]+other_minus),'rock'):
+                        delete_list.append(1)
+        if len(delete_list)==4:
+            other_delete_list.append(delete_seed)
+        delete_list=[]
+    for delete_seeds in other_delete_list:
+        del seeds_dic[delete_seeds]
     seed_list=[]
-    for seed in map['seed']:
-        near_seed=(map['seed'][seed][0],map['seed'][seed][1])
+    for seed in seeds_dic:
+        near_seed=(seeds_dic[seed][0],seeds_dic[seed][1])
         if get_distance(sheep,near_seed)<=distance:
             seed_list.append(near_seed)
     return seed_list
