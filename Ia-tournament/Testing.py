@@ -341,7 +341,7 @@ def search_grass (map,players,grass,sheep,distance,owner_grass='e'):
             if get_distance(sheep,ally_grass)<=distance:
                 grass_list.append(ally_grass)
     return grass_list
-def search_seeds (sheep,distance,map):
+def search_seeds (sheep,distance,map,players,grass):
     """return the grass coordinates near a sheep
     parameters
     ----------
@@ -364,7 +364,7 @@ def search_seeds (sheep,distance,map):
         for z_minus in x:
             for other_minus in y:
                 if not abs(z_minus)==abs(other_minus):
-                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][1]+other_minus),'rock'):
+                    if what_in_the_box((map['seed'][delete_seed][0]+z_minus,map['seed'][delete_seed][1]+other_minus),'rock',map,players,grass):
                         delete_list.append(1)
         if len(delete_list)==4:
             other_delete_list.append(delete_seed)
@@ -772,7 +772,7 @@ def what_should_do(sheep,role,map,players,grass,player_id):
     if role==0 :
         max_map = max(map['map_size'])
         range_search=int(max_map/5)
-        seed=search_seeds(sheep,range_search,map)
+        seed=search_seeds(sheep,range_search,map,players,grass)
         ennemy=search_sheep(sheep,range_search,players)
         all_ennemy=search_sheep(sheep,100,players)
         ennemy_proche=[]
@@ -874,7 +874,7 @@ def what_should_do(sheep,role,map,players,grass,player_id):
                 if mouton[0]==1:
                     mechantbug=1
         seed_near=int(max_map-max_map/2)
-        list_seed =search_seeds(sheep,seed_near,map)
+        list_seed =search_seeds(sheep,seed_near,map,players,grass)
         
         ennemy_grass =search_grass(map,players,grass,sheep,100)
 
